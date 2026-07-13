@@ -1,1 +1,7 @@
-<Solution />
+<Solution>
+  <Project Path="Organi.Server.Application/Organi.Server.Application.csproj" />
+  <Project Path="Organi.Server.Domain/Organi.Server.Domain.csproj" />
+  <Project Path="Organi.Server.Infrastructure/Organi.Server.Infrastructure.csproj" />
+  <Project Path="Organi.Server.Persistence/Organi.Server.Persistence.csproj" />
+  <Project Path="Organi.Server.WebAPI/Organi.Server.WebAPI.csproj" />
+</Solution>
