@@ -1,4 +1,6 @@
 <Solution>
+  <Project Path="../../test/Organi.Server.IntegrationTests/Organi.Server.IntegrationTests.csproj" />
+  <Project Path="../../test/Organi.Server.UnitTests/Organi.Server.UnitTests.csproj" />
   <Project Path="Organi.Server.Application/Organi.Server.Application.csproj" />
   <Project Path="Organi.Server.Domain/Organi.Server.Domain.csproj" />
   <Project Path="Organi.Server.Infrastructure/Organi.Server.Infrastructure.csproj" />
