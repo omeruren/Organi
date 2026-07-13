@@ -1,3 +1,5 @@
+using Organi.Server.Application.Common.Interfaces;
+
 namespace Organi.Server.Infrastructure.Security;
 
 public sealed class BCryptPasswordHasher : IPasswordHasher

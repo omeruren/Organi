@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Organi.Server.Application.Common.Interfaces;
 using Organi.Server.Domain.Entities;
 
 namespace Organi.Server.Infrastructure.Security;
@@ -12,7 +13,7 @@ public sealed class JwtTokenService(IOptions<JwtOptions> options) : ITokenServic
 {
     private readonly JwtOptions _options = options.Value;
 
-    public string GenerateAccessToken(User user, IReadOnlyList<string> roles, IReadOnlyList<string> permissions, Guid? vendorId)
+    public AccessToken GenerateAccessToken(User user, IReadOnlyList<string> roles, IReadOnlyList<string> permissions, Guid? vendorId)
     {
         var claims = new List<Claim>
         {
@@ -30,21 +31,25 @@ public sealed class JwtTokenService(IOptions<JwtOptions> options) : ITokenServic
 
         var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
         var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+        var expiresAt = DateTime.UtcNow.AddMinutes(_options.AccessTokenMinutes);
 
         var token = new JwtSecurityToken(
             issuer: _options.Issuer,
             audience: _options.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_options.AccessTokenMinutes),
+            expires: expiresAt,
             signingCredentials: credentials);
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        return new AccessToken(new JwtSecurityTokenHandler().WriteToken(token), expiresAt);
     }
 
-    public string GenerateRefreshToken()
+    public GeneratedRefreshToken GenerateRefreshToken()
     {
         var randomBytes = RandomNumberGenerator.GetBytes(64);
-        return Convert.ToBase64String(randomBytes);
+        var value = Convert.ToBase64String(randomBytes);
+        var expiresAt = DateTime.UtcNow.AddDays(_options.RefreshTokenDays);
+
+        return new GeneratedRefreshToken(value, expiresAt);
     }
 
     public string HashToken(string token)

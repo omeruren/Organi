@@ -7,6 +7,7 @@ using Organi.Server.Application.DependencyInjection;
 using Organi.Server.Infrastructure.DependencyInjection;
 using Organi.Server.Infrastructure.Security;
 using Organi.Server.Persistence.DependencyInjection;
+using Organi.Server.WebAPI.Endpoints;
 using Organi.Server.WebAPI.Middleware;
 using Organi.Server.WebAPI.OpenApi;
 using Scalar.AspNetCore;
@@ -131,6 +132,8 @@ app.UseCors(CorsPolicyName);
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapAuthEndpoints();
 
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {

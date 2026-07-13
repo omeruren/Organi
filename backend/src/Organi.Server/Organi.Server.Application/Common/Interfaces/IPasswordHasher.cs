@@ -1,4 +1,4 @@
-namespace Organi.Server.Infrastructure.Security;
+namespace Organi.Server.Application.Common.Interfaces;
 
 public interface IPasswordHasher
 {
