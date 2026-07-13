@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi;
 using Organi.Server.Application.DependencyInjection;
 using Organi.Server.Infrastructure.DependencyInjection;
 using Organi.Server.Infrastructure.Security;
 using Organi.Server.Persistence.DependencyInjection;
 using Organi.Server.WebAPI.Middleware;
+using Organi.Server.WebAPI.OpenApi;
+using Scalar.AspNetCore;
 using Serilog;
 
 const string CorsPolicyName = "OrganiCorsPolicy";
@@ -85,25 +86,9 @@ builder.Services.AddCors(options =>
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
+builder.Services.AddOpenApi(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Organi API", Version = "v1" });
-
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "Enter a valid JWT access token."
-    });
-
-    options.AddSecurityRequirement(_ => new OpenApiSecurityRequirement
-    {
-        { new OpenApiSecuritySchemeReference("Bearer", null), [] }
-    });
+    options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
 });
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
@@ -121,8 +106,8 @@ app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 else
 {
