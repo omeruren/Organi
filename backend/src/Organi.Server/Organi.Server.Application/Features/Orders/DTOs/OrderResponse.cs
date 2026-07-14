@@ -1,0 +1,25 @@
+namespace Organi.Server.Application.Features.Orders.DTOs;
+
+public sealed record OrderResponse(
+    Guid Id,
+    string OrderNumber,
+    decimal SubTotal,
+    decimal DiscountAmount,
+    decimal ShippingCost,
+    decimal TaxAmount,
+    decimal TotalAmount,
+    string Status,
+    string? Notes,
+    string? CancellationReason,
+    DateTime? CancelledAt,
+    string ShippingFirstName,
+    string ShippingLastName,
+    string ShippingAddress,
+    string ShippingCity,
+    string? ShippingPostalCode,
+    string ShippingPhone,
+    string ShippingEmail,
+    Guid UserId,
+    Guid? CouponId,
+    IReadOnlyList<OrderItemResponse> Items,
+    DateTime CreatedAt);
