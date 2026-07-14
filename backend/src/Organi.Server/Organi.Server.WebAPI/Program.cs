@@ -134,6 +134,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapAuthEndpoints();
+app.MapProductEndpoints();
+app.MapCategoryEndpoints();
 
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {

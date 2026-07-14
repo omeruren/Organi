@@ -1,0 +1,26 @@
+namespace Organi.Server.Application.Features.Products.DTOs;
+
+public sealed record ProductResponse(
+    Guid Id,
+    string Name,
+    string Slug,
+    string? Description,
+    string? ShortDescription,
+    decimal Price,
+    decimal? SalePrice,
+    string SKU,
+    int StockQuantity,
+    string Unit,
+    decimal? Weight,
+    bool IsOrganic,
+    bool IsFeatured,
+    string Status,
+    decimal AverageRating,
+    int ReviewCount,
+    Guid CategoryId,
+    string CategoryName,
+    Guid VendorId,
+    string VendorName,
+    IReadOnlyList<ProductImageResponse> Images,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt);
