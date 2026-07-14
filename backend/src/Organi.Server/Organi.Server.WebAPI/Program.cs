@@ -59,7 +59,8 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy("CanManageVendors", policy => policy.RequireRole("Admin"))
     .AddPolicy("CanManageCategories", policy => policy.RequireRole("Admin"))
     .AddPolicy("CanManageOrders", policy => policy.RequireRole("Admin", "Vendor"))
-    .AddPolicy("CanViewReports", policy => policy.RequireRole("Admin"));
+    .AddPolicy("CanViewReports", policy => policy.RequireRole("Admin"))
+    .AddPolicy("IsVendor", policy => policy.RequireRole("Vendor"));
 
 builder.Services.AddCors(options =>
 {
@@ -136,6 +137,7 @@ app.UseAuthorization();
 app.MapAuthEndpoints();
 app.MapProductEndpoints();
 app.MapCategoryEndpoints();
+app.MapVendorEndpoints();
 
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {
