@@ -52,6 +52,18 @@ public sealed class CreateOrderHandler(
 
         var subTotal = orderItems.Sum(oi => oi.TotalPrice);
 
+        Coupon? coupon = null;
+        var discountAmount = 0m;
+
+        if (!string.IsNullOrWhiteSpace(request.CouponCode))
+        {
+            coupon = await context.Coupons.FirstOrDefaultAsync(c => c.Code == request.CouponCode, cancellationToken)
+                ?? throw new BusinessRuleException("Invalid coupon code.");
+
+            CouponEligibility.EnsureEligible(coupon, subTotal);
+            discountAmount = CouponEligibility.CalculateDiscount(coupon, subTotal);
+        }
+
         var orderNumber = await OrderNumberGenerator.GenerateUniqueAsync(
             candidate => context.Orders.AnyAsync(o => o.OrderNumber == candidate, cancellationToken));
 
@@ -59,10 +71,10 @@ public sealed class CreateOrderHandler(
         {
             OrderNumber = orderNumber,
             SubTotal = subTotal,
-            DiscountAmount = 0m,
+            DiscountAmount = discountAmount,
             ShippingCost = 0m,
             TaxAmount = 0m,
-            TotalAmount = subTotal,
+            TotalAmount = subTotal - discountAmount,
             Status = OrderStatus.Pending,
             Notes = request.Notes,
             ShippingFirstName = request.ShippingFirstName,
@@ -73,8 +85,12 @@ public sealed class CreateOrderHandler(
             ShippingPhone = request.ShippingPhone,
             ShippingEmail = request.ShippingEmail,
             UserId = userId,
+            CouponId = coupon?.Id,
             OrderItems = orderItems
         };
+
+        if (coupon is not null)
+            coupon.CurrentUsageCount++;
 
         context.Orders.Add(order);
         context.CartItems.RemoveRange(cart.CartItems);

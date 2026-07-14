@@ -11,4 +11,5 @@ public sealed record CreateOrderCommand(
     string? ShippingPostalCode,
     string ShippingPhone,
     string ShippingEmail,
-    string? Notes) : IRequest<OrderResponse>;
+    string? Notes,
+    string? CouponCode) : IRequest<OrderResponse>;

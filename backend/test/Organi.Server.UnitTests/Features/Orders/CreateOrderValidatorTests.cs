@@ -9,7 +9,7 @@ public sealed class CreateOrderValidatorTests
     private readonly CreateOrderValidator _validator = new();
 
     private static CreateOrderCommand ValidCommand() => new(
-        "Jane", "Doe", "123 Main St", "Springfield", "12345", "555-0100", "jane@example.com", null);
+        "Jane", "Doe", "123 Main St", "Springfield", "12345", "555-0100", "jane@example.com", null, null);
 
     [Fact]
     public void Validate_ValidCommand_ReturnsSuccess()

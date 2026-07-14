@@ -141,6 +141,7 @@ app.MapCategoryEndpoints();
 app.MapVendorEndpoints();
 app.MapCartEndpoints();
 app.MapOrderEndpoints();
+app.MapCouponEndpoints();
 
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {

@@ -36,5 +36,8 @@ public sealed class CreateOrderValidator : AbstractValidator<CreateOrderCommand>
 
         RuleFor(x => x.Notes)
             .MaximumLength(500).WithMessage("Notes must not exceed 500 characters.");
+
+        RuleFor(x => x.CouponCode)
+            .MaximumLength(50).WithMessage("Coupon code must not exceed 50 characters.");
     }
 }
