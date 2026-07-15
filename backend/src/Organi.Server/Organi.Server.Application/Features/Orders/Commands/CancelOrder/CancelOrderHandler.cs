@@ -12,6 +12,7 @@ namespace Organi.Server.Application.Features.Orders.Commands.CancelOrder;
 public sealed class CancelOrderHandler(
     IApplicationDbContext context,
     ICurrentUserService currentUser,
+    IAuditService auditService,
     ILogger<CancelOrderHandler> logger) : IRequestHandler<CancelOrderCommand, OrderResponse>
 {
     private static readonly OrderStatus[] StockCommittedStatuses = [OrderStatus.Confirmed, OrderStatus.Shipped];
@@ -44,6 +45,9 @@ public sealed class CancelOrderHandler(
         order.Status = OrderStatus.Cancelled;
         order.CancellationReason = request.Reason;
         order.CancelledAt = DateTime.UtcNow;
+
+        auditService.Log("Order", order.Id.ToString(), AuditAction.OrderCancelled,
+            newValues: new { order.CancellationReason });
 
         await context.SaveChangesAsync(cancellationToken);
 

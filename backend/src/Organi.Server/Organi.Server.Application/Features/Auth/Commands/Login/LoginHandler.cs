@@ -5,6 +5,7 @@ using Organi.Server.Application.Common.Interfaces;
 using Organi.Server.Application.Common.Models;
 using Organi.Server.Application.Features.Auth.DTOs;
 using Organi.Server.Domain.Entities;
+using Organi.Server.Domain.Enums;
 
 namespace Organi.Server.Application.Features.Auth.Commands.Login;
 
@@ -12,6 +13,7 @@ public sealed class LoginHandler(
     IApplicationDbContext context,
     IPasswordHasher passwordHasher,
     ITokenService tokenService,
+    IAuditService auditService,
     ILogger<LoginHandler> logger) : IRequestHandler<LoginCommand, Result<AuthResponse>>
 {
     private const int MaxFailedAttempts = 5;
@@ -32,6 +34,9 @@ public sealed class LoginHandler(
 
         if (!user.IsActive)
         {
+            auditService.Log("User", user.Id.ToString(), AuditAction.FailedLogin, newValues: new { Reason = "AccountDeactivated" });
+            await context.SaveChangesAsync(cancellationToken);
+
             logger.LogWarning("Login failed: deactivated account {UserId}", user.Id);
             return Result<AuthResponse>.Failure(new Error("AccountDeactivated", "This account has been deactivated."));
         }
@@ -40,6 +45,9 @@ public sealed class LoginHandler(
         {
             if (lockoutEnd > DateTime.UtcNow)
             {
+                auditService.Log("User", user.Id.ToString(), AuditAction.FailedLogin, newValues: new { Reason = "AccountLocked" });
+                await context.SaveChangesAsync(cancellationToken);
+
                 logger.LogWarning("Login failed: locked account {UserId}", user.Id);
                 return Result<AuthResponse>.Failure(new Error("AccountLocked", "Account is locked due to too many failed login attempts. Try again later."));
             }
@@ -58,6 +66,8 @@ public sealed class LoginHandler(
                 logger.LogWarning("Account {UserId} locked after {Count} failed attempts", user.Id, user.FailedLoginCount);
             }
 
+            auditService.Log("User", user.Id.ToString(), AuditAction.FailedLogin, newValues: new { Reason = "InvalidPassword" });
+
             await context.SaveChangesAsync(cancellationToken);
 
             logger.LogWarning("Login failed: invalid password for {UserId}", user.Id);
@@ -67,6 +77,8 @@ public sealed class LoginHandler(
         user.FailedLoginCount = 0;
         user.LockoutEnd = null;
         user.LastLoginAt = DateTime.UtcNow;
+
+        auditService.Log("User", user.Id.ToString(), AuditAction.Login);
 
         var roles = user.Roles.Select(r => r.Name).ToArray();
         var permissions = user.Roles.SelectMany(r => r.Permissions).Select(p => p.Name).Distinct().ToArray();

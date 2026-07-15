@@ -147,6 +147,10 @@ app.MapWishlistEndpoints();
 app.MapCompareEndpoints();
 app.MapBlogEndpoints();
 app.MapNewsletterEndpoints();
+app.MapProfileEndpoints();
+app.MapUserEndpoints();
+app.MapAuditLogEndpoints();
+app.MapReportEndpoints();
 
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {

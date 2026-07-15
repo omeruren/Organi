@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Organi.Server.Application.Common.Interfaces;
 using Organi.Server.Domain.Entities;
+using Organi.Server.Domain.Enums;
 using Organi.Server.Domain.Exceptions;
 
 namespace Organi.Server.Application.Features.Auth.Commands.ChangePassword;
@@ -11,6 +12,7 @@ public sealed class ChangePasswordHandler(
     IApplicationDbContext context,
     ICurrentUserService currentUserService,
     IPasswordHasher passwordHasher,
+    IAuditService auditService,
     ILogger<ChangePasswordHandler> logger) : IRequestHandler<ChangePasswordCommand>
 {
     public async Task Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
@@ -35,6 +37,8 @@ public sealed class ChangePasswordHandler(
             token.IsRevoked = true;
             token.RevokedAt = DateTime.UtcNow;
         }
+
+        auditService.Log("User", userId.ToString(), AuditAction.PasswordChange);
 
         await context.SaveChangesAsync(cancellationToken);
 

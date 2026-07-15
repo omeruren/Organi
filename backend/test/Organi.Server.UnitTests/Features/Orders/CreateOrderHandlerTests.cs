@@ -16,12 +16,13 @@ public sealed class CreateOrderHandlerTests
 {
     private readonly IApplicationDbContext _context = Substitute.For<IApplicationDbContext>();
     private readonly ICurrentUserService _currentUser = Substitute.For<ICurrentUserService>();
+    private readonly IAuditService _auditService = Substitute.For<IAuditService>();
     private readonly ILogger<CreateOrderHandler> _logger = Substitute.For<ILogger<CreateOrderHandler>>();
     private readonly CreateOrderHandler _handler;
 
     public CreateOrderHandlerTests()
     {
-        _handler = new CreateOrderHandler(_context, _currentUser, _logger);
+        _handler = new CreateOrderHandler(_context, _currentUser, _auditService, _logger);
     }
 
     private static CreateOrderCommand ValidCommand(string? couponCode = null) => new(

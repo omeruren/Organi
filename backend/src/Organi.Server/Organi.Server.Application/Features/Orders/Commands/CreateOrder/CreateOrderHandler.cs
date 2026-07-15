@@ -14,6 +14,7 @@ namespace Organi.Server.Application.Features.Orders.Commands.CreateOrder;
 public sealed class CreateOrderHandler(
     IApplicationDbContext context,
     ICurrentUserService currentUser,
+    IAuditService auditService,
     ILogger<CreateOrderHandler> logger) : IRequestHandler<CreateOrderCommand, OrderResponse>
 {
     public async Task<OrderResponse> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -95,6 +96,9 @@ public sealed class CreateOrderHandler(
         context.Orders.Add(order);
         context.CartItems.RemoveRange(cart.CartItems);
         cart.CartItems.Clear();
+
+        auditService.Log("Order", order.Id.ToString(), AuditAction.OrderPlaced,
+            newValues: new { order.OrderNumber, order.TotalAmount });
 
         await context.SaveChangesAsync(cancellationToken);
 

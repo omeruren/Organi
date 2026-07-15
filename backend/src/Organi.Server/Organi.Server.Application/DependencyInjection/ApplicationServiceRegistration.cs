@@ -3,6 +3,8 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Organi.Server.Application.Common.Behaviors;
+using Organi.Server.Application.Common.Interfaces;
+using Organi.Server.Application.Common.Services;
 
 namespace Organi.Server.Application.DependencyInjection;
 
@@ -18,6 +20,8 @@ public static class ApplicationServiceRegistration
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+        services.AddScoped<IAuditService, AuditService>();
 
         return services;
     }

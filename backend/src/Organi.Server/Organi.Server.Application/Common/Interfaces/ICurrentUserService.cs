@@ -6,5 +6,6 @@ public interface ICurrentUserService
     string? Email { get; }
     IReadOnlyList<string> Roles { get; }
     Guid? VendorId { get; }
+    string? IpAddress { get; }
     bool IsInRole(string role);
 }

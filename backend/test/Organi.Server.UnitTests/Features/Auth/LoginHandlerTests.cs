@@ -14,12 +14,13 @@ public sealed class LoginHandlerTests
     private readonly IApplicationDbContext _context = Substitute.For<IApplicationDbContext>();
     private readonly IPasswordHasher _passwordHasher = Substitute.For<IPasswordHasher>();
     private readonly ITokenService _tokenService = Substitute.For<ITokenService>();
+    private readonly IAuditService _auditService = Substitute.For<IAuditService>();
     private readonly ILogger<LoginHandler> _logger = Substitute.For<ILogger<LoginHandler>>();
     private readonly LoginHandler _handler;
 
     public LoginHandlerTests()
     {
-        _handler = new LoginHandler(_context, _passwordHasher, _tokenService, _logger);
+        _handler = new LoginHandler(_context, _passwordHasher, _tokenService, _auditService, _logger);
     }
 
     private static User CreateUser(bool isActive = true, DateTime? lockoutEnd = null, int failedLoginCount = 0) => new()

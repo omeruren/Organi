@@ -2,12 +2,14 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Organi.Server.Application.Common.Interfaces;
+using Organi.Server.Domain.Enums;
 
 namespace Organi.Server.Application.Features.Auth.Commands.Logout;
 
 public sealed class LogoutHandler(
     IApplicationDbContext context,
     ICurrentUserService currentUserService,
+    IAuditService auditService,
     ILogger<LogoutHandler> logger) : IRequestHandler<LogoutCommand>
 {
     public async Task Handle(LogoutCommand request, CancellationToken cancellationToken)
@@ -24,6 +26,8 @@ public sealed class LogoutHandler(
             token.IsRevoked = true;
             token.RevokedAt = DateTime.UtcNow;
         }
+
+        auditService.Log("User", userId.ToString(), AuditAction.Logout);
 
         await context.SaveChangesAsync(cancellationToken);
 

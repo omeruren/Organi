@@ -14,12 +14,13 @@ namespace Organi.Server.UnitTests.Features.Vendors;
 public sealed class SuspendVendorHandlerTests
 {
     private readonly IApplicationDbContext _context = Substitute.For<IApplicationDbContext>();
+    private readonly IAuditService _auditService = Substitute.For<IAuditService>();
     private readonly ILogger<SuspendVendorHandler> _logger = Substitute.For<ILogger<SuspendVendorHandler>>();
     private readonly SuspendVendorHandler _handler;
 
     public SuspendVendorHandlerTests()
     {
-        _handler = new SuspendVendorHandler(_context, _logger);
+        _handler = new SuspendVendorHandler(_context, _auditService, _logger);
     }
 
     private void SetupVendors(params Vendor[] vendors)

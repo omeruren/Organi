@@ -11,6 +11,7 @@ namespace Organi.Server.Application.Features.Vendors.Commands.ApproveVendor;
 
 public sealed class ApproveVendorHandler(
     IApplicationDbContext context,
+    IAuditService auditService,
     ILogger<ApproveVendorHandler> logger) : IRequestHandler<ApproveVendorCommand, VendorResponse>
 {
     public async Task<VendorResponse> Handle(ApproveVendorCommand request, CancellationToken cancellationToken)
@@ -22,6 +23,9 @@ public sealed class ApproveVendorHandler(
             throw new BusinessRuleException("Vendor is already approved.");
 
         vendor.Status = VendorStatus.Approved;
+
+        auditService.Log("Vendor", vendor.Id.ToString(), AuditAction.VendorApproved);
+
         await context.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation("Vendor {VendorId} approved", vendor.Id);
