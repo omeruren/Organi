@@ -11,6 +11,7 @@ import QueryProvider from '@/libs/QueryProvider'
 
 // Context Imports
 import { AuthProvider } from '@/contexts/AuthContext'
+import { ToastProvider } from '@components/ToastProvider'
 
 // Util Imports
 import { getMode, getSettingsFromCookie } from '@core/utils/serverHelpers'
@@ -32,7 +33,9 @@ const Providers = (props: Props) => {
       <AuthProvider>
         <VerticalNavProvider>
           <SettingsProvider settingsCookie={settingsCookie} mode={mode}>
-            <ThemeProvider direction={direction}>{children}</ThemeProvider>
+            <ThemeProvider direction={direction}>
+            <ToastProvider>{children}</ToastProvider>
+          </ThemeProvider>
           </SettingsProvider>
         </VerticalNavProvider>
       </AuthProvider>
