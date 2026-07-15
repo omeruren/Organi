@@ -23,6 +23,7 @@ public interface IApplicationDbContext
     DbSet<CompareItem> CompareItems { get; }
     DbSet<BlogPost> BlogPosts { get; }
     DbSet<BlogComment> BlogComments { get; }
+    DbSet<NewsletterSubscriber> NewsletterSubscribers { get; }
     DbSet<AuditLog> AuditLogs { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

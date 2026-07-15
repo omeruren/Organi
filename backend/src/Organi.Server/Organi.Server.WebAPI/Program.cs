@@ -142,6 +142,11 @@ app.MapVendorEndpoints();
 app.MapCartEndpoints();
 app.MapOrderEndpoints();
 app.MapCouponEndpoints();
+app.MapReviewEndpoints();
+app.MapWishlistEndpoints();
+app.MapCompareEndpoints();
+app.MapBlogEndpoints();
+app.MapNewsletterEndpoints();
 
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {

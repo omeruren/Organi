@@ -28,6 +28,7 @@ public sealed class ApplicationDbContext(
     public DbSet<CompareItem> CompareItems => Set<CompareItem>();
     public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
     public DbSet<BlogComment> BlogComments => Set<BlogComment>();
+    public DbSet<NewsletterSubscriber> NewsletterSubscribers => Set<NewsletterSubscriber>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
