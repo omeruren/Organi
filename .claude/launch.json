@@ -1,0 +1,26 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "admin",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "cwd": "frontend/admin",
+      "port": 3000
+    },
+    {
+      "name": "store",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "cwd": "frontend/store",
+      "port": 3001
+    },
+    {
+      "name": "backend",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--no-build"],
+      "cwd": "backend/src/Organi.Server/Organi.Server.WebAPI",
+      "port": 5136
+    }
+  ]
+}
