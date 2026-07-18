@@ -4,6 +4,7 @@ using Organi.Server.Application.Features.Reviews.Commands.CreateReview;
 using Organi.Server.Application.Features.Reviews.Commands.DeleteReview;
 using Organi.Server.Application.Features.Reviews.Commands.UpdateReview;
 using Organi.Server.Application.Features.Reviews.DTOs;
+using Organi.Server.Application.Features.Reviews.Queries.GetReviews;
 using Organi.Server.Application.Features.Reviews.Queries.GetReviewsByProduct;
 
 namespace Organi.Server.WebAPI.Endpoints;
@@ -30,6 +31,13 @@ public static class ReviewEndpoints
             .ProducesProblem(StatusCodes.Status409Conflict);
 
         var reviews = app.MapGroup("/api/reviews").WithTags("Reviews");
+
+        reviews.MapGet("/", GetReviews)
+            .WithName("GetReviews")
+            .WithDescription("Retrieves a paginated, filterable list of all reviews for admin moderation.")
+            .RequireAuthorization("IsAdmin")
+            .Produces<PagedResponse<AdminReviewResponse>>(StatusCodes.Status200OK)
+            .ProducesValidationProblem();
 
         reviews.MapPut("/{id:guid}", UpdateReview)
             .WithName("UpdateReview")
@@ -68,6 +76,18 @@ public static class ReviewEndpoints
     {
         var result = await sender.Send(command with { ProductId = productId }, cancellationToken);
         return Results.Created($"/api/reviews/{result.Id}", result);
+    }
+
+    private static async Task<IResult> GetReviews(
+        ISender sender,
+        CancellationToken cancellationToken,
+        Guid? productId = null,
+        int? rating = null,
+        int page = 1,
+        int pageSize = 10)
+    {
+        var result = await sender.Send(new GetReviewsQuery(productId, rating, page, pageSize), cancellationToken);
+        return Results.Ok(result);
     }
 
     private static async Task<IResult> UpdateReview(

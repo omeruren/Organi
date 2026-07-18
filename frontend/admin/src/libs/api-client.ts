@@ -19,8 +19,11 @@ type RequestOptions = Omit<RequestInit, 'body'> & { body?: unknown }
 let refreshPromise: Promise<boolean> | null = null
 
 // Calls the BFF refresh route (reads the httpOnly cookie server-side), updates the in-memory
-// access token on success. Concurrent 401s share a single in-flight refresh call.
-async function refreshAccessToken(): Promise<boolean> {
+// access token on success. Exported and single-flight ON PURPOSE: the backend rotates the
+// refresh token on every call and treats reuse of a revoked token as theft (all sessions
+// revoked), so EVERY caller — AuthContext session restore and apiFetch 401 retries alike —
+// must share one in-flight refresh rather than racing separate ones with the same cookie.
+export async function refreshAccessToken(): Promise<boolean> {
   if (!refreshPromise) {
     refreshPromise = (async () => {
       try {

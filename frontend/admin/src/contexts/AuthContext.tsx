@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import { getAccessToken, setSession, clearSession } from '@/libs/auth-session'
 import { toAuthUser } from '@/libs/jwt'
 import type { AuthUser } from '@/libs/jwt'
-import { ApiError } from '@/libs/api-client'
+import { ApiError, refreshAccessToken } from '@/libs/api-client'
 
 interface LoginResponse {
   accessToken: string
@@ -34,20 +34,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Silent refresh on mount — recovers the session from the httpOnly refresh cookie after a
   // full page reload, since the access token itself lives only in memory (see §6 of the skills doc).
+  // Uses the shared single-flight refresh from api-client: a concurrent data query's 401 retry
+  // must join THIS refresh, not race a second one (token rotation flags reuse as theft).
   useEffect(() => {
     let cancelled = false
 
     const restoreSession = async () => {
       try {
-        const response = await fetch('/api/auth/refresh', { method: 'POST' })
+        const refreshed = await refreshAccessToken()
+        const accessToken = getAccessToken()
 
-        if (response.ok) {
-          const data: LoginResponse = await response.json()
-
-          if (!cancelled) {
-            setSession(data.accessToken, data.expiresAt)
-            setUser(toAuthUser(data.accessToken))
-          }
+        if (!cancelled && refreshed && accessToken) {
+          setUser(toAuthUser(accessToken))
         }
       } finally {
         if (!cancelled) setIsLoading(false)
