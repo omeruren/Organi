@@ -5,15 +5,24 @@ using Organi.Server.Application.Common.Interfaces;
 using Organi.Server.Application.Common.Models;
 using Organi.Server.Application.Features.Orders.DTOs;
 using Organi.Server.Domain.Enums;
+using Organi.Server.Domain.Exceptions;
 
-namespace Organi.Server.Application.Features.Orders.Queries.GetOrders;
+namespace Organi.Server.Application.Features.Vendors.Queries.GetVendorDashboardOrders;
 
-public sealed class GetOrdersHandler(
-    IApplicationDbContext context) : IRequestHandler<GetOrdersQuery, PagedResponse<OrderSummaryResponse>>
+public sealed class GetVendorDashboardOrdersHandler(
+    IApplicationDbContext context,
+    ICurrentUserService currentUser) : IRequestHandler<GetVendorDashboardOrdersQuery, PagedResponse<OrderSummaryResponse>>
 {
-    public async Task<PagedResponse<OrderSummaryResponse>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResponse<OrderSummaryResponse>> Handle(GetVendorDashboardOrdersQuery request, CancellationToken cancellationToken)
     {
-        var query = context.Orders.AsNoTracking();
+        var vendorId = currentUser.VendorId
+            ?? throw new BusinessRuleException("You do not have a vendor profile.");
+
+        // Orders containing at least one of the vendor's items; TotalAmount and
+        // ItemCount are whole-order values, not the vendor's slice.
+        var query = context.Orders
+            .AsNoTracking()
+            .Where(o => o.OrderItems.Any(oi => oi.VendorId == vendorId));
 
         if (request.Status is not null)
         {

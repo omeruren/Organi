@@ -87,10 +87,12 @@ public static class OrderEndpoints
     private static async Task<IResult> GetOrders(
         ISender sender,
         CancellationToken cancellationToken,
+        string? status = null,
+        string? search = null,
         int page = 1,
         int pageSize = 10)
     {
-        var result = await sender.Send(new GetOrdersQuery(page, pageSize), cancellationToken);
+        var result = await sender.Send(new GetOrdersQuery(status, search, page, pageSize), cancellationToken);
         return Results.Ok(result);
     }
 

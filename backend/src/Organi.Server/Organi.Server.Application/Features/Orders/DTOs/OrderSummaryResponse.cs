@@ -3,6 +3,7 @@ namespace Organi.Server.Application.Features.Orders.DTOs;
 public sealed record OrderSummaryResponse(
     Guid Id,
     string OrderNumber,
+    string CustomerName,
     decimal TotalAmount,
     string Status,
     int ItemCount,

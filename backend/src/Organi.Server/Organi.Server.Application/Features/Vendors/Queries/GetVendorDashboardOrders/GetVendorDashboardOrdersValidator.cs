@@ -1,11 +1,11 @@
 using FluentValidation;
 using Organi.Server.Domain.Enums;
 
-namespace Organi.Server.Application.Features.Orders.Queries.GetOrders;
+namespace Organi.Server.Application.Features.Vendors.Queries.GetVendorDashboardOrders;
 
-public sealed class GetOrdersValidator : AbstractValidator<GetOrdersQuery>
+public sealed class GetVendorDashboardOrdersValidator : AbstractValidator<GetVendorDashboardOrdersQuery>
 {
-    public GetOrdersValidator()
+    public GetVendorDashboardOrdersValidator()
     {
         RuleFor(x => x.Status)
             .IsEnumName(typeof(OrderStatus), caseSensitive: false)

@@ -22,6 +22,7 @@ public sealed class GetMyOrdersHandler(
             .Select(o => new OrderSummaryResponse(
                 o.Id,
                 o.OrderNumber,
+                o.User.FirstName + " " + o.User.LastName,
                 o.TotalAmount,
                 o.Status.ToString(),
                 o.OrderItems.Count,

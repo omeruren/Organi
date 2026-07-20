@@ -6,8 +6,10 @@ using Organi.Server.Application.Features.Vendors.Commands.ApproveVendor;
 using Organi.Server.Application.Features.Vendors.Commands.RegisterVendor;
 using Organi.Server.Application.Features.Vendors.Commands.SuspendVendor;
 using Organi.Server.Application.Features.Vendors.Commands.UpdateVendor;
+using Organi.Server.Application.Features.Orders.DTOs;
 using Organi.Server.Application.Features.Vendors.DTOs;
 using Organi.Server.Application.Features.Vendors.Queries.GetVendorById;
+using Organi.Server.Application.Features.Vendors.Queries.GetVendorDashboardOrders;
 using Organi.Server.Application.Features.Vendors.Queries.GetVendorDashboardProducts;
 using Organi.Server.Application.Features.Vendors.Queries.GetVendors;
 
@@ -30,6 +32,14 @@ public static class VendorEndpoints
             .WithDescription("Retrieves the calling vendor's own products, regardless of status.")
             .RequireAuthorization("IsVendor")
             .Produces<PagedResponse<ProductSummaryResponse>>(StatusCodes.Status200OK)
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status403Forbidden);
+
+        group.MapGet("/dashboard/orders", GetVendorDashboardOrders)
+            .WithName("GetVendorDashboardOrders")
+            .WithDescription("Retrieves orders containing at least one of the calling vendor's items.")
+            .RequireAuthorization("IsVendor")
+            .Produces<PagedResponse<OrderSummaryResponse>>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .ProducesProblem(StatusCodes.Status403Forbidden);
 
@@ -97,6 +107,18 @@ public static class VendorEndpoints
         int pageSize = 10)
     {
         var result = await sender.Send(new GetVendorDashboardProductsQuery(page, pageSize), cancellationToken);
+        return Results.Ok(result);
+    }
+
+    private static async Task<IResult> GetVendorDashboardOrders(
+        ISender sender,
+        CancellationToken cancellationToken,
+        string? status = null,
+        string? search = null,
+        int page = 1,
+        int pageSize = 10)
+    {
+        var result = await sender.Send(new GetVendorDashboardOrdersQuery(status, search, page, pageSize), cancellationToken);
         return Results.Ok(result);
     }
 
