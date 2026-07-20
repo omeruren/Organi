@@ -93,10 +93,12 @@ public static class VendorEndpoints
     private static async Task<IResult> GetVendors(
         ISender sender,
         CancellationToken cancellationToken,
+        string? status = null,
+        string? search = null,
         int page = 1,
         int pageSize = 10)
     {
-        var result = await sender.Send(new GetVendorsQuery(page, pageSize), cancellationToken);
+        var result = await sender.Send(new GetVendorsQuery(status, search, page, pageSize), cancellationToken);
         return Results.Ok(result);
     }
 

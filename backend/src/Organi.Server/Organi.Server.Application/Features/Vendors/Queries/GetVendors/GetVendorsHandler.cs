@@ -16,8 +16,19 @@ public sealed class GetVendorsHandler(
     {
         var query = context.Vendors.AsNoTracking();
 
+        // Only admins may see non-approved vendors; the status filter is admin-only too.
         if (!currentUser.IsInRole("Admin"))
+        {
             query = query.Where(v => v.Status == VendorStatus.Approved);
+        }
+        else if (request.Status is not null)
+        {
+            var status = Enum.Parse<VendorStatus>(request.Status, ignoreCase: true);
+            query = query.Where(v => v.Status == status);
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Search))
+            query = query.Where(v => v.StoreName.Contains(request.Search));
 
         var projected = query
             .OrderBy(v => v.StoreName)
