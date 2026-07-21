@@ -12,8 +12,15 @@ public sealed class GetNewsletterSubscribersHandler(
 {
     public async Task<PagedResponse<NewsletterSubscriberResponse>> Handle(GetNewsletterSubscribersQuery request, CancellationToken cancellationToken)
     {
-        var projected = context.NewsletterSubscribers
-            .AsNoTracking()
+        var query = context.NewsletterSubscribers.AsNoTracking();
+
+        if (!string.IsNullOrWhiteSpace(request.Search))
+            query = query.Where(n => n.Email.Contains(request.Search));
+
+        if (request.IsActive.HasValue)
+            query = query.Where(n => n.IsActive == request.IsActive.Value);
+
+        var projected = query
             .OrderByDescending(n => n.SubscribedAt)
             .Select(n => new NewsletterSubscriberResponse(
                 n.Id,

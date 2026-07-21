@@ -54,10 +54,12 @@ public static class NewsletterEndpoints
     private static async Task<IResult> GetSubscribers(
         ISender sender,
         CancellationToken cancellationToken,
+        string? search = null,
+        bool? isActive = null,
         int page = 1,
         int pageSize = 10)
     {
-        var result = await sender.Send(new GetNewsletterSubscribersQuery(page, pageSize), cancellationToken);
+        var result = await sender.Send(new GetNewsletterSubscribersQuery(search, isActive, page, pageSize), cancellationToken);
         return Results.Ok(result);
     }
 }

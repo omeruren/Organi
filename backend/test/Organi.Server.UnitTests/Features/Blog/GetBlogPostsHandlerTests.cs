@@ -11,11 +11,12 @@ namespace Organi.Server.UnitTests.Features.Blog;
 public sealed class GetBlogPostsHandlerTests
 {
     private readonly IApplicationDbContext _context = Substitute.For<IApplicationDbContext>();
+    private readonly ICurrentUserService _currentUser = Substitute.For<ICurrentUserService>();
     private readonly GetBlogPostsHandler _handler;
 
     public GetBlogPostsHandlerTests()
     {
-        _handler = new GetBlogPostsHandler(_context);
+        _handler = new GetBlogPostsHandler(_context, _currentUser);
     }
 
     private void SetupBlogPosts(params BlogPost[] posts)
@@ -24,13 +25,32 @@ public sealed class GetBlogPostsHandlerTests
         _context.BlogPosts.Returns(mockSet);
     }
 
-    [Fact]
-    public async Task Handle_OnlyPublishedPosts_AreReturned()
+    private static BlogPost BuildPost(string title, bool isPublished, Guid? authorId = null)
     {
-        var author = new User { Email = "author@organi.test", FirstName = "Ada", LastName = "Lovelace" };
-        var published = new BlogPost { Title = "Published", Slug = "published", Content = "C", Author = author, IsPublished = true, PublishedAt = DateTime.UtcNow };
-        var draft = new BlogPost { Title = "Draft", Slug = "draft", Content = "C", Author = author, IsPublished = false };
-        SetupBlogPosts(published, draft);
+        var author = new User
+        {
+            Id = authorId ?? Guid.NewGuid(),
+            Email = $"{title}@organi.test",
+            FirstName = "Ada",
+            LastName = "Lovelace"
+        };
+
+        return new BlogPost
+        {
+            Title = title,
+            Slug = title.ToLowerInvariant().Replace(' ', '-'),
+            Content = "C",
+            Author = author,
+            AuthorId = author.Id,
+            IsPublished = isPublished,
+            PublishedAt = isPublished ? DateTime.UtcNow : null
+        };
+    }
+
+    [Fact]
+    public async Task Handle_AnonymousCaller_OnlyPublishedPosts_AreReturned()
+    {
+        SetupBlogPosts(BuildPost("Published", isPublished: true), BuildPost("Draft", isPublished: false));
 
         var result = await _handler.Handle(new GetBlogPostsQuery(), CancellationToken.None);
 
@@ -39,12 +59,49 @@ public sealed class GetBlogPostsHandlerTests
     }
 
     [Fact]
+    public async Task Handle_Admin_SeesDrafts()
+    {
+        _currentUser.IsInRole("Admin").Returns(true);
+        SetupBlogPosts(BuildPost("Published", isPublished: true), BuildPost("Draft", isPublished: false));
+
+        var result = await _handler.Handle(new GetBlogPostsQuery(), CancellationToken.None);
+
+        result.Items.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task Handle_Admin_IsPublishedFalseFilter_ReturnsOnlyDrafts()
+    {
+        _currentUser.IsInRole("Admin").Returns(true);
+        SetupBlogPosts(BuildPost("Published", isPublished: true), BuildPost("Draft", isPublished: false));
+
+        var result = await _handler.Handle(new GetBlogPostsQuery(IsPublished: false), CancellationToken.None);
+
+        result.Items.Should().ContainSingle();
+        result.Items[0].Title.Should().Be("Draft");
+    }
+
+    [Fact]
+    public async Task Handle_Vendor_SeesOwnDraft_ButNotAnotherAuthorsDraft()
+    {
+        var vendorId = Guid.NewGuid();
+        _currentUser.IsInRole("Vendor").Returns(true);
+        _currentUser.UserId.Returns(vendorId);
+
+        SetupBlogPosts(
+            BuildPost("Own Draft", isPublished: false, authorId: vendorId),
+            BuildPost("Other Draft", isPublished: false, authorId: Guid.NewGuid()),
+            BuildPost("Published", isPublished: true, authorId: Guid.NewGuid()));
+
+        var result = await _handler.Handle(new GetBlogPostsQuery(), CancellationToken.None);
+
+        result.Items.Select(p => p.Title).Should().BeEquivalentTo("Own Draft", "Published");
+    }
+
+    [Fact]
     public async Task Handle_SearchFiltersByTitle()
     {
-        var author = new User { Email = "author@organi.test", FirstName = "Ada", LastName = "Lovelace" };
-        var matching = new BlogPost { Title = "Organic Recipes", Slug = "organic-recipes", Content = "C", Author = author, IsPublished = true, PublishedAt = DateTime.UtcNow };
-        var nonMatching = new BlogPost { Title = "Vendor News", Slug = "vendor-news", Content = "C", Author = author, IsPublished = true, PublishedAt = DateTime.UtcNow };
-        SetupBlogPosts(matching, nonMatching);
+        SetupBlogPosts(BuildPost("Organic Recipes", isPublished: true), BuildPost("Vendor News", isPublished: true));
 
         var result = await _handler.Handle(new GetBlogPostsQuery(Search: "Organic"), CancellationToken.None);
 

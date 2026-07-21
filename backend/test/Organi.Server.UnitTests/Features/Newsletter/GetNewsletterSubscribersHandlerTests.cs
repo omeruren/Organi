@@ -48,4 +48,30 @@ public sealed class GetNewsletterSubscribersHandlerTests
         result.Items[0].Email.Should().Be("newer@organi.test");
         result.Items[1].Email.Should().Be("older@organi.test");
     }
+
+    [Fact]
+    public async Task Handle_IsActiveFilter_ReturnsOnlyMatching()
+    {
+        var active = new NewsletterSubscriber { Email = "active@organi.test", IsActive = true, SubscribedAt = DateTime.UtcNow };
+        var inactive = new NewsletterSubscriber { Email = "inactive@organi.test", IsActive = false, SubscribedAt = DateTime.UtcNow, UnsubscribedAt = DateTime.UtcNow };
+        SetupSubscribers(active, inactive);
+
+        var result = await _handler.Handle(new GetNewsletterSubscribersQuery(IsActive: true), CancellationToken.None);
+
+        result.Items.Should().ContainSingle();
+        result.Items[0].Email.Should().Be("active@organi.test");
+    }
+
+    [Fact]
+    public async Task Handle_SearchFiltersByEmail()
+    {
+        var match = new NewsletterSubscriber { Email = "findme@organi.test", SubscribedAt = DateTime.UtcNow };
+        var noMatch = new NewsletterSubscriber { Email = "other@organi.test", SubscribedAt = DateTime.UtcNow };
+        SetupSubscribers(match, noMatch);
+
+        var result = await _handler.Handle(new GetNewsletterSubscribersQuery(Search: "findme"), CancellationToken.None);
+
+        result.Items.Should().ContainSingle();
+        result.Items[0].Email.Should().Be("findme@organi.test");
+    }
 }

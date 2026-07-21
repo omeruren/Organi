@@ -82,10 +82,11 @@ public static class BlogEndpoints
         ISender sender,
         CancellationToken cancellationToken,
         string? search = null,
+        bool? isPublished = null,
         int page = 1,
         int pageSize = 10)
     {
-        var result = await sender.Send(new GetBlogPostsQuery(search, page, pageSize), cancellationToken);
+        var result = await sender.Send(new GetBlogPostsQuery(search, isPublished, page, pageSize), cancellationToken);
         return Results.Ok(result);
     }
 
