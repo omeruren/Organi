@@ -149,7 +149,7 @@ const OrderDetail = ({ orderId }: { orderId: string }) => {
       <Grid item xs={12}>
         <div className='flex flex-wrap items-center justify-between gap-4'>
           <div className='flex items-center gap-3'>
-            <IconButton onClick={() => router.push('/orders')} aria-label='Back to orders'>
+            <IconButton onClick={() => router.push('/admin/orders')} aria-label='Back to orders'>
               <i className='ri-arrow-left-line' />
             </IconButton>
             <div className='flex flex-col'>

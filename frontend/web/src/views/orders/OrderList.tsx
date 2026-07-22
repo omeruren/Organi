@@ -109,7 +109,7 @@ const OrderList = () => {
           key='view'
           icon={<i className='ri-eye-line' />}
           label='View'
-          onClick={() => router.push(`/orders/${params.row.id}`)}
+          onClick={() => router.push(`/admin/orders/${params.row.id}`)}
         />
       ]
     }
@@ -162,7 +162,7 @@ const OrderList = () => {
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
         pageSizeOptions={[10, 25, 50]}
-        onRowClick={params => router.push(`/orders/${params.row.id}`)}
+        onRowClick={params => router.push(`/admin/orders/${params.row.id}`)}
         disableRowSelectionOnClick
         disableColumnMenu
       />

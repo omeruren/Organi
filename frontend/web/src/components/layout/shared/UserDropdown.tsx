@@ -113,7 +113,7 @@ const UserDropdown = () => {
                     </div>
                   </div>
                   <Divider className='mlb-1' />
-                  <MenuItem className='gap-3' component={Link} href='/profile' onClick={e => handleDropdownClose(e)}>
+                  <MenuItem className='gap-3' component={Link} href='/admin/profile' onClick={e => handleDropdownClose(e)}>
                     <i className='ri-user-3-line' />
                     <Typography color='text.primary'>My Profile</Typography>
                   </MenuItem>

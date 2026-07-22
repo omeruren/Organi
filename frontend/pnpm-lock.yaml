@@ -6,7 +6,7 @@ settings:
 
 importers:
 
-  admin:
+  web:
     dependencies:
       '@emotion/cache':
         specifier: ^11.11.0

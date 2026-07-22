@@ -45,7 +45,7 @@ const Register = ({ mode }: { mode: Mode }) => {
     <div className='flex flex-col justify-center items-center min-bs-[100dvh] relative p-6'>
       <Card className='flex flex-col sm:is-[450px]'>
         <CardContent className='p-6 sm:!p-12'>
-          <Link href='/' className='flex justify-center items-start mbe-6'>
+          <Link href='/admin' className='flex justify-center items-start mbe-6'>
             <Logo />
           </Link>
           <Typography variant='h4'>Adventure starts here 🚀</Typography>
@@ -89,7 +89,7 @@ const Register = ({ mode }: { mode: Mode }) => {
               </Button>
               <div className='flex justify-center items-center flex-wrap gap-2'>
                 <Typography>Already have an account?</Typography>
-                <Typography component={Link} href='/login' color='primary'>
+                <Typography component={Link} href='/admin/login' color='primary'>
                   Sign in instead
                 </Typography>
               </div>

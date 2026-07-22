@@ -78,7 +78,7 @@ const Login = ({ mode }: { mode: Mode }) => {
 
     try {
       await login(values.email, values.password)
-      router.push('/')
+      router.push('/admin')
     } catch (error) {
       setFormError(error instanceof ApiError ? error.message : 'Unable to log in. Please try again.')
     }
@@ -88,7 +88,7 @@ const Login = ({ mode }: { mode: Mode }) => {
     <div className='flex flex-col justify-center items-center min-bs-[100dvh] relative p-6'>
       <Card className='flex flex-col sm:is-[450px]'>
         <CardContent className='p-6 sm:!p-12'>
-          <Link href='/' className='flex justify-center items-center mbe-6'>
+          <Link href='/admin' className='flex justify-center items-center mbe-6'>
             <Logo />
           </Link>
           <div className='flex flex-col gap-5'>

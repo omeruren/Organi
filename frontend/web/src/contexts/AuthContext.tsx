@@ -88,7 +88,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     clearSession()
     setUser(null)
-    router.push('/login')
+
+    // Shared across the storefront and admin — send the user back to the login screen
+    // for whichever surface they were on.
+    const onAdmin = typeof window !== 'undefined' && window.location.pathname.startsWith('/admin')
+
+    router.push(onAdmin ? '/admin/login' : '/login')
   }, [router])
 
   return <AuthContext.Provider value={{ user, isLoading, login, logout }}>{children}</AuthContext.Provider>
