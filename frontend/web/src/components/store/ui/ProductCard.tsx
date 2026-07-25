@@ -1,9 +1,14 @@
+'use client'
+
 // Next Imports
 import Link from 'next/link'
 
 // Component Imports
 import RatingStars from '@/components/store/ui/RatingStars'
 import Price from '@/components/store/ui/Price'
+
+// Hook Imports
+import { useCartActions } from '@/hooks/useCartActions'
 
 // Type Imports
 import type { ProductSummaryResponse } from '@/types/api/product'
@@ -12,6 +17,7 @@ const FALLBACK_IMAGE = '/store/assets/images/product/product1.png'
 
 // Faithful port of the template's `.product_layout_1` card, wired to live product data.
 const ProductCard = ({ product }: { product: ProductSummaryResponse }) => {
+  const { addToCart, isAdding } = useCartActions()
   const href = `/product/${product.slug}`
   const image = product.primaryImageUrl || FALLBACK_IMAGE
   const hasSale = product.salePrice != null && product.salePrice < product.price
@@ -46,9 +52,15 @@ const ProductCard = ({ product }: { product: ProductSummaryResponse }) => {
               </Link>
             </li>
             <li>
-              <Link className='tooltips' title='View Product' href={href}>
+              <button
+                type='button'
+                className='tooltips'
+                title='Add to Cart'
+                disabled={isAdding}
+                onClick={() => addToCart(product.id, 1, product.name)}
+              >
                 <i className='fas fa-shopping-bag' />
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

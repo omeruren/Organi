@@ -5,9 +5,16 @@ import { useState } from 'react'
 
 // Next Imports
 import Link from 'next/link'
+import { useRouter, usePathname } from 'next/navigation'
 
-// Hook Imports
+// Hook / Context Imports
 import { useProductBySlug } from '@/hooks/api/useProducts'
+import { useCartActions } from '@/hooks/useCartActions'
+import { useAddToWishlist } from '@/hooks/api/useWishlist'
+import { useAddToCompare } from '@/hooks/api/useCompare'
+import { useAuth } from '@/contexts/AuthContext'
+import { useStoreToast } from '@/components/store/StoreToast'
+import { ApiError } from '@/libs/api-client'
 
 // Component Imports
 import Breadcrumb from '@/components/store/ui/Breadcrumb'
@@ -24,11 +31,45 @@ const ProductDetailView = ({ slug }: { slug: string }) => {
   const { data: product, isLoading, error } = useProductBySlug(slug)
   const [qty, setQty] = useState(1)
   const [tab, setTab] = useState<Tab>('description')
-  const [notice, setNotice] = useState('')
 
-  const stub = (message: string) => {
-    setNotice(message)
-    window.setTimeout(() => setNotice(''), 2500)
+  const { user } = useAuth()
+  const router = useRouter()
+  const pathname = usePathname()
+  const { showToast } = useStoreToast()
+  const { addToCart, isAdding } = useCartActions()
+  const addWishlist = useAddToWishlist()
+  const addCompare = useAddToCompare()
+
+  const requireAuth = () => {
+    if (!user) {
+      router.push(`/login?redirectTo=${encodeURIComponent(pathname)}`)
+
+      return false
+    }
+
+    return true
+  }
+
+  const onAddWishlist = async () => {
+    if (!requireAuth() || !product) return
+
+    try {
+      await addWishlist.mutateAsync(product.id)
+      showToast('Added to wishlist.')
+    } catch (e) {
+      showToast(e instanceof ApiError ? e.message : 'Could not add to wishlist.', 'error')
+    }
+  }
+
+  const onAddCompare = async () => {
+    if (!requireAuth() || !product) return
+
+    try {
+      await addCompare.mutateAsync(product.id)
+      showToast('Added to compare.')
+    } catch (e) {
+      showToast(e instanceof ApiError ? e.message : 'Could not add to compare.', 'error')
+    }
   }
 
   if (isLoading) {
@@ -118,8 +159,8 @@ const ProductDetailView = ({ slug }: { slug: string }) => {
                 <button
                   type='button'
                   className='btn custom_btn rounded-pill px-5 py-3 text-white'
-                  disabled={!inStock}
-                  onClick={() => stub('Cart & checkout are coming soon.')}
+                  disabled={!inStock || isAdding}
+                  onClick={() => addToCart(product.id, qty, product.name)}
                 >
                   Add to Cart <i className='fas fa-shopping-bag ms-1' />
                 </button>
@@ -127,7 +168,7 @@ const ProductDetailView = ({ slug }: { slug: string }) => {
                   type='button'
                   className='btn rounded-circle p-3 border'
                   aria-label='Add to wishlist'
-                  onClick={() => stub('Wishlist is coming soon.')}
+                  onClick={onAddWishlist}
                 >
                   <i className='far fa-heart' />
                 </button>
@@ -135,16 +176,11 @@ const ProductDetailView = ({ slug }: { slug: string }) => {
                   type='button'
                   className='btn rounded-circle p-3 border'
                   aria-label='Add to compare'
-                  onClick={() => stub('Compare is coming soon.')}
+                  onClick={onAddCompare}
                 >
                   <i className='fas fa-exchange-alt' />
                 </button>
               </div>
-              {notice && (
-                <p className='mt-2 mb-0' style={{ color: '#7cc000', fontWeight: 600 }}>
-                  {notice}
-                </p>
-              )}
             </div>
           </div>
         </div>

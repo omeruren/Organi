@@ -18,10 +18,19 @@ interface LoginResponse {
   expiresAt: string
 }
 
+export interface RegisterData {
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phoneNumber?: string | null
+}
+
 interface AuthContextValue {
   user: AuthUser | null
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
+  register: (data: RegisterData) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -78,6 +87,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(toAuthUser(data.accessToken))
   }, [])
 
+  const register = useCallback(async (payload: RegisterData) => {
+    const response = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+
+    if (!response.ok) {
+      const problem = await response.json().catch(() => null)
+
+      throw new ApiError(
+        response.status,
+        problem?.title ?? 'Registration failed',
+        problem?.detail ?? 'Could not create your account.',
+        problem?.errors
+      )
+    }
+
+    const data: LoginResponse = await response.json()
+
+    setSession(data.accessToken, data.expiresAt)
+    setUser(toAuthUser(data.accessToken))
+  }, [])
+
   const logout = useCallback(async () => {
     const accessToken = getAccessToken()
 
@@ -96,7 +129,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     router.push(onAdmin ? '/admin/login' : '/login')
   }, [router])
 
-  return <AuthContext.Provider value={{ user, isLoading, login, logout }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user, isLoading, login, register, logout }}>{children}</AuthContext.Provider>
 }
 
 export const useAuth = (): AuthContextValue => {

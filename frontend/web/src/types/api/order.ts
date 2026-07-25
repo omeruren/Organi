@@ -2,6 +2,19 @@
 // Processing and Refunded exist in the enum but no endpoint transitions into them.
 export type OrderStatus = 'Pending' | 'Confirmed' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled' | 'Refunded'
 
+// Mirrors CreateOrderCommand — checkout builds the order from the user's server-side cart.
+export interface CreateOrderRequest {
+  shippingFirstName: string
+  shippingLastName: string
+  shippingAddress: string
+  shippingCity: string
+  shippingPostalCode: string | null
+  shippingPhone: string
+  shippingEmail: string
+  notes: string | null
+  couponCode: string | null
+}
+
 // Mirrors Organi.Server.Application.Features.Orders.DTOs.OrderSummaryResponse
 export interface OrderSummaryResponse {
   id: string

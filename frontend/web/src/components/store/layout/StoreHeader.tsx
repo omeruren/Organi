@@ -9,6 +9,10 @@ import { usePathname, useRouter } from 'next/navigation'
 
 // Hook Imports
 import { useStickyHeader } from '@/hooks/useStickyHeader'
+import { useCart } from '@/hooks/api/useCart'
+
+// Context Imports
+import { useAuth } from '@/contexts/AuthContext'
 
 // Component Imports
 import MiniCartDrawer from '@/components/store/layout/MiniCartDrawer'
@@ -26,6 +30,10 @@ const StoreHeader = () => {
   const pathname = usePathname()
   const router = useRouter()
   const isSticky = useStickyHeader()
+  const { user, logout } = useAuth()
+  const { data: cart } = useCart(!!user)
+
+  const cartCount = cart?.items.reduce((sum, item) => sum + item.quantity, 0) ?? 0
 
   const [searchOpen, setSearchOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -77,23 +85,50 @@ const StoreHeader = () => {
           </button>
           <div className={`collapse_dropdown collapse${userOpen ? ' show' : ''}`}>
             <div className='dropdown_content'>
-              <ul className='settings_options ul_li_block clearfix'>
-                <li>
-                  <Link href='/login' onClick={() => setUserOpen(false)}>
-                    <i className='fas fa-sign-in-alt' /> Login
-                  </Link>
-                </li>
-                <li>
-                  <Link href='/register' onClick={() => setUserOpen(false)}>
-                    <i className='fas fa-user-plus' /> Register
-                  </Link>
-                </li>
-                <li>
-                  <Link href='/account' onClick={() => setUserOpen(false)}>
-                    <i className='fas fa-user-circle' /> My Account
-                  </Link>
-                </li>
-              </ul>
+              {user ? (
+                <>
+                  <div className='px-3 py-2'>
+                    <strong>{user.name}</strong>
+                  </div>
+                  <ul className='settings_options ul_li_block clearfix'>
+                    <li>
+                      <Link href='/account' onClick={() => setUserOpen(false)}>
+                        <i className='fas fa-user-circle' /> My Account
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href='/compare' onClick={() => setUserOpen(false)}>
+                        <i className='fas fa-exchange-alt' /> Compare
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        type='button'
+                        className='btn btn-link p-0 text-start'
+                        onClick={() => {
+                          setUserOpen(false)
+                          logout()
+                        }}
+                      >
+                        <i className='fas fa-sign-out-alt' /> Logout
+                      </button>
+                    </li>
+                  </ul>
+                </>
+              ) : (
+                <ul className='settings_options ul_li_block clearfix'>
+                  <li>
+                    <Link href='/login' onClick={() => setUserOpen(false)}>
+                      <i className='fas fa-sign-in-alt' /> Login
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href='/register' onClick={() => setUserOpen(false)}>
+                      <i className='fas fa-user-plus' /> Register
+                    </Link>
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         </li>
@@ -103,8 +138,18 @@ const StoreHeader = () => {
           </Link>
         </li>
         <li>
-          <button type='button' className='main_search_btn' onClick={() => setCartOpen(true)} aria-label='Cart'>
+          <button
+            type='button'
+            className='main_search_btn position-relative'
+            onClick={() => setCartOpen(true)}
+            aria-label='Cart'
+          >
             <i className='fas fa-shopping-bag' />
+            {cartCount > 0 && (
+              <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
+                {cartCount}
+              </span>
+            )}
           </button>
         </li>
       </ul>
