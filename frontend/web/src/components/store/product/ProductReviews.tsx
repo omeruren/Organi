@@ -1,16 +1,95 @@
 'use client'
 
+// React Imports
+import { useState } from 'react'
+
 // Next Imports
 import Link from 'next/link'
 
-// Hook Imports
-import { useProductReviews } from '@/hooks/api/useProductReviews'
+// Hook / Context Imports
+import { useProductReviews, useCreateProductReview } from '@/hooks/api/useProductReviews'
+import { useAuth } from '@/contexts/AuthContext'
+import { useStoreToast } from '@/components/store/StoreToast'
+import { ApiError } from '@/libs/api-client'
 
 // Component Imports
 import RatingStars from '@/components/store/ui/RatingStars'
 
+const ReviewForm = ({ productId }: { productId: string }) => {
+  const create = useCreateProductReview(productId)
+  const { showToast } = useStoreToast()
+
+  const [rating, setRating] = useState(5)
+  const [hover, setHover] = useState(0)
+  const [title, setTitle] = useState('')
+  const [comment, setComment] = useState('')
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!comment.trim()) {
+      showToast('Please write a comment.', 'error')
+
+      return
+    }
+
+    try {
+      await create.mutateAsync({ rating, title: title.trim() || null, comment: comment.trim() })
+      showToast('Thanks — your review was submitted.')
+      setTitle('')
+      setComment('')
+      setRating(5)
+    } catch (error) {
+      showToast(error instanceof ApiError ? error.message : 'Could not submit your review.', 'error')
+    }
+  }
+
+  return (
+    <div className='comment_form_area mt-4'>
+      <h4 className='comment_title'>Write a Review</h4>
+      <form onSubmit={onSubmit} className='d-flex flex-column gap-3'>
+        <div className='d-flex align-items-center gap-1' style={{ fontSize: 22, color: '#f0ad4e' }}>
+          {[1, 2, 3, 4, 5].map(star => (
+            <button
+              key={star}
+              type='button'
+              className='btn p-0 border-0'
+              style={{ color: '#f0ad4e', lineHeight: 1 }}
+              onMouseEnter={() => setHover(star)}
+              onMouseLeave={() => setHover(0)}
+              onClick={() => setRating(star)}
+              aria-label={`${star} star`}
+            >
+              <i className={`fa${(hover || rating) >= star ? 's' : 'r'} fa-star`} />
+            </button>
+          ))}
+        </div>
+        <input
+          className='form-control rounded-pill py-2'
+          placeholder='Review title (optional)'
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          maxLength={200}
+        />
+        <textarea
+          className='form-control rounded-4 p-3'
+          rows={3}
+          placeholder='Your review*'
+          value={comment}
+          onChange={e => setComment(e.target.value)}
+          maxLength={1000}
+        />
+        <button type='submit' className='btn custom_btn rounded-pill py-2 px-4 text-white align-self-start' disabled={create.isPending}>
+          {create.isPending ? 'Submitting…' : 'Post Review'}
+        </button>
+      </form>
+    </div>
+  )
+}
+
 const ProductReviews = ({ productId }: { productId: string }) => {
   const { data, isLoading } = useProductReviews(productId)
+  const { user } = useAuth()
   const reviews = data?.items ?? []
 
   return (
@@ -37,15 +116,18 @@ const ProductReviews = ({ productId }: { productId: string }) => {
         </ul>
       )}
 
-      {/* Writing a review requires a signed-in customer who purchased the product — wired in B5. */}
-      <div className='comment_form_area mt-4'>
-        <p className='mb-0' style={{ color: '#6b6b6b' }}>
-          <Link href='/login' className='text-primary'>
-            Log in
-          </Link>{' '}
-          to write a review. Only verified purchasers can review a product.
-        </p>
-      </div>
+      {user ? (
+        <ReviewForm productId={productId} />
+      ) : (
+        <div className='comment_form_area mt-4'>
+          <p className='mb-0' style={{ color: '#6b6b6b' }}>
+            <Link href='/login' className='text-primary'>
+              Log in
+            </Link>{' '}
+            to write a review. Only verified purchasers can review a product.
+          </p>
+        </div>
+      )}
     </div>
   )
 }

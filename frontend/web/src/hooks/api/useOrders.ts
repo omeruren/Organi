@@ -41,6 +41,14 @@ export const useOrder = (id: string | null) =>
     enabled: id !== null
   })
 
+// The current customer's own order history — GET /api/orders/my.
+export const useMyOrders = (page = 1, pageSize = 10, enabled = true) =>
+  useQuery({
+    queryKey: ['my-orders', page, pageSize],
+    queryFn: () => apiFetch<PagedResponse<OrderSummaryResponse>>(`/api/orders/my?page=${page}&pageSize=${pageSize}`),
+    enabled
+  })
+
 export const useConfirmOrder = () => {
   const queryClient = useQueryClient()
 
