@@ -81,6 +81,11 @@ const StoreLoginView = () => {
           />
           {errors.password && <small className='text-danger'>{errors.password.message}</small>}
         </div>
+        <div className='text-end'>
+          <Link href='/forgot-password' className='text-primary' style={{ fontSize: 14 }}>
+            Forgot password?
+          </Link>
+        </div>
         <button type='submit' className='btn custom_btn rounded-pill py-3 text-white' disabled={isSubmitting}>
           {isSubmitting ? 'Signing in…' : 'Login'}
         </button>

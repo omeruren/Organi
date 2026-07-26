@@ -22,7 +22,7 @@ const NewsletterForm = () => {
     try {
       await apiFetch('/api/newsletter/subscribe', { method: 'POST', body: { email: email.trim() } })
       setStatus('ok')
-      setMessage('Thanks for subscribing!')
+      setMessage('Thanks for subscribing! Check your inbox for a welcome email.')
       setEmail('')
     } catch (error) {
       setStatus('error')

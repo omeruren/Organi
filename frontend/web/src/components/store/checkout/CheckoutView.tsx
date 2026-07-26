@@ -125,6 +125,9 @@ const CheckoutView = () => {
                   <p style={{ color: '#6b6b6b' }}>
                     Your order <strong>{placed.orderNumber}</strong> has been placed and is <strong>{placed.status}</strong>.
                   </p>
+                  <p style={{ color: '#6b6b6b' }}>
+                    A confirmation email is on its way to <strong>{placed.shippingEmail}</strong>.
+                  </p>
                   <ul className='list-unstyled text-start mx-auto my-4' style={{ maxWidth: 320 }}>
                     <li className='d-flex justify-content-between'>
                       <span>Subtotal</span>
