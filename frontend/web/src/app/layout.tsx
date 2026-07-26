@@ -13,7 +13,7 @@ export const metadata = {
 
 const RootLayout = ({ children }: ChildrenType) => {
   return (
-    <html id='__next' dir='ltr'>
+    <html id='__next' lang='en' dir='ltr'>
       <body className='flex is-full min-bs-full flex-auto flex-col'>{children}</body>
     </html>
   )

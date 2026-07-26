@@ -24,7 +24,7 @@ const ProductTabs = () => {
   const activeTab = tabs.find(t => t.id === active) ?? tabs[0]
 
   // Anonymous callers get only Active products from approved vendors (backend-enforced).
-  const { data, isLoading } = useProducts({ page: 1, pageSize: 8, categoryId: activeTab.categoryId })
+  const { data, isLoading, isError } = useProducts({ page: 1, pageSize: 8, categoryId: activeTab.categoryId })
 
   const products = data?.items ?? []
 
@@ -56,6 +56,10 @@ const ProductTabs = () => {
           <div className='tab-pane fade show active'>
             {isLoading ? (
               <p className='text-center py-5'>Loading products…</p>
+            ) : isError ? (
+              <p className='text-center py-5' style={{ color: '#6b6b6b' }}>
+                We couldn’t load products right now. Please refresh the page.
+              </p>
             ) : products.length === 0 ? (
               <p className='text-center py-5' style={{ color: '#6b6b6b' }}>
                 No products in this category yet.

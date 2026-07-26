@@ -127,26 +127,28 @@ const ContactView = () => {
                       </div>
                     )}
                     <div className='col-md-6'>
-                      <input className='form-control rounded-pill py-3' placeholder='Your name' {...register('name')} />
+                      <input className='form-control rounded-pill py-3' aria-label='Your name' placeholder='Your name' {...register('name')} />
                       {errors.name && <small className='text-danger'>{errors.name.message}</small>}
                     </div>
                     <div className='col-md-6'>
                       <input
                         type='email'
                         className='form-control rounded-pill py-3'
+                        aria-label='Your email'
                         placeholder='Your email'
                         {...register('email')}
                       />
                       {errors.email && <small className='text-danger'>{errors.email.message}</small>}
                     </div>
                     <div className='col-12'>
-                      <input className='form-control rounded-pill py-3' placeholder='Subject' {...register('subject')} />
+                      <input className='form-control rounded-pill py-3' aria-label='Subject' placeholder='Subject' {...register('subject')} />
                       {errors.subject && <small className='text-danger'>{errors.subject.message}</small>}
                     </div>
                     <div className='col-12'>
                       <textarea
                         className='form-control rounded-4 p-3'
                         rows={5}
+                        aria-label='Your message'
                         placeholder='Your message'
                         {...register('message')}
                       />

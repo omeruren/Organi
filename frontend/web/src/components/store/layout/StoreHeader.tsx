@@ -183,23 +183,23 @@ const StoreHeader = () => {
             <div className='header_top_socials pt-2'>
               <ul className='list-unstyled d-flex'>
                 <li>
-                  <a href='#!'>
-                    <i className='fab fa-facebook-f text-white pe-3' />
+                  <a href='#!' aria-label='Facebook'>
+                    <i className='fab fa-facebook-f text-white pe-3' aria-hidden='true' />
                   </a>
                 </li>
                 <li>
-                  <a href='#!'>
-                    <i className='fab fa-twitter text-white pe-3' />
+                  <a href='#!' aria-label='Twitter'>
+                    <i className='fab fa-twitter text-white pe-3' aria-hidden='true' />
                   </a>
                 </li>
                 <li>
-                  <a href='#!'>
-                    <i className='fab fa-instagram text-white pe-3' />
+                  <a href='#!' aria-label='Instagram'>
+                    <i className='fab fa-instagram text-white pe-3' aria-hidden='true' />
                   </a>
                 </li>
                 <li>
-                  <a href='#!'>
-                    <i className='fab fa-linkedin-in text-white' />
+                  <a href='#!' aria-label='LinkedIn'>
+                    <i className='fab fa-linkedin-in text-white' aria-hidden='true' />
                   </a>
                 </li>
               </ul>
@@ -258,12 +258,13 @@ const StoreHeader = () => {
                   <input
                     type='search'
                     className='form-control rounded-pill py-3'
+                    aria-label='Search products'
                     placeholder='Search Your Product...'
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                   />
-                  <button type='submit' className='submit_btn'>
-                    <i className='fas fa-search' />
+                  <button type='submit' className='submit_btn' aria-label='Submit search'>
+                    <i className='fas fa-search' aria-hidden='true' />
                   </button>
                 </div>
               </form>

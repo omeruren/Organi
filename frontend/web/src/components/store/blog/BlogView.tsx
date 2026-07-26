@@ -13,6 +13,7 @@ import { useBlogPosts } from '@/hooks/api/useBlog'
 import Breadcrumb from '@/components/store/ui/Breadcrumb'
 import BlogCard from '@/components/store/ui/BlogCard'
 import StorePagination from '@/components/store/ui/StorePagination'
+import StoreStateMessage from '@/components/store/ui/StoreStateMessage'
 
 const PAGE_SIZE = 9
 
@@ -26,7 +27,7 @@ const BlogView = () => {
 
   const [searchInput, setSearchInput] = useState(search)
 
-  const { data, isLoading } = useBlogPosts({ page, pageSize: PAGE_SIZE, search: search || undefined })
+  const { data, isLoading, isError, refetch } = useBlogPosts({ page, pageSize: PAGE_SIZE, search: search || undefined })
 
   const update = (patch: { search?: string; page?: number }) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -65,6 +66,7 @@ const BlogView = () => {
                   <input
                     type='search'
                     className='form-control rounded-pill py-3 pe-5'
+                    aria-label='Search articles'
                     placeholder='Search articles…'
                     value={searchInput}
                     onChange={e => setSearchInput(e.target.value)}
@@ -84,6 +86,13 @@ const BlogView = () => {
 
           {isLoading ? (
             <p className='text-center py-5'>Loading articles…</p>
+          ) : isError ? (
+            <StoreStateMessage
+              icon='fas fa-triangle-exclamation'
+              title='Could not load articles'
+              message='Something went wrong while loading the blog. Please try again.'
+              onRetry={() => refetch()}
+            />
           ) : posts.length === 0 ? (
             <p className='text-center py-5' style={{ color: '#6b6b6b' }}>
               No articles found.

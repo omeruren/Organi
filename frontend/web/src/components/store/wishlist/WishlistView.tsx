@@ -12,12 +12,13 @@ import { useCartActions } from '@/hooks/useCartActions'
 
 // Component Imports
 import Breadcrumb from '@/components/store/ui/Breadcrumb'
+import StoreStateMessage from '@/components/store/ui/StoreStateMessage'
 
 const FALLBACK_IMAGE = '/store/assets/images/product/product1.png'
 
 const WishlistView = () => {
   const { user, isLoading: authLoading } = useAuth()
-  const { data: items, isLoading } = useWishlist(!!user)
+  const { data: items, isLoading, isError, refetch } = useWishlist(!!user)
   const removeItem = useRemoveFromWishlist()
   const { addToCart } = useCartActions()
 
@@ -36,6 +37,17 @@ const WishlistView = () => {
     }
 
     if (isLoading) return <p className='text-center py-5'>Loading your wishlist…</p>
+
+    if (isError) {
+      return (
+        <StoreStateMessage
+          icon='fas fa-triangle-exclamation'
+          title='Could not load your wishlist'
+          message='Something went wrong while loading your wishlist. Please try again.'
+          onRetry={() => refetch()}
+        />
+      )
+    }
 
     if (!items || items.length === 0) {
       return (

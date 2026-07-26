@@ -20,23 +20,23 @@ const StoreFooter = () => {
             <div className='footer_top_social'>
               <ul className='list-unstyled d-flex justify-content-end'>
                 <li className='me-3'>
-                  <a href='#!'>
-                    <i className='fab fa-twitter' />
+                  <a href='#!' aria-label='Twitter'>
+                    <i className='fab fa-twitter' aria-hidden='true' />
                   </a>
                 </li>
                 <li className='me-3'>
-                  <a href='#!'>
-                    <i className='fab fa-facebook-f' />
+                  <a href='#!' aria-label='Facebook'>
+                    <i className='fab fa-facebook-f' aria-hidden='true' />
                   </a>
                 </li>
                 <li className='me-3'>
-                  <a href='#!'>
-                    <i className='fab fa-youtube' />
+                  <a href='#!' aria-label='YouTube'>
+                    <i className='fab fa-youtube' aria-hidden='true' />
                   </a>
                 </li>
                 <li>
-                  <a href='#!'>
-                    <i className='fab fa-instagram' />
+                  <a href='#!' aria-label='Instagram'>
+                    <i className='fab fa-instagram' aria-hidden='true' />
                   </a>
                 </li>
               </ul>

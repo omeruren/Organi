@@ -17,6 +17,7 @@ import Breadcrumb from '@/components/store/ui/Breadcrumb'
 import ProductCard from '@/components/store/ui/ProductCard'
 import RatingStars from '@/components/store/ui/RatingStars'
 import StorePagination from '@/components/store/ui/StorePagination'
+import StoreStateMessage from '@/components/store/ui/StoreStateMessage'
 
 const FALLBACK_BANNER = '/store/assets/images/vendor/vendor_bg_2.png'
 const FALLBACK_LOGO = '/store/assets/images/brands/brand1.png'
@@ -26,7 +27,12 @@ const VendorStoreView = ({ slug }: { slug: string }) => {
   const [page, setPage] = useState(1)
   const { data: vendor, isLoading, error } = useVendorBySlug(slug)
 
-  const { data: products, isLoading: productsLoading } = useVendorProducts({
+  const {
+    data: products,
+    isLoading: productsLoading,
+    isError: productsError,
+    refetch: refetchProducts
+  } = useVendorProducts({
     vendorId: vendor?.id ?? null,
     page,
     pageSize: PAGE_SIZE
@@ -126,6 +132,13 @@ const VendorStoreView = ({ slug }: { slug: string }) => {
           </h2>
           {productsLoading ? (
             <p className='text-center py-5'>Loading products…</p>
+          ) : productsError ? (
+            <StoreStateMessage
+              icon='fas fa-triangle-exclamation'
+              title='Could not load products'
+              message='Something went wrong while loading this vendor’s products. Please try again.'
+              onRetry={() => refetchProducts()}
+            />
           ) : items.length === 0 ? (
             <p className='text-center py-5' style={{ color: '#6b6b6b' }}>
               This vendor has no products yet.

@@ -15,6 +15,7 @@ import Breadcrumb from '@/components/store/ui/Breadcrumb'
 import ProductCard from '@/components/store/ui/ProductCard'
 import ProductListCard from '@/components/store/ui/ProductListCard'
 import StorePagination from '@/components/store/ui/StorePagination'
+import StoreStateMessage from '@/components/store/ui/StoreStateMessage'
 import ShopSidebar from '@/components/store/shop/ShopSidebar'
 import ShopToolbar from '@/components/store/shop/ShopToolbar'
 
@@ -64,7 +65,7 @@ const ShopView = () => {
   const categoryResolving = !!filters.category && categories === undefined
   const sort = SORT_MAP[filters.sort] ?? SORT_MAP.newest
 
-  const { data, isLoading } = useProducts({
+  const { data, isLoading, isError, refetch } = useProducts({
     page: filters.page,
     pageSize: PAGE_SIZE,
     categoryId,
@@ -121,6 +122,13 @@ const ShopView = () => {
               />
               {isLoading ? (
                 <p className='text-center py-5'>Loading products…</p>
+              ) : isError ? (
+                <StoreStateMessage
+                  icon='fas fa-triangle-exclamation'
+                  title='Could not load products'
+                  message='Something went wrong while loading products. Please try again.'
+                  onRetry={() => refetch()}
+                />
               ) : products.length === 0 ? (
                 <p className='text-center py-5' style={{ color: '#6b6b6b' }}>
                   No products match your filters.

@@ -13,6 +13,7 @@ import { useVendors } from '@/hooks/api/useVendors'
 import Breadcrumb from '@/components/store/ui/Breadcrumb'
 import VendorCard from '@/components/store/ui/VendorCard'
 import StorePagination from '@/components/store/ui/StorePagination'
+import StoreStateMessage from '@/components/store/ui/StoreStateMessage'
 
 const PAGE_SIZE = 9
 
@@ -26,7 +27,7 @@ const VendorsView = () => {
 
   const [searchInput, setSearchInput] = useState(search)
 
-  const { data, isLoading } = useVendors({ page, pageSize: PAGE_SIZE, search: search || undefined })
+  const { data, isLoading, isError, refetch } = useVendors({ page, pageSize: PAGE_SIZE, search: search || undefined })
 
   const update = (patch: { search?: string; page?: number }) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -65,6 +66,7 @@ const VendorsView = () => {
                   <input
                     type='search'
                     className='form-control rounded-pill py-3 pe-5'
+                    aria-label='Search vendors'
                     placeholder='Search vendors…'
                     value={searchInput}
                     onChange={e => setSearchInput(e.target.value)}
@@ -84,6 +86,13 @@ const VendorsView = () => {
 
           {isLoading ? (
             <p className='text-center py-5'>Loading vendors…</p>
+          ) : isError ? (
+            <StoreStateMessage
+              icon='fas fa-triangle-exclamation'
+              title='Could not load vendors'
+              message='Something went wrong while loading vendors. Please try again.'
+              onRetry={() => refetch()}
+            />
           ) : vendors.length === 0 ? (
             <p className='text-center py-5' style={{ color: '#6b6b6b' }}>
               No vendors found.

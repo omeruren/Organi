@@ -1,3 +1,6 @@
+// Next Imports
+import type { Metadata } from 'next'
+
 // Component Imports
 import StoreProviders from '@/components/store/StoreProviders'
 import StoreHeader from '@/components/store/layout/StoreHeader'
@@ -6,9 +9,21 @@ import StoreFooter from '@/components/store/layout/StoreFooter'
 // Type Imports
 import type { ChildrenType } from '@core/types'
 
-export const metadata = {
-  title: 'Organi — Organic Marketplace',
-  description: 'Shop fresh organic produce and groceries from local vendors on Organi.'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Organi — Organic Marketplace',
+    template: '%s — Organi'
+  },
+  description: 'Shop fresh organic produce and groceries from local vendors on Organi.',
+  openGraph: {
+    type: 'website',
+    siteName: 'Organi',
+    title: 'Organi — Organic Marketplace',
+    description: 'Shop fresh organic produce and groceries from local vendors on Organi.'
+  }
 }
 
 // The storefront's global CSS is loaded here via <link> (React 18 hoists these to <head>),

@@ -12,12 +12,13 @@ import { useCartActions } from '@/hooks/useCartActions'
 
 // Component Imports
 import Breadcrumb from '@/components/store/ui/Breadcrumb'
+import StoreStateMessage from '@/components/store/ui/StoreStateMessage'
 
 const FALLBACK_IMAGE = '/store/assets/images/product/product1.png'
 
 const CompareView = () => {
   const { user, isLoading: authLoading } = useAuth()
-  const { data: items, isLoading } = useCompare(!!user)
+  const { data: items, isLoading, isError, refetch } = useCompare(!!user)
   const removeItem = useRemoveFromCompare()
   const { addToCart } = useCartActions()
 
@@ -36,6 +37,17 @@ const CompareView = () => {
     }
 
     if (isLoading) return <p className='text-center py-5'>Loading…</p>
+
+    if (isError) {
+      return (
+        <StoreStateMessage
+          icon='fas fa-triangle-exclamation'
+          title='Could not load your compare list'
+          message='Something went wrong while loading your compare list. Please try again.'
+          onRetry={() => refetch()}
+        />
+      )
+    }
 
     if (!items || items.length === 0) {
       return (

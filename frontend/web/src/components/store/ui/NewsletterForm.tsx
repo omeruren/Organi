@@ -36,6 +36,7 @@ const NewsletterForm = () => {
         className='rounded-pill'
         type='email'
         name='email'
+        aria-label='Email address'
         placeholder='Your Email Address'
         value={email}
         onChange={e => setEmail(e.target.value)}
