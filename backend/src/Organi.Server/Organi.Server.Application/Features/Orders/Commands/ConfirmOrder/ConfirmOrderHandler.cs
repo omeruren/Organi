@@ -12,6 +12,7 @@ namespace Organi.Server.Application.Features.Orders.Commands.ConfirmOrder;
 public sealed class ConfirmOrderHandler(
     IApplicationDbContext context,
     ICurrentUserService currentUser,
+    IEmailService emailService,
     ILogger<ConfirmOrderHandler> logger) : IRequestHandler<ConfirmOrderCommand, OrderResponse>
 {
     public async Task<OrderResponse> Handle(ConfirmOrderCommand request, CancellationToken cancellationToken)
@@ -44,6 +45,8 @@ public sealed class ConfirmOrderHandler(
         await context.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation("Order {OrderId} confirmed", order.Id);
+
+        await emailService.SendOrderStatusUpdateAsync(order.ToEmailModel(), CancellationToken.None);
 
         return order.ToResponse();
     }

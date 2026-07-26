@@ -1,9 +1,13 @@
 using MediatR;
 using Organi.Server.Application.Features.Auth.Commands.ChangePassword;
+using Organi.Server.Application.Features.Auth.Commands.ConfirmEmail;
+using Organi.Server.Application.Features.Auth.Commands.ForgotPassword;
 using Organi.Server.Application.Features.Auth.Commands.Login;
 using Organi.Server.Application.Features.Auth.Commands.Logout;
 using Organi.Server.Application.Features.Auth.Commands.Refresh;
 using Organi.Server.Application.Features.Auth.Commands.Register;
+using Organi.Server.Application.Features.Auth.Commands.ResendConfirmation;
+using Organi.Server.Application.Features.Auth.Commands.ResetPassword;
 using Organi.Server.Application.Features.Auth.DTOs;
 using Organi.Server.WebAPI.Extensions;
 
@@ -51,6 +55,32 @@ public static class AuthEndpoints
             .ProducesValidationProblem()
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status409Conflict);
+
+        group.MapPost("/confirm-email", ConfirmEmail)
+            .WithName("ConfirmEmail")
+            .WithDescription("Confirms an email address from the token in the confirmation link.")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status409Conflict);
+
+        group.MapPost("/resend-confirmation", ResendConfirmation)
+            .WithName("ResendConfirmation")
+            .WithDescription("Re-sends the confirmation email. Always succeeds, whether or not the address has an unconfirmed account.")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesValidationProblem();
+
+        group.MapPost("/forgot-password", ForgotPassword)
+            .WithName("ForgotPassword")
+            .WithDescription("Emails a password reset code. Always succeeds, whether or not the address has an account.")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesValidationProblem();
+
+        group.MapPost("/reset-password", ResetPassword)
+            .WithName("ResetPassword")
+            .WithDescription("Sets a new password from an emailed reset code and revokes all sessions.")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status409Conflict);
     }
 
     private static async Task<IResult> Register(
@@ -91,6 +121,42 @@ public static class AuthEndpoints
     private static async Task<IResult> ChangePassword(
         ISender sender,
         ChangePasswordCommand command,
+        CancellationToken cancellationToken)
+    {
+        await sender.Send(command, cancellationToken);
+        return Results.NoContent();
+    }
+
+    private static async Task<IResult> ConfirmEmail(
+        ISender sender,
+        ConfirmEmailCommand command,
+        CancellationToken cancellationToken)
+    {
+        await sender.Send(command, cancellationToken);
+        return Results.NoContent();
+    }
+
+    private static async Task<IResult> ResendConfirmation(
+        ISender sender,
+        ResendConfirmationCommand command,
+        CancellationToken cancellationToken)
+    {
+        await sender.Send(command, cancellationToken);
+        return Results.NoContent();
+    }
+
+    private static async Task<IResult> ForgotPassword(
+        ISender sender,
+        ForgotPasswordCommand command,
+        CancellationToken cancellationToken)
+    {
+        await sender.Send(command, cancellationToken);
+        return Results.NoContent();
+    }
+
+    private static async Task<IResult> ResetPassword(
+        ISender sender,
+        ResetPasswordCommand command,
         CancellationToken cancellationToken)
     {
         await sender.Send(command, cancellationToken);

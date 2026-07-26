@@ -15,6 +15,7 @@ public sealed class CreateOrderHandler(
     IApplicationDbContext context,
     ICurrentUserService currentUser,
     IAuditService auditService,
+    IEmailService emailService,
     ILogger<CreateOrderHandler> logger) : IRequestHandler<CreateOrderCommand, OrderResponse>
 {
     public async Task<OrderResponse> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -103,6 +104,10 @@ public sealed class CreateOrderHandler(
         await context.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation("Order {OrderNumber} created by user {UserId}", order.OrderNumber, userId);
+
+        // Strictly post-commit: sending earlier would email "order confirmed" for an order that a
+        // stock or coupon failure had rolled back. CancellationToken.None — the order is real now.
+        await emailService.SendOrderConfirmationAsync(order.ToEmailModel(), CancellationToken.None);
 
         return order.ToResponse();
     }

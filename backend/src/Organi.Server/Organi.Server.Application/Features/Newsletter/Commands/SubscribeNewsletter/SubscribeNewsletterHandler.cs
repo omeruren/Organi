@@ -10,12 +10,17 @@ namespace Organi.Server.Application.Features.Newsletter.Commands.SubscribeNewsle
 
 public sealed class SubscribeNewsletterHandler(
     IApplicationDbContext context,
+    IEmailService emailService,
     ILogger<SubscribeNewsletterHandler> logger) : IRequestHandler<SubscribeNewsletterCommand, NewsletterSubscriberResponse>
 {
     public async Task<NewsletterSubscriberResponse> Handle(SubscribeNewsletterCommand request, CancellationToken cancellationToken)
     {
         var subscriber = await context.NewsletterSubscribers
             .FirstOrDefaultAsync(n => n.Email == request.Email, cancellationToken);
+
+        // Only the two mutating branches send a welcome. Re-submitting an already-active address
+        // is a silent no-op, so repeat submitters aren't mailed every time they hit Subscribe.
+        var subscriptionChanged = false;
 
         if (subscriber is null)
         {
@@ -29,6 +34,7 @@ public sealed class SubscribeNewsletterHandler(
 
             context.NewsletterSubscribers.Add(subscriber);
             await context.SaveChangesAsync(cancellationToken);
+            subscriptionChanged = true;
 
             logger.LogInformation("Email {Email} subscribed to the newsletter", subscriber.Email);
         }
@@ -38,9 +44,13 @@ public sealed class SubscribeNewsletterHandler(
             subscriber.UnsubscribedAt = null;
 
             await context.SaveChangesAsync(cancellationToken);
+            subscriptionChanged = true;
 
             logger.LogInformation("Email {Email} resubscribed to the newsletter", subscriber.Email);
         }
+
+        if (subscriptionChanged)
+            await emailService.SendNewsletterWelcomeAsync(subscriber.Email, CancellationToken.None);
 
         return subscriber.ToResponse();
     }

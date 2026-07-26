@@ -9,6 +9,7 @@ namespace Organi.Server.Application.Features.Contact.Commands.SubmitContactMessa
 
 public sealed class SubmitContactMessageHandler(
     IApplicationDbContext context,
+    IEmailService emailService,
     ILogger<SubmitContactMessageHandler> logger) : IRequestHandler<SubmitContactMessageCommand, ContactMessageResponse>
 {
     public async Task<ContactMessageResponse> Handle(SubmitContactMessageCommand request, CancellationToken cancellationToken)
@@ -26,6 +27,9 @@ public sealed class SubmitContactMessageHandler(
         await context.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation("Contact message {MessageId} submitted by {Email}", message.Id, message.Email);
+
+        await emailService.SendContactAcknowledgementAsync(
+            message.Email, message.Name, message.Subject, CancellationToken.None);
 
         return message.ToResponse();
     }

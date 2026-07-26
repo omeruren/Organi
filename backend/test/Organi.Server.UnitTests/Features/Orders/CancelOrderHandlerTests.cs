@@ -17,11 +17,12 @@ public sealed class CancelOrderHandlerTests
     private readonly ICurrentUserService _currentUser = Substitute.For<ICurrentUserService>();
     private readonly IAuditService _auditService = Substitute.For<IAuditService>();
     private readonly ILogger<CancelOrderHandler> _logger = Substitute.For<ILogger<CancelOrderHandler>>();
+    private readonly IEmailService _emailService = Substitute.For<IEmailService>();
     private readonly CancelOrderHandler _handler;
 
     public CancelOrderHandlerTests()
     {
-        _handler = new CancelOrderHandler(_context, _currentUser, _auditService, _logger);
+        _handler = new CancelOrderHandler(_context, _currentUser, _auditService, _emailService, _logger);
     }
 
     private void SetupOrders(params Order[] orders)

@@ -15,11 +15,12 @@ public sealed class DeliverOrderHandlerTests
 {
     private readonly IApplicationDbContext _context = Substitute.For<IApplicationDbContext>();
     private readonly ILogger<DeliverOrderHandler> _logger = Substitute.For<ILogger<DeliverOrderHandler>>();
+    private readonly IEmailService _emailService = Substitute.For<IEmailService>();
     private readonly DeliverOrderHandler _handler;
 
     public DeliverOrderHandlerTests()
     {
-        _handler = new DeliverOrderHandler(_context, _logger);
+        _handler = new DeliverOrderHandler(_context, _emailService, _logger);
     }
 
     private void SetupOrders(params Order[] orders)

@@ -13,11 +13,12 @@ public sealed class SubscribeNewsletterHandlerTests
 {
     private readonly IApplicationDbContext _context = Substitute.For<IApplicationDbContext>();
     private readonly ILogger<SubscribeNewsletterHandler> _logger = Substitute.For<ILogger<SubscribeNewsletterHandler>>();
+    private readonly IEmailService _emailService = Substitute.For<IEmailService>();
     private readonly SubscribeNewsletterHandler _handler;
 
     public SubscribeNewsletterHandlerTests()
     {
-        _handler = new SubscribeNewsletterHandler(_context, _logger);
+        _handler = new SubscribeNewsletterHandler(_context, _emailService, _logger);
     }
 
     private void SetupSubscribers(params NewsletterSubscriber[] subscribers)

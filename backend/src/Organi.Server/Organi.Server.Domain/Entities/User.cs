@@ -17,6 +17,15 @@ public sealed class User : AuditableEntity
     public int FailedLoginCount { get; set; }
     public DateTime? LockoutEnd { get; set; }
 
+    // Email verification / password reset. Only SHA-256 hashes are stored — the raw token and
+    // code exist solely in the email that was sent, so a database leak cannot be used to take
+    // over an account.
+    public string? EmailConfirmationTokenHash { get; set; }
+    public DateTime? EmailConfirmationTokenExpiresAt { get; set; }
+    public string? PasswordResetCodeHash { get; set; }
+    public DateTime? PasswordResetCodeExpiresAt { get; set; }
+    public int PasswordResetAttemptCount { get; set; }
+
     public ICollection<Role> Roles { get; set; } = [];
     public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
     public ICollection<Order> Orders { get; set; } = [];

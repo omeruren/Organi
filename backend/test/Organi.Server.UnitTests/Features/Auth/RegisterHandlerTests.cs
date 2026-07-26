@@ -16,11 +16,12 @@ public sealed class RegisterHandlerTests
     private readonly IPasswordHasher _passwordHasher = Substitute.For<IPasswordHasher>();
     private readonly ITokenService _tokenService = Substitute.For<ITokenService>();
     private readonly ILogger<RegisterHandler> _logger = Substitute.For<ILogger<RegisterHandler>>();
+    private readonly IEmailService _emailService = Substitute.For<IEmailService>();
     private readonly RegisterHandler _handler;
 
     public RegisterHandlerTests()
     {
-        _handler = new RegisterHandler(_context, _passwordHasher, _tokenService, _logger);
+        _handler = new RegisterHandler(_context, _passwordHasher, _tokenService, _emailService, _logger);
     }
 
     private static Role CreateCustomerRole() => new()

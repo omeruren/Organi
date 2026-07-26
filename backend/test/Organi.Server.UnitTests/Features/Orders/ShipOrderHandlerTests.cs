@@ -16,11 +16,12 @@ public sealed class ShipOrderHandlerTests
     private readonly IApplicationDbContext _context = Substitute.For<IApplicationDbContext>();
     private readonly ICurrentUserService _currentUser = Substitute.For<ICurrentUserService>();
     private readonly ILogger<ShipOrderHandler> _logger = Substitute.For<ILogger<ShipOrderHandler>>();
+    private readonly IEmailService _emailService = Substitute.For<IEmailService>();
     private readonly ShipOrderHandler _handler;
 
     public ShipOrderHandlerTests()
     {
-        _handler = new ShipOrderHandler(_context, _currentUser, _logger);
+        _handler = new ShipOrderHandler(_context, _currentUser, _emailService, _logger);
     }
 
     private void SetupOrders(params Order[] orders)

@@ -16,11 +16,12 @@ public sealed class ConfirmOrderHandlerTests
     private readonly IApplicationDbContext _context = Substitute.For<IApplicationDbContext>();
     private readonly ICurrentUserService _currentUser = Substitute.For<ICurrentUserService>();
     private readonly ILogger<ConfirmOrderHandler> _logger = Substitute.For<ILogger<ConfirmOrderHandler>>();
+    private readonly IEmailService _emailService = Substitute.For<IEmailService>();
     private readonly ConfirmOrderHandler _handler;
 
     public ConfirmOrderHandlerTests()
     {
-        _handler = new ConfirmOrderHandler(_context, _currentUser, _logger);
+        _handler = new ConfirmOrderHandler(_context, _currentUser, _emailService, _logger);
     }
 
     private void SetupOrders(params Order[] orders)

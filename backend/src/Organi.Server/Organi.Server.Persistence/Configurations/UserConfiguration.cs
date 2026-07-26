@@ -31,8 +31,18 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.AvatarUrl)
             .HasMaxLength(500);
 
+        // Base64 SHA-256 is 44 chars; 128 leaves room without being unbounded.
+        builder.Property(u => u.EmailConfirmationTokenHash)
+            .HasMaxLength(128);
+
+        builder.Property(u => u.PasswordResetCodeHash)
+            .HasMaxLength(128);
+
         builder.HasIndex(u => u.Email)
             .IsUnique();
+
+        // Confirmation arrives as a token with no email attached, so it is looked up by hash.
+        builder.HasIndex(u => u.EmailConfirmationTokenHash);
 
         builder.HasMany(u => u.Roles)
             .WithMany(r => r.Users)

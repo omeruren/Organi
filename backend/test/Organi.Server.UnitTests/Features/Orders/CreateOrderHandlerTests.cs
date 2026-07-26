@@ -18,11 +18,12 @@ public sealed class CreateOrderHandlerTests
     private readonly ICurrentUserService _currentUser = Substitute.For<ICurrentUserService>();
     private readonly IAuditService _auditService = Substitute.For<IAuditService>();
     private readonly ILogger<CreateOrderHandler> _logger = Substitute.For<ILogger<CreateOrderHandler>>();
+    private readonly IEmailService _emailService = Substitute.For<IEmailService>();
     private readonly CreateOrderHandler _handler;
 
     public CreateOrderHandlerTests()
     {
-        _handler = new CreateOrderHandler(_context, _currentUser, _auditService, _logger);
+        _handler = new CreateOrderHandler(_context, _currentUser, _auditService, _emailService, _logger);
     }
 
     private static CreateOrderCommand ValidCommand(string? couponCode = null) => new(

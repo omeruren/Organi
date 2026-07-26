@@ -13,6 +13,7 @@ public sealed class CancelOrderHandler(
     IApplicationDbContext context,
     ICurrentUserService currentUser,
     IAuditService auditService,
+    IEmailService emailService,
     ILogger<CancelOrderHandler> logger) : IRequestHandler<CancelOrderCommand, OrderResponse>
 {
     private static readonly OrderStatus[] StockCommittedStatuses = [OrderStatus.Confirmed, OrderStatus.Shipped];
@@ -52,6 +53,8 @@ public sealed class CancelOrderHandler(
         await context.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation("Order {OrderId} cancelled by user {UserId}", order.Id, currentUser.UserId);
+
+        await emailService.SendOrderStatusUpdateAsync(order.ToEmailModel(), CancellationToken.None);
 
         return order.ToResponse();
     }

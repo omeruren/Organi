@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Organi.Server.Application.Common.Interfaces;
+using Organi.Server.Application.Common.Utilities;
 using Organi.Server.Application.Features.Auth.DTOs;
 using Organi.Server.Domain.Entities;
 using Organi.Server.Domain.Exceptions;
@@ -12,6 +13,7 @@ public sealed class RegisterHandler(
     IApplicationDbContext context,
     IPasswordHasher passwordHasher,
     ITokenService tokenService,
+    IEmailService emailService,
     ILogger<RegisterHandler> logger) : IRequestHandler<RegisterCommand, AuthResponse>
 {
     private const string DefaultRoleName = "Customer";
@@ -29,6 +31,8 @@ public sealed class RegisterHandler(
             .FirstOrDefaultAsync(r => r.Name == DefaultRoleName, cancellationToken)
             ?? throw new BusinessRuleException($"Default role '{DefaultRoleName}' is not configured.");
 
+        var confirmationToken = VerificationCodeGenerator.GenerateToken();
+
         var user = new User
         {
             Email = request.Email,
@@ -37,7 +41,9 @@ public sealed class RegisterHandler(
             LastName = request.LastName,
             PhoneNumber = request.PhoneNumber,
             IsActive = true,
-            Roles = [defaultRole]
+            Roles = [defaultRole],
+            EmailConfirmationTokenHash = tokenService.HashToken(confirmationToken),
+            EmailConfirmationTokenExpiresAt = DateTime.UtcNow.Add(AuthVerificationPolicy.EmailConfirmationLifetime)
         };
 
         context.Users.Add(user);
@@ -58,6 +64,12 @@ public sealed class RegisterHandler(
         await context.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation("User {UserId} registered", user.Id);
+
+        // Post-commit, with CancellationToken.None: the account exists now, so its confirmation
+        // email must go out even if the client has already disconnected. A send failure is
+        // logged inside the email service and never fails the registration.
+        await emailService.SendEmailConfirmationAsync(
+            user.Email, $"{user.FirstName} {user.LastName}", confirmationToken, CancellationToken.None);
 
         return new AuthResponse(accessToken.Value, refreshToken.Value, accessToken.ExpiresAt);
     }

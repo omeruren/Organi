@@ -12,6 +12,7 @@ namespace Organi.Server.Application.Features.Orders.Commands.ShipOrder;
 public sealed class ShipOrderHandler(
     IApplicationDbContext context,
     ICurrentUserService currentUser,
+    IEmailService emailService,
     ILogger<ShipOrderHandler> logger) : IRequestHandler<ShipOrderCommand, OrderResponse>
 {
     public async Task<OrderResponse> Handle(ShipOrderCommand request, CancellationToken cancellationToken)
@@ -31,6 +32,8 @@ public sealed class ShipOrderHandler(
         await context.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation("Order {OrderId} shipped", order.Id);
+
+        await emailService.SendOrderStatusUpdateAsync(order.ToEmailModel(), CancellationToken.None);
 
         return order.ToResponse();
     }

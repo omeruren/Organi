@@ -11,6 +11,7 @@ namespace Organi.Server.Application.Features.Orders.Commands.DeliverOrder;
 
 public sealed class DeliverOrderHandler(
     IApplicationDbContext context,
+    IEmailService emailService,
     ILogger<DeliverOrderHandler> logger) : IRequestHandler<DeliverOrderCommand, OrderResponse>
 {
     public async Task<OrderResponse> Handle(DeliverOrderCommand request, CancellationToken cancellationToken)
@@ -27,6 +28,8 @@ public sealed class DeliverOrderHandler(
         await context.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation("Order {OrderId} delivered", order.Id);
+
+        await emailService.SendOrderStatusUpdateAsync(order.ToEmailModel(), CancellationToken.None);
 
         return order.ToResponse();
     }
