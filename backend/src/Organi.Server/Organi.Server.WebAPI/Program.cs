@@ -147,6 +147,7 @@ app.MapWishlistEndpoints();
 app.MapCompareEndpoints();
 app.MapBlogEndpoints();
 app.MapNewsletterEndpoints();
+app.MapContactEndpoints();
 app.MapProfileEndpoints();
 app.MapUserEndpoints();
 app.MapAuditLogEndpoints();

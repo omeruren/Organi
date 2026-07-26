@@ -29,6 +29,7 @@ public sealed class ApplicationDbContext(
     public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
     public DbSet<BlogComment> BlogComments => Set<BlogComment>();
     public DbSet<NewsletterSubscriber> NewsletterSubscribers => Set<NewsletterSubscriber>();
+    public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

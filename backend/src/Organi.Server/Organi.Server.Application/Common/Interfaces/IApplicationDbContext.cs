@@ -24,6 +24,7 @@ public interface IApplicationDbContext
     DbSet<BlogPost> BlogPosts { get; }
     DbSet<BlogComment> BlogComments { get; }
     DbSet<NewsletterSubscriber> NewsletterSubscribers { get; }
+    DbSet<ContactMessage> ContactMessages { get; }
     DbSet<AuditLog> AuditLogs { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

@@ -6,7 +6,14 @@ import { apiFetch } from '@/libs/api-client'
 
 // Type Imports
 import type { PagedResponse } from '@/types/api/common'
-import type { BlogPostResponse, BlogPostSummaryResponse, CreateBlogPostRequest, UpdateBlogPostRequest } from '@/types/api/blog'
+import type {
+  BlogCommentResponse,
+  BlogPostResponse,
+  BlogPostSummaryResponse,
+  CreateBlogCommentRequest,
+  CreateBlogPostRequest,
+  UpdateBlogPostRequest
+} from '@/types/api/blog'
 
 export interface UseBlogPostsParams {
   page: number
@@ -41,6 +48,41 @@ export const useBlogPost = (id: string | null) =>
     queryFn: () => apiFetch<BlogPostResponse>(`/api/blog-posts/${id}`),
     enabled: id !== null
   })
+
+// Storefront blog post page — the customer addresses a post by slug.
+export const useBlogPostBySlug = (slug: string | null) =>
+  useQuery({
+    queryKey: ['blog-posts', 'slug', slug],
+    queryFn: () => apiFetch<BlogPostResponse>(`/api/blog-posts/slug/${slug}`),
+    enabled: !!slug
+  })
+
+// Approved comments for a post — GET /api/blog-posts/{id}/comments (public).
+export const useBlogComments = (postId: string | null) =>
+  useQuery({
+    queryKey: ['blog-comments', postId],
+    queryFn: () => apiFetch<BlogCommentResponse[]>(`/api/blog-posts/${postId}/comments`),
+    enabled: !!postId
+  })
+
+export const useCreateBlogComment = (postId: string) => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (request: CreateBlogCommentRequest) =>
+      apiFetch<BlogCommentResponse>(`/api/blog-posts/${postId}/comments`, { method: 'POST', body: request }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['blog-comments', postId] })
+  })
+}
+
+export const useDeleteBlogComment = (postId: string) => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (commentId: string) => apiFetch<void>(`/api/blog-posts/comments/${commentId}`, { method: 'DELETE' }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['blog-comments', postId] })
+  })
+}
 
 export const useCreateBlogPost = () => {
   const queryClient = useQueryClient()

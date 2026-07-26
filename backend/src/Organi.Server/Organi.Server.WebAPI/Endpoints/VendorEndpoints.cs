@@ -9,6 +9,7 @@ using Organi.Server.Application.Features.Vendors.Commands.UpdateVendor;
 using Organi.Server.Application.Features.Orders.DTOs;
 using Organi.Server.Application.Features.Vendors.DTOs;
 using Organi.Server.Application.Features.Vendors.Queries.GetVendorById;
+using Organi.Server.Application.Features.Vendors.Queries.GetVendorBySlug;
 using Organi.Server.Application.Features.Vendors.Queries.GetVendorDashboardOrders;
 using Organi.Server.Application.Features.Vendors.Queries.GetVendorDashboardProducts;
 using Organi.Server.Application.Features.Vendors.Queries.GetVendors;
@@ -42,6 +43,12 @@ public static class VendorEndpoints
             .Produces<PagedResponse<OrderSummaryResponse>>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .ProducesProblem(StatusCodes.Status403Forbidden);
+
+        group.MapGet("/slug/{slug}", GetVendorBySlug)
+            .WithName("GetVendorBySlug")
+            .WithDescription("Retrieves an approved vendor by its URL-friendly slug.")
+            .Produces<VendorResponse>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         group.MapGet("/{id:guid}", GetVendorById)
             .WithName("GetVendorById")
@@ -130,6 +137,15 @@ public static class VendorEndpoints
         CancellationToken cancellationToken)
     {
         var result = await sender.Send(new GetVendorByIdQuery(id), cancellationToken);
+        return Results.Ok(result);
+    }
+
+    private static async Task<IResult> GetVendorBySlug(
+        string slug,
+        ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(new GetVendorBySlugQuery(slug), cancellationToken);
         return Results.Ok(result);
     }
 

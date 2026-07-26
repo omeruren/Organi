@@ -6,6 +6,7 @@ using Organi.Server.Application.Features.Blog.Commands.DeleteBlogComment;
 using Organi.Server.Application.Features.Blog.Commands.DeleteBlogPost;
 using Organi.Server.Application.Features.Blog.Commands.UpdateBlogPost;
 using Organi.Server.Application.Features.Blog.DTOs;
+using Organi.Server.Application.Features.Blog.Queries.GetBlogComments;
 using Organi.Server.Application.Features.Blog.Queries.GetBlogPostById;
 using Organi.Server.Application.Features.Blog.Queries.GetBlogPostBySlug;
 using Organi.Server.Application.Features.Blog.Queries.GetBlogPosts;
@@ -58,6 +59,12 @@ public static class BlogEndpoints
             .RequireAuthorization()
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status403Forbidden)
+            .ProducesProblem(StatusCodes.Status404NotFound);
+
+        group.MapGet("/{id:guid}/comments", GetBlogComments)
+            .WithName("GetBlogComments")
+            .WithDescription("Retrieves the approved comments for a blog post.")
+            .Produces<IReadOnlyList<BlogCommentResponse>>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound);
 
         group.MapPost("/{id:guid}/comments", CreateBlogComment)
@@ -134,6 +141,15 @@ public static class BlogEndpoints
     {
         await sender.Send(new DeleteBlogPostCommand(id), cancellationToken);
         return Results.NoContent();
+    }
+
+    private static async Task<IResult> GetBlogComments(
+        Guid id,
+        ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(new GetBlogCommentsQuery(id), cancellationToken);
+        return Results.Ok(result);
     }
 
     private static async Task<IResult> CreateBlogComment(

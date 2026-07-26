@@ -20,6 +20,21 @@ export interface BlogPostResponse extends BlogPostSummaryResponse {
   updatedAt: string | null
 }
 
+// Mirrors Organi.Server.Application.Features.Blog.DTOs.BlogCommentResponse
+export interface BlogCommentResponse {
+  id: string
+  content: string
+  blogPostId: string
+  userId: string
+  userFullName: string
+  createdAt: string
+}
+
+// Mirrors CreateBlogCommentCommand (BlogPostId travels in the URL, not the body)
+export interface CreateBlogCommentRequest {
+  content: string
+}
+
 // Mirrors CreateBlogPostCommand
 export interface CreateBlogPostRequest {
   title: string

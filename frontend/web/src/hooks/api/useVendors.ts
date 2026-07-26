@@ -6,6 +6,7 @@ import { apiFetch } from '@/libs/api-client'
 
 // Type Imports
 import type { PagedResponse } from '@/types/api/common'
+import type { ProductSummaryResponse } from '@/types/api/product'
 import type { VendorResponse } from '@/types/api/vendor'
 
 export interface UseVendorsParams {
@@ -25,6 +26,38 @@ export const useVendors = (params: UseVendorsParams) =>
       if (params.search) query.set('search', params.search)
 
       return apiFetch<PagedResponse<VendorResponse>>(`/api/vendors?${query}`)
+    }
+  })
+
+// Storefront vendor store page — the customer addresses a vendor by slug.
+export const useVendorBySlug = (slug: string | null) =>
+  useQuery({
+    queryKey: ['vendors', 'slug', slug],
+    queryFn: () => apiFetch<VendorResponse>(`/api/vendors/slug/${slug}`),
+    enabled: !!slug
+  })
+
+export interface UseVendorProductsParams {
+  vendorId: string | null
+  page: number
+  pageSize: number
+  sortBy?: string
+  sortOrder?: string
+  enabled?: boolean
+}
+
+// A single vendor's products — GET /api/vendors/{id}/products (public, approved-vendor products).
+export const useVendorProducts = ({ enabled = true, ...params }: UseVendorProductsParams) =>
+  useQuery({
+    queryKey: ['vendors', 'products', params],
+    enabled: enabled && !!params.vendorId,
+    queryFn: () => {
+      const query = new URLSearchParams({ page: String(params.page), pageSize: String(params.pageSize) })
+
+      if (params.sortBy) query.set('sortBy', params.sortBy)
+      if (params.sortOrder) query.set('sortOrder', params.sortOrder)
+
+      return apiFetch<PagedResponse<ProductSummaryResponse>>(`/api/vendors/${params.vendorId}/products?${query}`)
     }
   })
 
