@@ -3,6 +3,9 @@
 // React Imports
 import { useEffect, useState } from 'react'
 
+// Next Imports
+import { useRouter } from 'next/navigation'
+
 // MUI Imports
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
@@ -52,6 +55,7 @@ const BlogList = () => {
   const [serverError, setServerError] = useState<string | null>(null)
 
   // Hooks
+  const router = useRouter()
   const { showToast } = useToast()
   const { user } = useAuth()
 
@@ -175,8 +179,14 @@ const BlogList = () => {
       field: 'actions',
       type: 'actions',
       headerName: '',
-      width: 100,
+      width: 130,
       getActions: (params: GridRowParams<BlogPostSummaryResponse>) => [
+        <GridActionsCellItem
+          key='view'
+          icon={<i className='ri-chat-3-line' />}
+          label='View comments'
+          onClick={() => router.push(`/admin/blog/${params.row.id}`)}
+        />,
         <GridActionsCellItem
           key='edit'
           icon={<i className='ri-pencil-line' />}

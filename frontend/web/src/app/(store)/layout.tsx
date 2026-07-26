@@ -32,6 +32,11 @@ export const metadata: Metadata = {
 const StoreLayout = ({ children }: ChildrenType) => {
   return (
     <>
+      {/* Warm up the cross-origin font/icon hosts early so the render-blocking stylesheets and
+          webfonts below resolve their DNS/TLS handshake in parallel with HTML parsing. */}
+      <link rel='preconnect' href='https://fonts.googleapis.com' />
+      <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
+      <link rel='preconnect' href='https://cdnjs.cloudflare.com' />
       {/* Intentional <link> loading (not JS import) so the template's url(../images/…) paths
           resolve from /public and the CSS stays scoped to store routes. */}
       {/* eslint-disable-next-line @next/next/no-css-tags */}
