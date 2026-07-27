@@ -56,14 +56,14 @@ const ForgotPasswordView = () => {
         }
       >
         <div className='text-center'>
-          <div style={{ fontSize: 48, color: '#7cc000' }}>
+          <div style={{ fontSize: 48, color: '#4f7d00' }}>
             <i className='fas fa-envelope-circle-check' aria-hidden='true' />
           </div>
           <p className='mt-3' style={{ color: '#6b6b6b' }}>
             If an account exists for <strong>{sentTo}</strong>, we&apos;ve sent it a 6-digit reset code. The code
             expires in 15 minutes.
           </p>
-          <Link href={`/reset-password?email=${encodeURIComponent(sentTo)}`} className='btn custom_btn rounded-pill px-4 text-white mt-2'>
+          <Link href={`/reset-password?email=${encodeURIComponent(sentTo)}`} className='btn custom_btn rounded-pill px-4 mt-2'>
             Enter Code
           </Link>
         </div>
@@ -99,7 +99,7 @@ const ForgotPasswordView = () => {
           />
           {errors.email && <small className='text-danger'>{errors.email.message}</small>}
         </div>
-        <button type='submit' className='btn custom_btn rounded-pill py-3 text-white' disabled={isSubmitting}>
+        <button type='submit' className='btn custom_btn rounded-pill py-3' disabled={isSubmitting}>
           {isSubmitting ? 'Sending…' : 'Send Reset Code'}
         </button>
       </form>

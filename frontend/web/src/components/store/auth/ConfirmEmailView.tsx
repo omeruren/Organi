@@ -76,13 +76,13 @@ const ConfirmEmailView = () => {
     if (status === 'success') {
       return (
         <div className='text-center'>
-          <div style={{ fontSize: 48, color: '#7cc000' }}>
+          <div style={{ fontSize: 48, color: '#4f7d00' }}>
             <i className='fas fa-check-circle' aria-hidden='true' />
           </div>
           <p className='mt-3' style={{ color: '#6b6b6b' }}>
             Your email address is confirmed. Thanks for verifying your account!
           </p>
-          <Link href='/shop' className='btn custom_btn rounded-pill px-4 text-white mt-2'>
+          <Link href='/shop' className='btn custom_btn rounded-pill px-4 mt-2'>
             Start Shopping
           </Link>
         </div>
@@ -119,7 +119,7 @@ const ConfirmEmailView = () => {
             />
             <button
               type='submit'
-              className='btn custom_btn rounded-pill py-3 text-white'
+              className='btn custom_btn rounded-pill py-3'
               disabled={resendConfirmation.isPending}
             >
               {resendConfirmation.isPending ? 'Sending…' : 'Resend Link'}

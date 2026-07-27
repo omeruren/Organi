@@ -60,7 +60,7 @@ const VendorStoreView = ({ slug }: { slug: string }) => {
         <section className='sec_space_large'>
           <div className='container text-center py-5'>
             <p style={{ color: '#6b6b6b' }}>{message}</p>
-            <Link href='/vendors' className='btn custom_btn rounded-pill px-4 text-white'>
+            <Link href='/vendors' className='btn custom_btn rounded-pill px-4'>
               Back to Vendors
             </Link>
           </div>
@@ -95,24 +95,25 @@ const VendorStoreView = ({ slug }: { slug: string }) => {
                 <img src={logo} alt={vendor.storeName} className='w-100 h-100' style={{ objectFit: 'cover' }} />
               </div>
               <div className='flex-grow-1'>
-                <h1 className='mb-1' style={{ fontWeight: 800, fontSize: 26 }}>
+                {/* Breadcrumb band above holds the <h1>; this repeat drops a level. */}
+                <h2 className='mb-1' style={{ fontWeight: 800, fontSize: 26 }}>
                   {vendor.storeName}
-                </h1>
+                </h2>
                 <div className='d-flex flex-wrap align-items-center gap-3' style={{ color: '#6b6b6b', fontSize: 14 }}>
                   <RatingStars rating={vendor.rating} />
                   <span>
-                    <i className='far fa-heart me-1' style={{ color: '#7cc000' }} />
+                    <i className='far fa-heart me-1' style={{ color: '#4f7d00' }} />
                     {vendor.followerCount} followers
                   </span>
                   {vendor.city && (
                     <span>
-                      <i className='fas fa-map-marker-alt me-1' style={{ color: '#7cc000' }} />
+                      <i className='fas fa-map-marker-alt me-1' style={{ color: '#4f7d00' }} />
                       {vendor.city}
                     </span>
                   )}
                   {vendor.phoneNumber && (
                     <span>
-                      <i className='fas fa-phone-alt me-1' style={{ color: '#7cc000' }} />
+                      <i className='fas fa-phone-alt me-1' style={{ color: '#4f7d00' }} />
                       {vendor.phoneNumber}
                     </span>
                   )}

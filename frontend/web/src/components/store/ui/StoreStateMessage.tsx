@@ -14,7 +14,7 @@ interface StoreStateMessageProps {
 const StoreStateMessage = ({ icon, title, message, cta, onRetry }: StoreStateMessageProps) => (
   <div className='text-center py-5'>
     {icon && (
-      <div style={{ fontSize: 40, color: '#7cc000' }} className='mb-3'>
+      <div style={{ fontSize: 40, color: '#4f7d00' }} className='mb-3'>
         <i className={icon} aria-hidden='true' />
       </div>
     )}
@@ -25,7 +25,7 @@ const StoreStateMessage = ({ icon, title, message, cta, onRetry }: StoreStateMes
     )}
     <p style={{ color: '#6b6b6b' }}>{message}</p>
     {cta && (
-      <Link href={cta.href} className='btn custom_btn rounded-pill px-4 text-white'>
+      <Link href={cta.href} className='btn custom_btn rounded-pill px-4'>
         {cta.label}
       </Link>
     )}

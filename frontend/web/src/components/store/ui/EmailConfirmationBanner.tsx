@@ -45,7 +45,7 @@ const EmailConfirmationBanner = ({ className = '' }: { className?: string }) => 
       </div>
       <button
         type='button'
-        className='btn custom_btn rounded-pill px-4 text-white flex-shrink-0'
+        className='btn custom_btn rounded-pill px-4 flex-shrink-0'
         disabled={resend.isPending}
         onClick={onResend}
       >

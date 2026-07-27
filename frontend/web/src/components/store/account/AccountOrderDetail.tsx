@@ -28,7 +28,7 @@ const AccountOrderDetail = ({ orderId }: { orderId: string }) => {
     return (
       <div className='bg-white rounded-4 shadow-sm p-4 text-center'>
         <p>Order not found.</p>
-        <Link href='/account/orders' className='btn custom_btn rounded-pill px-4 text-white'>
+        <Link href='/account/orders' className='btn custom_btn rounded-pill px-4'>
           Back to Orders
         </Link>
       </div>

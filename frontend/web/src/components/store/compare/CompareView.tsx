@@ -29,7 +29,7 @@ const CompareView = () => {
       return (
         <div className='text-center py-5'>
           <p>Please log in to compare products.</p>
-          <Link href='/login?redirectTo=/compare' className='btn custom_btn rounded-pill px-4 text-white'>
+          <Link href='/login?redirectTo=/compare' className='btn custom_btn rounded-pill px-4'>
             Login
           </Link>
         </div>
@@ -53,7 +53,7 @@ const CompareView = () => {
       return (
         <div className='text-center py-5'>
           <p style={{ color: '#6b6b6b' }}>Your compare list is empty.</p>
-          <Link href='/shop' className='btn custom_btn rounded-pill px-4 text-white'>
+          <Link href='/shop' className='btn custom_btn rounded-pill px-4'>
             Browse Products
           </Link>
         </div>
@@ -92,7 +92,7 @@ const CompareView = () => {
 
                 return (
                   <td key={item.id}>
-                    <span style={{ color: '#7cc000', fontWeight: 700 }}>
+                    <span style={{ color: '#4f7d00', fontWeight: 700 }}>
                       ${(hasSale ? item.salePrice! : item.price).toFixed(2)}
                     </span>{' '}
                     {hasSale && <del style={{ color: '#999' }}>${item.price.toFixed(2)}</del>}
@@ -106,7 +106,7 @@ const CompareView = () => {
                 <td key={item.id}>
                   <button
                     type='button'
-                    className='btn custom_btn rounded-pill px-3 text-white mb-2 w-100'
+                    className='btn custom_btn rounded-pill px-3 mb-2 w-100'
                     onClick={() => addToCart(item.productId, 1, item.productName)}
                   >
                     Add to Cart

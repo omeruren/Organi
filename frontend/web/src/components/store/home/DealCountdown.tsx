@@ -36,7 +36,7 @@ const DealCountdown = () => {
           style={{ background: 'linear-gradient(90deg,#f3f9e8,#eef6dd)', borderRadius: 24 }}
         >
           <div className='col-lg-7'>
-            <h6 className='text-uppercase' style={{ color: '#7cc000', fontWeight: 700, letterSpacing: 1 }}>
+            <h6 className='text-uppercase' style={{ color: '#4f7d00', fontWeight: 700, letterSpacing: 1 }}>
               Deal of the Week
             </h6>
             <h2 style={{ fontWeight: 900, color: '#292929' }}>Save up to 30% on fresh organic bundles</h2>
@@ -51,7 +51,7 @@ const DealCountdown = () => {
               ))}
             </div>
             <Link href='/shop'>
-              <button type='button' className='btn custom_btn rounded-pill px-4 text-white'>
+              <button type='button' className='btn custom_btn rounded-pill px-4'>
                 Shop the Deal <i className='fas fa-long-arrow-alt-right' />
               </button>
             </Link>

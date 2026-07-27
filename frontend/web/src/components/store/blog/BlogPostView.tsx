@@ -52,7 +52,7 @@ const BlogPostView = ({ slug }: { slug: string }) => {
         <section className='sec_space_large'>
           <div className='container text-center py-5'>
             <p style={{ color: '#6b6b6b' }}>{message}</p>
-            <Link href='/blog' className='btn custom_btn rounded-pill px-4 text-white'>
+            <Link href='/blog' className='btn custom_btn rounded-pill px-4'>
               Back to Blog
             </Link>
           </div>
@@ -78,25 +78,27 @@ const BlogPostView = ({ slug }: { slug: string }) => {
                 <div className='p-4 p-md-5'>
                   <div className='d-flex flex-wrap align-items-center gap-3 mb-3' style={{ color: '#6b6b6b', fontSize: 14 }}>
                     <span>
-                      <i className='far fa-calendar-alt me-1' style={{ color: '#7cc000' }} />
+                      <i className='far fa-calendar-alt me-1' style={{ color: '#4f7d00' }} />
                       {formatDate(post.publishedAt ?? post.createdAt)}
                     </span>
                     <span>
-                      <i className='far fa-user me-1' style={{ color: '#7cc000' }} />
+                      <i className='far fa-user me-1' style={{ color: '#4f7d00' }} />
                       {post.authorName}
                     </span>
                     <span>
-                      <i className='far fa-eye me-1' style={{ color: '#7cc000' }} />
+                      <i className='far fa-eye me-1' style={{ color: '#4f7d00' }} />
                       {post.viewCount} views
                     </span>
                     <span>
-                      <i className='far fa-comment me-1' style={{ color: '#7cc000' }} />
+                      <i className='far fa-comment me-1' style={{ color: '#4f7d00' }} />
                       {post.commentCount} comments
                     </span>
                   </div>
-                  <h1 className='mb-4' style={{ fontWeight: 800, fontSize: 30 }}>
+                  {/* The breadcrumb band above already carries this page's <h1>; this repeat of the
+                      title stays visually identical but drops a level to keep the outline valid. */}
+                  <h2 className='mb-4' style={{ fontWeight: 800, fontSize: 30 }}>
                     {post.title}
-                  </h1>
+                  </h2>
                   <div style={{ color: '#4a4a4a', fontSize: 16, lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
                     {post.content}
                   </div>
@@ -168,7 +170,7 @@ const CommentsSection = ({ postId }: { postId: string }) => {
           {list.map(comment => (
             <li key={comment.id} className='d-flex gap-3 py-3 border-bottom'>
               <div
-                className='d-flex align-items-center justify-content-center rounded-circle flex-shrink-0 text-white'
+                className='d-flex align-items-center justify-content-center rounded-circle flex-shrink-0'
                 style={{ width: 44, height: 44, background: '#7cc000', fontWeight: 700 }}
               >
                 {comment.userFullName.trim().charAt(0).toUpperCase() || '?'}
@@ -215,7 +217,7 @@ const CommentsSection = ({ postId }: { postId: string }) => {
           />
           <button
             type='submit'
-            className='btn custom_btn rounded-pill px-4 text-white'
+            className='btn custom_btn rounded-pill px-4'
             disabled={createComment.isPending}
           >
             {createComment.isPending ? 'Posting…' : 'Post Comment'}
@@ -224,7 +226,7 @@ const CommentsSection = ({ postId }: { postId: string }) => {
       ) : (
         <div className='text-center py-3' style={{ color: '#6b6b6b' }}>
           <p className='mb-2'>Please log in to join the conversation.</p>
-          <Link href={`/login?redirectTo=/blog`} className='btn custom_btn rounded-pill px-4 text-white'>
+          <Link href={`/login?redirectTo=/blog`} className='btn custom_btn rounded-pill px-4'>
             Login
           </Link>
         </div>

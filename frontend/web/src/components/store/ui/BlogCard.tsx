@@ -25,15 +25,15 @@ const BlogCard = ({ post }: { post: BlogPostSummaryResponse }) => {
       <div className='p-4 flex-grow-1 d-flex flex-column'>
         <div className='d-flex align-items-center gap-3 mb-2' style={{ color: '#6b6b6b', fontSize: 13 }}>
           <span>
-            <i className='far fa-calendar-alt me-1' style={{ color: '#7cc000' }} />
+            <i className='far fa-calendar-alt me-1' style={{ color: '#4f7d00' }} />
             {formatDate(post.publishedAt ?? post.createdAt)}
           </span>
           <span>
-            <i className='far fa-user me-1' style={{ color: '#7cc000' }} />
+            <i className='far fa-user me-1' style={{ color: '#4f7d00' }} />
             {post.authorName}
           </span>
           <span>
-            <i className='far fa-comment me-1' style={{ color: '#7cc000' }} />
+            <i className='far fa-comment me-1' style={{ color: '#4f7d00' }} />
             {post.commentCount}
           </span>
         </div>
@@ -45,7 +45,7 @@ const BlogCard = ({ post }: { post: BlogPostSummaryResponse }) => {
             {post.excerpt}
           </p>
         )}
-        <Link href={href} className='mt-auto fw-semibold text-decoration-none' style={{ color: '#7cc000' }}>
+        <Link href={href} className='mt-auto fw-semibold text-decoration-none' style={{ color: '#4f7d00' }}>
           Read More <i className='fas fa-long-arrow-alt-right ms-1' />
         </Link>
       </div>

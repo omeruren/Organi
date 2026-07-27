@@ -86,7 +86,7 @@ const StoreLoginView = () => {
             Forgot password?
           </Link>
         </div>
-        <button type='submit' className='btn custom_btn rounded-pill py-3 text-white' disabled={isSubmitting}>
+        <button type='submit' className='btn custom_btn rounded-pill py-3' disabled={isSubmitting}>
           {isSubmitting ? 'Signing in…' : 'Login'}
         </button>
       </form>

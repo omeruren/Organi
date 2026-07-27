@@ -104,7 +104,7 @@ const ShopSidebar = ({
         <div className='price-text d-flex align-items-center mt-3'>
           <button
             type='button'
-            className='btn custom_btn rounded-pill px-4 text-white'
+            className='btn custom_btn rounded-pill px-4'
             onClick={() => onChange({ minPrice, maxPrice })}
           >
             Filter <i className='fas fa-long-arrow-alt-right' />

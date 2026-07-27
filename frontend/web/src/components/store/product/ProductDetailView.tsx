@@ -83,7 +83,7 @@ const ProductDetailView = ({ slug }: { slug: string }) => {
       <div className='container py-5 text-center'>
         <h3>Product not found</h3>
         <p className='text-muted'>The product you&rsquo;re looking for isn&rsquo;t available.</p>
-        <Link href='/shop' className='btn custom_btn rounded-pill px-4 text-white mt-3'>
+        <Link href='/shop' className='btn custom_btn rounded-pill px-4 mt-3'>
           Back to Shop
         </Link>
       </div>
@@ -129,12 +129,12 @@ const ProductDetailView = ({ slug }: { slug: string }) => {
 
               <div className='d-flex gap-2 mb-3'>
                 {product.isOrganic && (
-                  <span className='badge_meats rounded-pill text-uppercase px-3 py-1 text-white' style={{ background: '#7cc000' }}>
+                  <span className='badge_meats rounded-pill text-uppercase px-3 py-1' style={{ background: '#7cc000' }}>
                     Organic
                   </span>
                 )}
                 <span
-                  className='rounded-pill px-3 py-1 text-white'
+                  className='rounded-pill px-3 py-1'
                   style={{ background: inStock ? '#28a745' : '#dc3545' }}
                 >
                   {inStock ? 'In Stock' : 'Out of Stock'}
@@ -158,7 +158,7 @@ const ProductDetailView = ({ slug }: { slug: string }) => {
                 <QuantityStepper value={qty} onChange={setQty} max={Math.max(1, product.stockQuantity)} />
                 <button
                   type='button'
-                  className='btn custom_btn rounded-pill px-5 py-3 text-white'
+                  className='btn custom_btn rounded-pill px-5 py-3'
                   disabled={!inStock || isAdding}
                   onClick={() => addToCart(product.id, qty, product.name)}
                 >

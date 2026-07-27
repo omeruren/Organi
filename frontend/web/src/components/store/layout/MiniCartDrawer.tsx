@@ -34,7 +34,7 @@ const MiniCartDrawer = ({ open, onClose }: { open: boolean; onClose: () => void 
           {!user ? (
             <div className='text-center py-4'>
               <p style={{ color: '#6b6b6b' }}>Please log in to use your cart.</p>
-              <Link href='/login' onClick={onClose} className='btn custom_btn rounded-pill px-4 text-white'>
+              <Link href='/login' onClick={onClose} className='btn custom_btn rounded-pill px-4'>
                 Login
               </Link>
             </div>

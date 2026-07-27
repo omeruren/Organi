@@ -75,7 +75,7 @@ const BlogView = () => {
                     type='submit'
                     className='btn position-absolute end-0 top-50 translate-middle-y me-2'
                     aria-label='Search'
-                    style={{ color: '#7cc000' }}
+                    style={{ color: '#4f7d00' }}
                   >
                     <i className='fas fa-search' />
                   </button>

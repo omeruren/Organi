@@ -30,7 +30,7 @@ const CartView = () => {
       return (
         <div className='text-center py-5'>
           <p>Please log in to view your cart.</p>
-          <Link href='/login?redirectTo=/cart' className='btn custom_btn rounded-pill px-4 text-white'>
+          <Link href='/login?redirectTo=/cart' className='btn custom_btn rounded-pill px-4'>
             Login
           </Link>
         </div>
@@ -54,7 +54,7 @@ const CartView = () => {
       return (
         <div className='text-center py-5'>
           <p style={{ color: '#6b6b6b' }}>Your cart is empty.</p>
-          <Link href='/shop' className='btn custom_btn rounded-pill px-4 text-white'>
+          <Link href='/shop' className='btn custom_btn rounded-pill px-4'>
             Continue Shopping
           </Link>
         </div>
@@ -136,7 +136,7 @@ const CartView = () => {
               <span style={{ fontWeight: 700 }}>${cart.subTotal.toFixed(2)}</span>
             </div>
             <p style={{ color: '#6b6b6b', fontSize: 14 }}>Shipping, taxes and discounts are calculated at checkout.</p>
-            <Link href='/checkout' className='btn custom_btn rounded-pill py-3 text-white w-100 mt-2'>
+            <Link href='/checkout' className='btn custom_btn rounded-pill py-3 w-100 mt-2'>
               Proceed to Checkout <i className='fas fa-long-arrow-alt-right' />
             </Link>
           </div>

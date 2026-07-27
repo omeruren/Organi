@@ -41,7 +41,7 @@ const Testimonials = () => {
           {REVIEWS.map(review => (
             <div key={review.name} className='col-md-4'>
               <div style={card}>
-                <div className='mb-3' style={{ color: '#7cc000' }}>
+                <div className='mb-3' style={{ color: '#4f7d00' }}>
                   {Array.from({ length: 5 }).map((_, i) => (
                     <i key={i} className='fas fa-star' style={{ marginRight: 2 }} />
                   ))}

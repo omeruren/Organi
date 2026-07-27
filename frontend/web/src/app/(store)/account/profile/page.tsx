@@ -101,7 +101,7 @@ const AccountProfilePage = () => {
           <input className='form-control rounded-pill py-2' {...register('avatarUrl')} />
         </div>
         <div className='col-12'>
-          <button type='submit' className='btn custom_btn rounded-pill px-5 py-2 text-white' disabled={isSubmitting}>
+          <button type='submit' className='btn custom_btn rounded-pill px-5 py-2' disabled={isSubmitting}>
             {isSubmitting ? 'Saving…' : 'Save Changes'}
           </button>
         </div>

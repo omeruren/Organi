@@ -63,7 +63,7 @@ const FaqView = () => {
                         {faq.q}
                         <i
                           className={`fas ${isOpen ? 'fa-minus' : 'fa-plus'}`}
-                          style={{ color: '#7cc000', flexShrink: 0, marginLeft: 12 }}
+                          style={{ color: '#4f7d00', flexShrink: 0, marginLeft: 12 }}
                         />
                       </button>
                       {isOpen && (

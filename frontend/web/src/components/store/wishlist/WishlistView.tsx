@@ -29,7 +29,7 @@ const WishlistView = () => {
       return (
         <div className='text-center py-5'>
           <p>Please log in to view your wishlist.</p>
-          <Link href='/login?redirectTo=/wishlist' className='btn custom_btn rounded-pill px-4 text-white'>
+          <Link href='/login?redirectTo=/wishlist' className='btn custom_btn rounded-pill px-4'>
             Login
           </Link>
         </div>
@@ -53,7 +53,7 @@ const WishlistView = () => {
       return (
         <div className='text-center py-5'>
           <p style={{ color: '#6b6b6b' }}>Your wishlist is empty.</p>
-          <Link href='/shop' className='btn custom_btn rounded-pill px-4 text-white'>
+          <Link href='/shop' className='btn custom_btn rounded-pill px-4'>
             Browse Products
           </Link>
         </div>
@@ -95,7 +95,7 @@ const WishlistView = () => {
                 </div>
                 <button
                   type='button'
-                  className='btn custom_btn rounded-pill px-4 text-white w-100'
+                  className='btn custom_btn rounded-pill px-4 w-100'
                   onClick={() => addToCart(item.productId, 1, item.productName)}
                 >
                   Add to Cart

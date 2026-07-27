@@ -82,13 +82,13 @@ const ResetPasswordView = () => {
     return (
       <AuthCard title='Password updated' breadcrumbLabel='Reset Password' footer={null}>
         <div className='text-center'>
-          <div style={{ fontSize: 48, color: '#7cc000' }}>
+          <div style={{ fontSize: 48, color: '#4f7d00' }}>
             <i className='fas fa-check-circle' aria-hidden='true' />
           </div>
           <p className='mt-3' style={{ color: '#6b6b6b' }}>
             Your password has been changed and you&apos;ve been signed out everywhere else.
           </p>
-          <Link href='/login' className='btn custom_btn rounded-pill px-4 text-white mt-2'>
+          <Link href='/login' className='btn custom_btn rounded-pill px-4 mt-2'>
             Login
           </Link>
         </div>
@@ -154,7 +154,7 @@ const ResetPasswordView = () => {
           />
           {errors.confirmPassword && <small className='text-danger'>{errors.confirmPassword.message}</small>}
         </div>
-        <button type='submit' className='btn custom_btn rounded-pill py-3 text-white' disabled={isSubmitting}>
+        <button type='submit' className='btn custom_btn rounded-pill py-3' disabled={isSubmitting}>
           {isSubmitting ? 'Updating…' : 'Reset Password'}
         </button>
       </form>

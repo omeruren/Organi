@@ -35,7 +35,7 @@ const AccountShell = ({ children }: { children: React.ReactNode }) => {
           ) : !user ? (
             <div className='text-center py-5'>
               <p>Please log in to access your account.</p>
-              <Link href='/login?redirectTo=/account' className='btn custom_btn rounded-pill px-4 text-white'>
+              <Link href='/login?redirectTo=/account' className='btn custom_btn rounded-pill px-4'>
                 Login
               </Link>
             </div>

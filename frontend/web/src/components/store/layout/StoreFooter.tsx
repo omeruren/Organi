@@ -60,7 +60,7 @@ const StoreFooter = () => {
                     </div>
                     <div className='footer_inner_choose'>
                       <Link href='/about'>
-                        <button type='button' className='btn custom_btn rounded-pill px-4 text-white'>
+                        <button type='button' className='btn custom_btn rounded-pill px-4'>
                           View More <i className='fas fa-long-arrow-alt-right' />
                         </button>
                       </Link>

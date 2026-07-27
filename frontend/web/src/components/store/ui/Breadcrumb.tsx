@@ -16,7 +16,9 @@ const Breadcrumb = ({ title, items }: { title: string; items: BreadcrumbItem[] }
       >
         <div className='breadcrumb_cont text-center'>
           <div className='breadcrumb_title'>
-            <h2 className='text-white'>{title}</h2>
+            {/* This band is the page title on every storefront route, so it carries the sole <h1>.
+                Pages that repeat the title in their content demote that copy to <h2>. */}
+            <h1 className='text-white'>{title}</h1>
           </div>
           <ul className='list-unstyled breadcrumb_item d-flex justify-content-center align-items-center text-white'>
             <li>

@@ -41,7 +41,7 @@ const NewsletterForm = () => {
         value={email}
         onChange={e => setEmail(e.target.value)}
       />
-      <button type='submit' className='btn custom_btn rounded-pill text-white position-absolute' disabled={status === 'loading'}>
+      <button type='submit' className='btn custom_btn rounded-pill position-absolute' disabled={status === 'loading'}>
         {status === 'loading' ? 'Subscribing…' : 'Subscribe Now'} <i className='fas fa-long-arrow-alt-right' />
       </button>
       {message && (

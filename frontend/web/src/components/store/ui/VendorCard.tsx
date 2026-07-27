@@ -36,7 +36,7 @@ const VendorCard = ({ vendor }: { vendor: VendorResponse }) => {
         </h3>
         {vendor.city && (
           <p className='mb-2' style={{ color: '#6b6b6b', fontSize: 13 }}>
-            <i className='fas fa-map-marker-alt me-1' style={{ color: '#7cc000' }} />
+            <i className='fas fa-map-marker-alt me-1' style={{ color: '#4f7d00' }} />
             {vendor.city}
           </p>
         )}
@@ -51,7 +51,7 @@ const VendorCard = ({ vendor }: { vendor: VendorResponse }) => {
             <i className='far fa-heart me-1' />
             {vendor.followerCount} followers
           </span>
-          <Link href={href} className='btn custom_btn rounded-pill px-3 py-2 text-white' style={{ fontSize: 13 }}>
+          <Link href={href} className='btn custom_btn rounded-pill px-3 py-2' style={{ fontSize: 13 }}>
             Visit Store
           </Link>
         </div>

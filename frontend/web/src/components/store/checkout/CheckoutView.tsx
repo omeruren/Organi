@@ -131,7 +131,7 @@ const CheckoutView = () => {
             <div className='row justify-content-center'>
               <div className='col-lg-7 text-center'>
                 <div className='bg-white rounded-4 shadow-sm p-5'>
-                  <div style={{ fontSize: 48, color: '#7cc000' }}>
+                  <div style={{ fontSize: 48, color: '#4f7d00' }}>
                     <i className='fas fa-check-circle' />
                   </div>
                   <h3 className='mt-3' style={{ fontWeight: 800 }}>
@@ -171,7 +171,7 @@ const CheckoutView = () => {
                     <Link href='/account' className='btn rounded-pill px-4 border'>
                       My Orders
                     </Link>
-                    <Link href='/shop' className='btn custom_btn rounded-pill px-4 text-white'>
+                    <Link href='/shop' className='btn custom_btn rounded-pill px-4'>
                       Continue Shopping
                     </Link>
                   </div>
@@ -193,7 +193,7 @@ const CheckoutView = () => {
       return (
         <div className='text-center py-5'>
           <p>Please log in to check out.</p>
-          <Link href='/login?redirectTo=/checkout' className='btn custom_btn rounded-pill px-4 text-white'>
+          <Link href='/login?redirectTo=/checkout' className='btn custom_btn rounded-pill px-4'>
             Login
           </Link>
         </div>
@@ -204,7 +204,7 @@ const CheckoutView = () => {
       return (
         <div className='text-center py-5'>
           <p style={{ color: '#6b6b6b' }}>Your cart is empty.</p>
-          <Link href='/shop' className='btn custom_btn rounded-pill px-4 text-white'>
+          <Link href='/shop' className='btn custom_btn rounded-pill px-4'>
             Browse Products
           </Link>
         </div>
@@ -286,7 +286,7 @@ const CheckoutView = () => {
             </p>
             <button
               type='submit'
-              className='btn custom_btn rounded-pill py-3 text-white w-100 mt-2'
+              className='btn custom_btn rounded-pill py-3 w-100 mt-2'
               disabled={isSubmitting || emailUnconfirmed}
             >
               {isSubmitting ? 'Placing order…' : 'Place Order'}

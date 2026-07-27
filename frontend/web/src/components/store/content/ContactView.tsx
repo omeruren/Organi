@@ -77,7 +77,7 @@ const ContactView = () => {
                   {INFO.map(info => (
                     <li key={info.title} className='d-flex gap-3 mb-4'>
                       <div
-                        className='d-flex align-items-center justify-content-center rounded-circle flex-shrink-0 text-white'
+                        className='d-flex align-items-center justify-content-center rounded-circle flex-shrink-0'
                         style={{ width: 44, height: 44, background: '#7cc000' }}
                       >
                         <i className={info.icon} />
@@ -101,7 +101,7 @@ const ContactView = () => {
               <div className='bg-white rounded-4 shadow-sm p-4 p-md-5'>
                 {sent ? (
                   <div className='text-center py-5'>
-                    <div style={{ fontSize: 48, color: '#7cc000' }}>
+                    <div style={{ fontSize: 48, color: '#4f7d00' }}>
                       <i className='fas fa-check-circle' />
                     </div>
                     <h3 className='mt-3' style={{ fontWeight: 800 }}>
@@ -157,7 +157,7 @@ const ContactView = () => {
                     <div className='col-12'>
                       <button
                         type='submit'
-                        className='btn custom_btn rounded-pill px-4 text-white'
+                        className='btn custom_btn rounded-pill px-4'
                         disabled={isSubmitting}
                       >
                         {isSubmitting ? 'Sending…' : 'Send Message'}

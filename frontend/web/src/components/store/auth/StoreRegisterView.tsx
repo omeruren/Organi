@@ -114,7 +114,7 @@ const StoreRegisterView = () => {
           {errors.password && <small className='text-danger'>{errors.password.message}</small>}
         </div>
         <div className='col-12'>
-          <button type='submit' className='btn custom_btn rounded-pill py-3 text-white w-100' disabled={isSubmitting}>
+          <button type='submit' className='btn custom_btn rounded-pill py-3 w-100' disabled={isSubmitting}>
             {isSubmitting ? 'Creating account…' : 'Create Account'}
           </button>
         </div>

@@ -79,7 +79,7 @@ const ReviewForm = ({ productId }: { productId: string }) => {
           onChange={e => setComment(e.target.value)}
           maxLength={1000}
         />
-        <button type='submit' className='btn custom_btn rounded-pill py-2 px-4 text-white align-self-start' disabled={create.isPending}>
+        <button type='submit' className='btn custom_btn rounded-pill py-2 px-4 align-self-start' disabled={create.isPending}>
           {create.isPending ? 'Submitting…' : 'Post Review'}
         </button>
       </form>

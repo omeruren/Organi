@@ -48,7 +48,7 @@ const AboutView = () => {
                 Today we host hundreds of independent vendors, each carefully vetted for quality and sustainability — so
                 every order supports growers who farm the right way.
               </p>
-              <Link href='/shop' className='btn custom_btn rounded-pill px-4 text-white mt-2'>
+              <Link href='/shop' className='btn custom_btn rounded-pill px-4 mt-2'>
                 Start Shopping <i className='fas fa-long-arrow-alt-right ms-1' />
               </Link>
             </div>
@@ -68,7 +68,7 @@ const AboutView = () => {
               <div key={value.title} className='col-sm-6 col-lg-3'>
                 <div className='bg-white rounded-4 shadow-sm p-4 h-100 text-center'>
                   <div
-                    className='d-inline-flex align-items-center justify-content-center rounded-circle mb-3 text-white'
+                    className='d-inline-flex align-items-center justify-content-center rounded-circle mb-3'
                     style={{ width: 64, height: 64, background: '#7cc000', fontSize: 24 }}
                   >
                     <i className={value.icon} />
@@ -103,7 +103,7 @@ const AboutView = () => {
                     <h5 className='mb-0' style={{ fontWeight: 700 }}>
                       {member.name}
                     </h5>
-                    <p className='mb-0' style={{ color: '#7cc000', fontSize: 14 }}>
+                    <p className='mb-0' style={{ color: '#4f7d00', fontSize: 14 }}>
                       {member.role}
                     </p>
                   </div>
