@@ -82,10 +82,10 @@ const ResetPasswordView = () => {
     return (
       <AuthCard title='Password updated' breadcrumbLabel='Reset Password' footer={null}>
         <div className='text-center'>
-          <div style={{ fontSize: 48, color: '#4f7d00' }}>
+          <div style={{ fontSize: 48, color: 'var(--organi-brand-ink)' }}>
             <i className='fas fa-check-circle' aria-hidden='true' />
           </div>
-          <p className='mt-3' style={{ color: '#6b6b6b' }}>
+          <p className='mt-3' style={{ color: 'var(--organi-text-muted)' }}>
             Your password has been changed and you&apos;ve been signed out everywhere else.
           </p>
           <Link href='/login' className='btn custom_btn rounded-pill px-4 mt-2'>

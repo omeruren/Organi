@@ -57,11 +57,11 @@ const ProductTabs = () => {
             {isLoading ? (
               <p className='text-center py-5'>Loading products…</p>
             ) : isError ? (
-              <p className='text-center py-5' style={{ color: '#6b6b6b' }}>
+              <p className='text-center py-5' style={{ color: 'var(--organi-text-muted)' }}>
                 We couldn’t load products right now. Please refresh the page.
               </p>
             ) : products.length === 0 ? (
-              <p className='text-center py-5' style={{ color: '#6b6b6b' }}>
+              <p className='text-center py-5' style={{ color: 'var(--organi-text-muted)' }}>
                 No products in this category yet.
               </p>
             ) : (

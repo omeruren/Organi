@@ -111,7 +111,7 @@ const StoreRegisterView = () => {
         </div>
         <div className='col-12'>
           <label className='form-label' htmlFor='register-phoneNumber'>
-            Phone number<span style={{ color: '#6b6b6b', fontWeight: 400 }}> (optional)</span>
+            Phone number<span style={{ color: 'var(--organi-text-muted)', fontWeight: 400 }}> (optional)</span>
           </label>
           <input
             id='register-phoneNumber'
@@ -133,7 +133,7 @@ const StoreRegisterView = () => {
             aria-describedby='register-password-hint'
             {...register('password', { required: 'Password is required' })}
           />
-          <small id='register-password-hint' className='d-block mt-1' style={{ color: '#6b6b6b' }}>
+          <small id='register-password-hint' className='d-block mt-1' style={{ color: 'var(--organi-text-muted)' }}>
             At least 8 characters, with an uppercase letter, a lowercase letter, a number and a special character.
           </small>
           {errors.password && <small className='text-danger'>{errors.password.message}</small>}

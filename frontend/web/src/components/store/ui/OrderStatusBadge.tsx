@@ -2,13 +2,13 @@
 import type { OrderStatus } from '@/types/api/order'
 
 const COLORS: Record<OrderStatus, string> = {
-  Pending: '#f0ad4e',
-  Confirmed: '#5bc0de',
-  Processing: '#6c757d',
-  Shipped: '#0d6efd',
-  Delivered: '#28a745',
-  Cancelled: '#dc3545',
-  Refunded: '#6c757d'
+  Pending: 'var(--organi-warning)',
+  Confirmed: 'var(--organi-info)',
+  Processing: 'var(--organi-text-muted)',
+  Shipped: 'var(--organi-accent)',
+  Delivered: 'var(--organi-success)',
+  Cancelled: 'var(--organi-danger)',
+  Refunded: 'var(--organi-text-muted)'
 }
 
 const OrderStatusBadge = ({ status }: { status: OrderStatus }) => (

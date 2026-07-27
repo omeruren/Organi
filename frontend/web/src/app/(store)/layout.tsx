@@ -43,6 +43,17 @@ const StoreLayout = ({ children }: ChildrenType) => {
       <link rel='stylesheet' href='/store/assets/css/bootstrap.min.css' />
       {/* eslint-disable-next-line @next/next/no-css-tags */}
       <link rel='stylesheet' href='/store/assets/css/style.css' />
+      {/* Theme tokens load last so they can redefine both Bootstrap and the template. */}
+      {/* eslint-disable-next-line @next/next/no-css-tags */}
+      <link rel='stylesheet' href='/store/assets/css/theme.css' />
+      {/* Applies the stored/OS theme before first paint. Without this the page renders
+          light and then snaps to dark, which is the classic dark-mode flash. It has to be
+          inline and synchronous — a deferred script runs too late to prevent it. */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(){try{var t=localStorage.getItem('organi-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){}})()`
+        }}
+      />
       <link
         rel='stylesheet'
         href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'

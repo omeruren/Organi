@@ -11,9 +11,12 @@ export const metadata = {
   description: 'Organi — the organic marketplace.'
 }
 
+// suppressHydrationWarning: the storefront's anti-flash script stamps data-theme onto <html>
+// before React hydrates, so the client tree legitimately differs from the server tree by that
+// one attribute. The suppression applies to this element's attributes only, not its subtree.
 const RootLayout = ({ children }: ChildrenType) => {
   return (
-    <html id='__next' lang='en' dir='ltr'>
+    <html id='__next' lang='en' dir='ltr' suppressHydrationWarning>
       <body className='flex is-full min-bs-full flex-auto flex-col'>{children}</body>
     </html>
   )

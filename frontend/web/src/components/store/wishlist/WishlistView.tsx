@@ -52,7 +52,7 @@ const WishlistView = () => {
     if (!items || items.length === 0) {
       return (
         <div className='text-center py-5'>
-          <p style={{ color: '#6b6b6b' }}>Your wishlist is empty.</p>
+          <p style={{ color: 'var(--organi-text-muted)' }}>Your wishlist is empty.</p>
           <Link href='/shop' className='btn custom_btn rounded-pill px-4'>
             Browse Products
           </Link>
@@ -85,7 +85,7 @@ const WishlistView = () => {
                   />
                 </Link>
                 <h6 className='mt-3'>
-                  <Link href={`/product/${item.productSlug}`} style={{ color: '#292929' }}>
+                  <Link href={`/product/${item.productSlug}`} style={{ color: 'var(--organi-text)' }}>
                     {item.productName}
                   </Link>
                 </h6>

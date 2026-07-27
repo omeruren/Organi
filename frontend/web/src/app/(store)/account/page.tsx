@@ -61,7 +61,7 @@ const AccountDashboardPage = () => {
                 {orders.map(order => (
                   <tr key={order.id}>
                     <td>
-                      <Link href={`/account/orders/${order.id}`} style={{ color: '#292929', fontWeight: 600 }}>
+                      <Link href={`/account/orders/${order.id}`} style={{ color: 'var(--organi-text)', fontWeight: 600 }}>
                         {order.orderNumber}
                       </Link>
                     </td>

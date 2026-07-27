@@ -131,16 +131,16 @@ const CheckoutView = () => {
             <div className='row justify-content-center'>
               <div className='col-lg-7 text-center'>
                 <div className='bg-white rounded-4 shadow-sm p-5'>
-                  <div style={{ fontSize: 48, color: '#4f7d00' }}>
+                  <div style={{ fontSize: 48, color: 'var(--organi-brand-ink)' }}>
                     <i className='fas fa-check-circle' />
                   </div>
                   <h3 className='mt-3' style={{ fontWeight: 800 }}>
                     Thank you for your order!
                   </h3>
-                  <p style={{ color: '#6b6b6b' }}>
+                  <p style={{ color: 'var(--organi-text-muted)' }}>
                     Your order <strong>{placed.orderNumber}</strong> has been placed and is <strong>{placed.status}</strong>.
                   </p>
-                  <p style={{ color: '#6b6b6b' }}>
+                  <p style={{ color: 'var(--organi-text-muted)' }}>
                     A confirmation email is on its way to <strong>{placed.shippingEmail}</strong>.
                   </p>
                   <ul className='list-unstyled text-start mx-auto my-4' style={{ maxWidth: 320 }}>
@@ -203,7 +203,7 @@ const CheckoutView = () => {
     if (emptyCart) {
       return (
         <div className='text-center py-5'>
-          <p style={{ color: '#6b6b6b' }}>Your cart is empty.</p>
+          <p style={{ color: 'var(--organi-text-muted)' }}>Your cart is empty.</p>
           <Link href='/shop' className='btn custom_btn rounded-pill px-4'>
             Browse Products
           </Link>
@@ -227,7 +227,7 @@ const CheckoutView = () => {
         <div className={col}>
           <label className='form-label' htmlFor={id}>
             {label}
-            {optional && <span style={{ color: '#6b6b6b', fontWeight: 400 }}> (optional)</span>}
+            {optional && <span style={{ color: 'var(--organi-text-muted)', fontWeight: 400 }}> (optional)</span>}
           </label>
           <input id={id} type={type} className='form-control rounded-pill py-3' {...register(name)} />
           {errors[name] && <small className='text-danger'>{errors[name]?.message}</small>}
@@ -253,7 +253,7 @@ const CheckoutView = () => {
               {field('shippingEmail', 'Email', { col: 'col-md-6', type: 'email' })}
               <div className='col-12'>
                 <label className='form-label' htmlFor='checkout-notes'>
-                  Order notes<span style={{ color: '#6b6b6b', fontWeight: 400 }}> (optional)</span>
+                  Order notes<span style={{ color: 'var(--organi-text-muted)', fontWeight: 400 }}> (optional)</span>
                 </label>
                 <textarea id='checkout-notes' className='form-control rounded-4 p-3' rows={3} {...register('notes')} />
               </div>
@@ -268,7 +268,7 @@ const CheckoutView = () => {
             </h5>
             {cart!.items.map(item => (
               <div key={item.id} className='d-flex justify-content-between mb-2'>
-                <span style={{ color: '#6b6b6b' }}>
+                <span style={{ color: 'var(--organi-text-muted)' }}>
                   {item.productName} × {item.quantity}
                 </span>
                 <span>${item.lineTotal.toFixed(2)}</span>
@@ -280,11 +280,11 @@ const CheckoutView = () => {
             </div>
             <div className='mt-3'>
               <label className='form-label' htmlFor='checkout-couponCode'>
-                Coupon code<span style={{ color: '#6b6b6b', fontWeight: 400 }}> (optional)</span>
+                Coupon code<span style={{ color: 'var(--organi-text-muted)', fontWeight: 400 }}> (optional)</span>
               </label>
               <input id='checkout-couponCode' className='form-control rounded-pill py-2' {...register('couponCode')} />
             </div>
-            <p className='mt-2' style={{ color: '#6b6b6b', fontSize: 13 }}>
+            <p className='mt-2' style={{ color: 'var(--organi-text-muted)', fontSize: 13 }}>
               Shipping, tax and any discount are applied when the order is placed.
             </p>
             <button
@@ -295,7 +295,7 @@ const CheckoutView = () => {
               {isSubmitting ? 'Placing order…' : 'Place Order'}
             </button>
             {emailUnconfirmed && (
-              <p className='mt-2 mb-0 text-center' style={{ color: '#6b6b6b', fontSize: 13 }}>
+              <p className='mt-2 mb-0 text-center' style={{ color: 'var(--organi-text-muted)', fontSize: 13 }}>
                 Confirm your email address to place this order.
               </p>
             )}

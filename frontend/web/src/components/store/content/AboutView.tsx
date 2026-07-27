@@ -39,12 +39,12 @@ const AboutView = () => {
             </div>
             <div className='col-lg-6'>
               <SectionTitle eyebrow='Who We Are' title='Fresh, organic food for a healthier life' />
-              <p style={{ color: '#6b6b6b', lineHeight: 1.9 }}>
+              <p style={{ color: 'var(--organi-text-muted)', lineHeight: 1.9 }}>
                 Organi started with a simple belief: everyone deserves access to fresh, honest food. We connect you
                 directly with local farms and trusted vendors, bringing organic produce and groceries from the soil to
                 your table with nothing artificial in between.
               </p>
-              <p style={{ color: '#6b6b6b', lineHeight: 1.9 }}>
+              <p style={{ color: 'var(--organi-text-muted)', lineHeight: 1.9 }}>
                 Today we host hundreds of independent vendors, each carefully vetted for quality and sustainability — so
                 every order supports growers who farm the right way.
               </p>
@@ -57,11 +57,11 @@ const AboutView = () => {
       </section>
 
       {/* Values */}
-      <section className='sec_space_mid_small' style={{ background: '#f7f8f3' }}>
+      <section className='sec_space_mid_small' style={{ background: 'var(--organi-surface-2)' }}>
         <div className='container'>
           <div className='text-center mb-5'>
             <h2 style={{ fontWeight: 800 }}>Why choose Organi</h2>
-            <p style={{ color: '#6b6b6b' }}>The principles that guide everything we do.</p>
+            <p style={{ color: 'var(--organi-text-muted)' }}>The principles that guide everything we do.</p>
           </div>
           <div className='row g-4'>
             {VALUES.map(value => (
@@ -69,12 +69,12 @@ const AboutView = () => {
                 <div className='bg-white rounded-4 shadow-sm p-4 h-100 text-center'>
                   <div
                     className='d-inline-flex align-items-center justify-content-center rounded-circle mb-3'
-                    style={{ width: 64, height: 64, background: '#7cc000', fontSize: 24 }}
+                    style={{ width: 64, height: 64, background: 'var(--organi-brand)', fontSize: 24 }}
                   >
                     <i className={value.icon} />
                   </div>
                   <h5 style={{ fontWeight: 700 }}>{value.title}</h5>
-                  <p className='mb-0' style={{ color: '#6b6b6b', fontSize: 14 }}>
+                  <p className='mb-0' style={{ color: 'var(--organi-text-muted)', fontSize: 14 }}>
                     {value.text}
                   </p>
                 </div>
@@ -89,7 +89,7 @@ const AboutView = () => {
         <div className='container'>
           <div className='text-center mb-5'>
             <h2 style={{ fontWeight: 800 }}>Meet the team</h2>
-            <p style={{ color: '#6b6b6b' }}>The people behind your daily fresh.</p>
+            <p style={{ color: 'var(--organi-text-muted)' }}>The people behind your daily fresh.</p>
           </div>
           <div className='row g-4'>
             {TEAM.map(member => (
@@ -103,7 +103,7 @@ const AboutView = () => {
                     <h5 className='mb-0' style={{ fontWeight: 700 }}>
                       {member.name}
                     </h5>
-                    <p className='mb-0' style={{ color: '#4f7d00', fontSize: 14 }}>
+                    <p className='mb-0' style={{ color: 'var(--organi-brand-ink)', fontSize: 14 }}>
                       {member.role}
                     </p>
                   </div>

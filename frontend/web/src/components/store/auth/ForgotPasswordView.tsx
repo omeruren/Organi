@@ -56,10 +56,10 @@ const ForgotPasswordView = () => {
         }
       >
         <div className='text-center'>
-          <div style={{ fontSize: 48, color: '#4f7d00' }}>
+          <div style={{ fontSize: 48, color: 'var(--organi-brand-ink)' }}>
             <i className='fas fa-envelope-circle-check' aria-hidden='true' />
           </div>
-          <p className='mt-3' style={{ color: '#6b6b6b' }}>
+          <p className='mt-3' style={{ color: 'var(--organi-text-muted)' }}>
             If an account exists for <strong>{sentTo}</strong>, we&apos;ve sent it a 6-digit reset code. The code
             expires in 15 minutes.
           </p>
@@ -84,7 +84,7 @@ const ForgotPasswordView = () => {
         </>
       }
     >
-      <p className='text-center mb-4' style={{ color: '#6b6b6b' }}>
+      <p className='text-center mb-4' style={{ color: 'var(--organi-text-muted)' }}>
         Enter your email address and we&apos;ll send you a code to reset your password.
       </p>
       {formError && <div className='alert alert-danger'>{formError}</div>}

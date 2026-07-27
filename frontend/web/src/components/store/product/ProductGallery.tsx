@@ -41,7 +41,7 @@ const ProductGallery = ({
               onClick={() => setActive(i)}
               className='bg-white rounded-3 p-2'
               style={{
-                border: i === active ? '2px solid #7cc000' : '2px solid #eee',
+                border: i === active ? '2px solid var(--organi-brand)' : '2px solid var(--organi-border)',
                 width: 84,
                 height: 84,
                 cursor: 'pointer'

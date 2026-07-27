@@ -1,0 +1,254 @@
+/* ==========================================================================
+   Organi storefront theming
+   Loaded AFTER bootstrap.min.css and style.css so it can redefine both.
+
+   The vendored template hardcodes its colours, so style.css has been rewritten
+   to reference the tokens below instead of literals. Every light value here is
+   the template's original colour, which is why light mode looks unchanged —
+   dark mode is purely a matter of redefining the same tokens.
+   ========================================================================== */
+
+:root {
+  --organi-bg: #ffffff;          /* page background                     */
+  --organi-surface: #ffffff;     /* cards, dropdowns, table rows        */
+  --organi-surface-2: #f7f8f3;   /* alternating bands, subtle fills     */
+  --organi-surface-3: #f8f8f8;   /* inputs, hover states                */
+  --organi-text: #292929;        /* primary copy                        */
+  --organi-text-strong: #252525; /* headings                            */
+  --organi-text-muted: #6b6b6b;  /* secondary copy, meta                */
+  --organi-border: #e6e6e6;
+  --organi-border-strong: #dddddd;
+
+  /* Brand green is split by role — see references/storefront.md. The fill stays
+     vivid in both themes; the ink flips, because #4f7d00 is what clears AA on
+     white and #7cc000 is what clears it on a dark surface. */
+  --organi-brand: #7cc000;       /* backgrounds/fills                   */
+  --organi-brand-ink: #4f7d00;   /* green text/icons on light           */
+  --organi-on-brand: #292929;    /* text sitting on --organi-brand      */
+
+  --organi-danger: #dc3545;
+  --organi-success: #28a745;
+  --organi-warning: #f0ad4e;
+  --organi-info: #5bc0de;
+  --organi-accent: #0d6efd;
+  --organi-sale: #c53a0f;        /* white on this is 5.27:1; the template's
+                                    #f14e18 only managed 3.59:1 */
+
+  --organi-shadow: rgba(0, 0, 0, 0.07);
+  --organi-overlay: rgba(0, 0, 0, 0.5);
+
+  /* Decorative hero/footer artwork is baked for a light page; dimming it in dark
+     mode keeps the text on top readable without swapping the assets. */
+  --organi-art-brightness: 1;
+}
+
+:root[data-theme='dark'] {
+  --organi-bg: #14171a;
+  --organi-surface: #1c2024;
+  --organi-surface-2: #23282d;
+  --organi-surface-3: #23282d;
+  --organi-text: #e6e8ea;
+  --organi-text-strong: #f2f4f6;
+  --organi-text-muted: #a2a9b0;
+  --organi-border: #333a42;
+  --organi-border-strong: #3d444c;
+
+  --organi-brand: #7cc000;
+  --organi-brand-ink: #7cc000;   /* 7.33:1 on --organi-surface           */
+  --organi-on-brand: #292929;    /* unchanged: the fill is still vivid   */
+
+  --organi-danger: #ff6b6b;      /* #dc3545 only reaches 3.62:1 on dark  */
+  --organi-success: #4ade80;
+  --organi-warning: #fbbf24;
+  --organi-info: #38bdf8;
+  --organi-accent: #60a5fa;
+  --organi-sale: #e14a15;        /* lifted slightly for a dark canvas */
+
+  --organi-shadow: rgba(0, 0, 0, 0.5);
+  --organi-overlay: rgba(0, 0, 0, 0.65);
+
+  --organi-art-brightness: 0.65;
+}
+
+/* Follow the OS until the visitor states a preference. The toggle then writes
+   data-theme, and an explicit choice always wins over the media query. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --organi-bg: #14171a;
+    --organi-surface: #1c2024;
+    --organi-surface-2: #23282d;
+    --organi-surface-3: #23282d;
+    --organi-text: #e6e8ea;
+    --organi-text-strong: #f2f4f6;
+    --organi-text-muted: #a2a9b0;
+    --organi-border: #333a42;
+    --organi-border-strong: #3d444c;
+    --organi-brand-ink: #7cc000;
+    --organi-danger: #ff6b6b;
+    --organi-success: #4ade80;
+    --organi-warning: #fbbf24;
+    --organi-shadow: rgba(0, 0, 0, 0.5);
+    --organi-overlay: rgba(0, 0, 0, 0.65);
+    --organi-art-brightness: 0.65;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Page canvas
+   -------------------------------------------------------------------------- */
+
+body,
+.body-wrap {
+  background-color: var(--organi-bg);
+  color: var(--organi-text);
+}
+
+/* --------------------------------------------------------------------------
+   Bootstrap utilities that hardcode a light surface. These are used ~60 times
+   across the storefront markup, so remapping them here is far cheaper than
+   rewriting every call site.
+   -------------------------------------------------------------------------- */
+
+.bg-white {
+  background-color: var(--organi-surface) !important;
+}
+
+.text-muted {
+  color: var(--organi-text-muted) !important;
+}
+
+.border,
+.border-top,
+.border-bottom,
+.border-start,
+.border-end {
+  border-color: var(--organi-border) !important;
+}
+
+.shadow-sm {
+  box-shadow: 0 2px 8px var(--organi-shadow) !important;
+}
+
+.shadow {
+  box-shadow: 0 6px 20px var(--organi-shadow) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Form controls — Bootstrap's defaults are light-only.
+   -------------------------------------------------------------------------- */
+
+.form-control,
+.form-select {
+  background-color: var(--organi-surface-3);
+  border-color: var(--organi-border);
+  color: var(--organi-text);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--organi-surface-3);
+  border-color: var(--organi-brand);
+  color: var(--organi-text);
+  box-shadow: 0 0 0 0.2rem rgba(124, 192, 0, 0.25);
+}
+
+.form-control::placeholder {
+  color: var(--organi-text-muted);
+  opacity: 1;
+}
+
+.form-label {
+  color: var(--organi-text);
+}
+
+/* Bare <button> elements inherit the UA's black text unless something sets a colour.
+   That is invisible on a dark canvas, so anchor them to the text token. */
+button {
+  color: inherit;
+}
+
+.shop_cat_link,
+.layout_tab_nav button,
+.product_tabnav_1 .nav-link {
+  color: var(--organi-text);
+}
+
+/* Only the tab pills actually take a green fill when active. The shop sidebar's
+   category links mark selection with weight/colour on the page background, so they
+   keep the normal text token — giving them on-brand ink would render them near-black
+   on a dark canvas. */
+.layout_tab_nav button.active,
+.product_tabnav_1 .nav-link.active {
+  color: var(--organi-on-brand);
+}
+
+.shop_cat_link.active {
+  color: var(--organi-brand-ink);
+}
+
+/* --------------------------------------------------------------------------
+   Components whose surfaces are defined by Bootstrap rather than the template.
+   -------------------------------------------------------------------------- */
+
+.table {
+  --bs-table-bg: transparent;
+  color: var(--organi-text);
+}
+
+.table > :not(caption) > * > * {
+  background-color: transparent;
+  border-bottom-color: var(--organi-border);
+  color: var(--organi-text);
+}
+
+.offcanvas,
+.dropdown-menu,
+.modal-content,
+.card {
+  background-color: var(--organi-surface);
+  color: var(--organi-text);
+}
+
+.alert-warning {
+  background-color: color-mix(in srgb, var(--organi-warning) 18%, var(--organi-surface));
+  border-color: color-mix(in srgb, var(--organi-warning) 45%, var(--organi-surface));
+  color: var(--organi-text);
+}
+
+.alert-danger {
+  background-color: color-mix(in srgb, var(--organi-danger) 15%, var(--organi-surface));
+  border-color: color-mix(in srgb, var(--organi-danger) 45%, var(--organi-surface));
+  color: var(--organi-text);
+}
+
+.alert-success {
+  background-color: color-mix(in srgb, var(--organi-success) 15%, var(--organi-surface));
+  border-color: color-mix(in srgb, var(--organi-success) 45%, var(--organi-surface));
+  color: var(--organi-text);
+}
+
+.text-danger {
+  color: var(--organi-danger) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Decorative artwork. These background images ship light-themed; dimming keeps
+   overlaid text legible in dark mode without needing dark variants of each asset.
+   -------------------------------------------------------------------------- */
+
+.breadcrumb_wrap,
+.footer_section_wrap {
+  filter: brightness(var(--organi-art-brightness));
+}
+
+/* Product imagery is photographic and must not be dimmed — undo the inherited
+   filter for the cards that sit inside dimmed regions. */
+.breadcrumb_wrap img,
+.footer_section_wrap img {
+  filter: brightness(calc(1 / var(--organi-art-brightness)));
+}
+
+/* Deliberately no cross-fade on theme switch. Transitioning full-page surfaces
+   leaves the document in a half-converted state for the duration — visibly janky
+   on large paints, and it makes the rendered colours unmeasurable while it runs.
+   Switching instantly is what the eye expects from a theme control anyway. */

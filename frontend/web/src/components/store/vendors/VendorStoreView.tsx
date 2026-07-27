@@ -59,7 +59,7 @@ const VendorStoreView = ({ slug }: { slug: string }) => {
         <Breadcrumb title='Vendor Not Found' items={[{ label: 'Vendors', href: '/vendors' }]} />
         <section className='sec_space_large'>
           <div className='container text-center py-5'>
-            <p style={{ color: '#6b6b6b' }}>{message}</p>
+            <p style={{ color: 'var(--organi-text-muted)' }}>{message}</p>
             <Link href='/vendors' className='btn custom_btn rounded-pill px-4'>
               Back to Vendors
             </Link>
@@ -99,27 +99,27 @@ const VendorStoreView = ({ slug }: { slug: string }) => {
                 <h2 className='mb-1' style={{ fontWeight: 800, fontSize: 26 }}>
                   {vendor.storeName}
                 </h2>
-                <div className='d-flex flex-wrap align-items-center gap-3' style={{ color: '#6b6b6b', fontSize: 14 }}>
+                <div className='d-flex flex-wrap align-items-center gap-3' style={{ color: 'var(--organi-text-muted)', fontSize: 14 }}>
                   <RatingStars rating={vendor.rating} />
                   <span>
-                    <i className='far fa-heart me-1' style={{ color: '#4f7d00' }} />
+                    <i className='far fa-heart me-1' style={{ color: 'var(--organi-brand-ink)' }} />
                     {vendor.followerCount} followers
                   </span>
                   {vendor.city && (
                     <span>
-                      <i className='fas fa-map-marker-alt me-1' style={{ color: '#4f7d00' }} />
+                      <i className='fas fa-map-marker-alt me-1' style={{ color: 'var(--organi-brand-ink)' }} />
                       {vendor.city}
                     </span>
                   )}
                   {vendor.phoneNumber && (
                     <span>
-                      <i className='fas fa-phone-alt me-1' style={{ color: '#4f7d00' }} />
+                      <i className='fas fa-phone-alt me-1' style={{ color: 'var(--organi-brand-ink)' }} />
                       {vendor.phoneNumber}
                     </span>
                   )}
                 </div>
                 {vendor.description && (
-                  <p className='mt-2 mb-0' style={{ color: '#6b6b6b', fontSize: 14 }}>
+                  <p className='mt-2 mb-0' style={{ color: 'var(--organi-text-muted)', fontSize: 14 }}>
                     {vendor.description}
                   </p>
                 )}
@@ -141,7 +141,7 @@ const VendorStoreView = ({ slug }: { slug: string }) => {
               onRetry={() => refetchProducts()}
             />
           ) : items.length === 0 ? (
-            <p className='text-center py-5' style={{ color: '#6b6b6b' }}>
+            <p className='text-center py-5' style={{ color: 'var(--organi-text-muted)' }}>
               This vendor has no products yet.
             </p>
           ) : (

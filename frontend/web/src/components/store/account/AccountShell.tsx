@@ -57,8 +57,8 @@ const AccountShell = ({ children }: { children: React.ReactNode }) => {
                             href={item.href}
                             className='d-flex align-items-center gap-2 p-2 rounded'
                             style={{
-                              color: isActive(item.href) ? '#fff' : '#292929',
-                              background: isActive(item.href) ? '#7cc000' : 'transparent',
+                              color: isActive(item.href) ? '#fff' : 'var(--organi-text)',
+                              background: isActive(item.href) ? 'var(--organi-brand)' : 'transparent',
                               fontWeight: 600
                             }}
                           >

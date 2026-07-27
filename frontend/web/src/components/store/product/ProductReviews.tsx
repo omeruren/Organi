@@ -48,13 +48,13 @@ const ReviewForm = ({ productId }: { productId: string }) => {
     <div className='comment_form_area mt-4'>
       <h4 className='comment_title'>Write a Review</h4>
       <form onSubmit={onSubmit} className='d-flex flex-column gap-3'>
-        <div className='d-flex align-items-center gap-1' style={{ fontSize: 22, color: '#f0ad4e' }}>
+        <div className='d-flex align-items-center gap-1' style={{ fontSize: 22, color: 'var(--organi-warning)' }}>
           {[1, 2, 3, 4, 5].map(star => (
             <button
               key={star}
               type='button'
               className='btn p-0 border-0'
-              style={{ color: '#f0ad4e', lineHeight: 1 }}
+              style={{ color: 'var(--organi-warning)', lineHeight: 1 }}
               onMouseEnter={() => setHover(star)}
               onMouseLeave={() => setHover(0)}
               onClick={() => setRating(star)}
@@ -65,7 +65,7 @@ const ReviewForm = ({ productId }: { productId: string }) => {
           ))}
         </div>
         <label className='form-label mb-0' htmlFor='review-title'>
-          Review title<span style={{ color: '#6b6b6b', fontWeight: 400 }}> (optional)</span>
+          Review title<span style={{ color: 'var(--organi-text-muted)', fontWeight: 400 }}> (optional)</span>
         </label>
         <input
           id='review-title'
@@ -105,7 +105,7 @@ const ProductReviews = ({ productId }: { productId: string }) => {
       {isLoading ? (
         <p>Loading reviews…</p>
       ) : reviews.length === 0 ? (
-        <p style={{ color: '#6b6b6b' }}>No reviews yet. Be the first to review this product.</p>
+        <p style={{ color: 'var(--organi-text-muted)' }}>No reviews yet. Be the first to review this product.</p>
       ) : (
         <ul className='review_comment_list2 ul_li_block'>
           {reviews.map(review => (
@@ -126,7 +126,7 @@ const ProductReviews = ({ productId }: { productId: string }) => {
         <ReviewForm productId={productId} />
       ) : (
         <div className='comment_form_area mt-4'>
-          <p className='mb-0' style={{ color: '#6b6b6b' }}>
+          <p className='mb-0' style={{ color: 'var(--organi-text-muted)' }}>
             <Link href='/login' className='text-primary'>
               Log in
             </Link>{' '}

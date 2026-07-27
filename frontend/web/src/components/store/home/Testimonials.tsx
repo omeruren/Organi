@@ -41,12 +41,12 @@ const Testimonials = () => {
           {REVIEWS.map(review => (
             <div key={review.name} className='col-md-4'>
               <div style={card}>
-                <div className='mb-3' style={{ color: '#4f7d00' }}>
+                <div className='mb-3' style={{ color: 'var(--organi-brand-ink)' }}>
                   {Array.from({ length: 5 }).map((_, i) => (
                     <i key={i} className='fas fa-star' style={{ marginRight: 2 }} />
                   ))}
                 </div>
-                <p style={{ color: '#4a4a4a' }}>&ldquo;{review.text}&rdquo;</p>
+                <p style={{ color: 'var(--organi-text-muted)' }}>&ldquo;{review.text}&rdquo;</p>
                 <div className='d-flex align-items-center gap-3 mt-4'>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -60,7 +60,7 @@ const Testimonials = () => {
                     <h6 className='mb-0' style={{ fontWeight: 800 }}>
                       {review.name}
                     </h6>
-                    <span style={{ color: '#6b6b6b', fontSize: 14 }}>{review.role}</span>
+                    <span style={{ color: 'var(--organi-text-muted)', fontSize: 14 }}>{review.role}</span>
                   </div>
                 </div>
               </div>

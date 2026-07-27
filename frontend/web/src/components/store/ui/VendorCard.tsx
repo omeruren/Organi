@@ -35,19 +35,19 @@ const VendorCard = ({ vendor }: { vendor: VendorResponse }) => {
           <Link href={href}>{vendor.storeName}</Link>
         </h3>
         {vendor.city && (
-          <p className='mb-2' style={{ color: '#6b6b6b', fontSize: 13 }}>
-            <i className='fas fa-map-marker-alt me-1' style={{ color: '#4f7d00' }} />
+          <p className='mb-2' style={{ color: 'var(--organi-text-muted)', fontSize: 13 }}>
+            <i className='fas fa-map-marker-alt me-1' style={{ color: 'var(--organi-brand-ink)' }} />
             {vendor.city}
           </p>
         )}
         <RatingStars rating={vendor.rating} />
         {vendor.description && (
-          <p className='mt-2 mb-3' style={{ color: '#6b6b6b', fontSize: 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          <p className='mt-2 mb-3' style={{ color: 'var(--organi-text-muted)', fontSize: 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {vendor.description}
           </p>
         )}
         <div className='d-flex justify-content-between align-items-center mt-auto pt-2'>
-          <span style={{ color: '#6b6b6b', fontSize: 13 }}>
+          <span style={{ color: 'var(--organi-text-muted)', fontSize: 13 }}>
             <i className='far fa-heart me-1' />
             {vendor.followerCount} followers
           </span>

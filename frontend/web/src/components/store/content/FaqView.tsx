@@ -43,7 +43,7 @@ const FaqView = () => {
         <div className='container'>
           <div className='text-center mb-5'>
             <h2 style={{ fontWeight: 800 }}>Frequently asked questions</h2>
-            <p style={{ color: '#6b6b6b' }}>Everything you need to know about shopping with Organi.</p>
+            <p style={{ color: 'var(--organi-text-muted)' }}>Everything you need to know about shopping with Organi.</p>
           </div>
           <div className='row justify-content-center'>
             <div className='col-lg-8'>
@@ -63,11 +63,11 @@ const FaqView = () => {
                         {faq.q}
                         <i
                           className={`fas ${isOpen ? 'fa-minus' : 'fa-plus'}`}
-                          style={{ color: '#4f7d00', flexShrink: 0, marginLeft: 12 }}
+                          style={{ color: 'var(--organi-brand-ink)', flexShrink: 0, marginLeft: 12 }}
                         />
                       </button>
                       {isOpen && (
-                        <div className='px-4 pb-4' style={{ color: '#6b6b6b', lineHeight: 1.8 }}>
+                        <div className='px-4 pb-4' style={{ color: 'var(--organi-text-muted)', lineHeight: 1.8 }}>
                           {faq.a}
                         </div>
                       )}

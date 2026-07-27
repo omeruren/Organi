@@ -52,7 +52,7 @@ const CompareView = () => {
     if (!items || items.length === 0) {
       return (
         <div className='text-center py-5'>
-          <p style={{ color: '#6b6b6b' }}>Your compare list is empty.</p>
+          <p style={{ color: 'var(--organi-text-muted)' }}>Your compare list is empty.</p>
           <Link href='/shop' className='btn custom_btn rounded-pill px-4'>
             Browse Products
           </Link>
@@ -79,7 +79,7 @@ const CompareView = () => {
               <th>Name</th>
               {items.map(item => (
                 <td key={item.id}>
-                  <Link href={`/product/${item.productSlug}`} style={{ color: '#292929', fontWeight: 600 }}>
+                  <Link href={`/product/${item.productSlug}`} style={{ color: 'var(--organi-text)', fontWeight: 600 }}>
                     {item.productName}
                   </Link>
                 </td>
@@ -92,7 +92,7 @@ const CompareView = () => {
 
                 return (
                   <td key={item.id}>
-                    <span style={{ color: '#4f7d00', fontWeight: 700 }}>
+                    <span style={{ color: 'var(--organi-brand-ink)', fontWeight: 700 }}>
                       ${(hasSale ? item.salePrice! : item.price).toFixed(2)}
                     </span>{' '}
                     {hasSale && <del style={{ color: '#999' }}>${item.price.toFixed(2)}</del>}

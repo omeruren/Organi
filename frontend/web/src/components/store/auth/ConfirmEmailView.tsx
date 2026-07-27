@@ -70,16 +70,16 @@ const ConfirmEmailView = () => {
 
   const body = () => {
     if (status === 'working') {
-      return <p className='text-center' style={{ color: '#6b6b6b' }}>Confirming your email address…</p>
+      return <p className='text-center' style={{ color: 'var(--organi-text-muted)' }}>Confirming your email address…</p>
     }
 
     if (status === 'success') {
       return (
         <div className='text-center'>
-          <div style={{ fontSize: 48, color: '#4f7d00' }}>
+          <div style={{ fontSize: 48, color: 'var(--organi-brand-ink)' }}>
             <i className='fas fa-check-circle' aria-hidden='true' />
           </div>
-          <p className='mt-3' style={{ color: '#6b6b6b' }}>
+          <p className='mt-3' style={{ color: 'var(--organi-text-muted)' }}>
             Your email address is confirmed. Thanks for verifying your account!
           </p>
           <Link href='/shop' className='btn custom_btn rounded-pill px-4 mt-2'>
@@ -91,22 +91,22 @@ const ConfirmEmailView = () => {
 
     return (
       <div className='text-center'>
-        <div style={{ fontSize: 48, color: '#dc3545' }}>
+        <div style={{ fontSize: 48, color: 'var(--organi-danger)' }}>
           <i className='fas fa-triangle-exclamation' aria-hidden='true' />
         </div>
-        <p className='mt-3' style={{ color: '#6b6b6b' }}>
+        <p className='mt-3' style={{ color: 'var(--organi-text-muted)' }}>
           {status === 'missing-token'
             ? 'This page needs a confirmation link from your email.'
             : message}
         </p>
 
         {resent ? (
-          <p style={{ color: '#6b6b6b' }}>
+          <p style={{ color: 'var(--organi-text-muted)' }}>
             If that address has an unconfirmed account, a new confirmation link is on its way.
           </p>
         ) : (
           <form onSubmit={onResend} className='d-flex flex-column gap-3 mt-4 text-start'>
-            <label className='form-label' htmlFor='resend-email' style={{ color: '#6b6b6b' }}>
+            <label className='form-label' htmlFor='resend-email' style={{ color: 'var(--organi-text-muted)' }}>
               Send a new confirmation link
             </label>
             <input

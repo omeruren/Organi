@@ -129,13 +129,13 @@ const ProductDetailView = ({ slug }: { slug: string }) => {
 
               <div className='d-flex gap-2 mb-3'>
                 {product.isOrganic && (
-                  <span className='badge_meats rounded-pill text-uppercase px-3 py-1' style={{ background: '#7cc000' }}>
+                  <span className='badge_meats rounded-pill text-uppercase px-3 py-1' style={{ background: 'var(--organi-brand)' }}>
                     Organic
                   </span>
                 )}
                 <span
                   className='rounded-pill px-3 py-1'
-                  style={{ background: inStock ? '#28a745' : '#dc3545' }}
+                  style={{ background: inStock ? 'var(--organi-success)' : 'var(--organi-danger)' }}
                 >
                   {inStock ? 'In Stock' : 'Out of Stock'}
                 </span>
@@ -148,8 +148,8 @@ const ProductDetailView = ({ slug }: { slug: string }) => {
               <ul className='list-unstyled product_meta_list my-3'>
                 {meta.map(([label, value]) => (
                   <li key={label} className='d-flex' style={{ padding: '4px 0' }}>
-                    <span style={{ width: 130, color: '#6b6b6b' }}>{label}:</span>
-                    <span style={{ color: '#292929', fontWeight: 500 }}>{value}</span>
+                    <span style={{ width: 130, color: 'var(--organi-text-muted)' }}>{label}:</span>
+                    <span style={{ color: 'var(--organi-text)', fontWeight: 500 }}>{value}</span>
                   </li>
                 ))}
               </ul>

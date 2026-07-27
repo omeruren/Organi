@@ -130,7 +130,7 @@ const ShopView = () => {
                   onRetry={() => refetch()}
                 />
               ) : products.length === 0 ? (
-                <p className='text-center py-5' style={{ color: '#6b6b6b' }}>
+                <p className='text-center py-5' style={{ color: 'var(--organi-text-muted)' }}>
                   No products match your filters.
                 </p>
               ) : view === 'grid' ? (

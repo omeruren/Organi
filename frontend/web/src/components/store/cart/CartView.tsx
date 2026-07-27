@@ -53,7 +53,7 @@ const CartView = () => {
     if (!cart || cart.items.length === 0) {
       return (
         <div className='text-center py-5'>
-          <p style={{ color: '#6b6b6b' }}>Your cart is empty.</p>
+          <p style={{ color: 'var(--organi-text-muted)' }}>Your cart is empty.</p>
           <Link href='/shop' className='btn custom_btn rounded-pill px-4'>
             Continue Shopping
           </Link>
@@ -88,7 +88,7 @@ const CartView = () => {
                           height={56}
                           style={{ objectFit: 'contain' }}
                         />
-                        <Link href={`/product/${item.productSlug}`} style={{ color: '#292929', fontWeight: 600 }}>
+                        <Link href={`/product/${item.productSlug}`} style={{ color: 'var(--organi-text)', fontWeight: 600 }}>
                           {item.productName}
                         </Link>
                       </div>
@@ -132,10 +132,10 @@ const CartView = () => {
               Cart Summary
             </h5>
             <div className='d-flex justify-content-between mb-2'>
-              <span style={{ color: '#6b6b6b' }}>Subtotal</span>
+              <span style={{ color: 'var(--organi-text-muted)' }}>Subtotal</span>
               <span style={{ fontWeight: 700 }}>${cart.subTotal.toFixed(2)}</span>
             </div>
-            <p style={{ color: '#6b6b6b', fontSize: 14 }}>Shipping, taxes and discounts are calculated at checkout.</p>
+            <p style={{ color: 'var(--organi-text-muted)', fontSize: 14 }}>Shipping, taxes and discounts are calculated at checkout.</p>
             <Link href='/checkout' className='btn custom_btn rounded-pill py-3 w-100 mt-2'>
               Proceed to Checkout <i className='fas fa-long-arrow-alt-right' />
             </Link>

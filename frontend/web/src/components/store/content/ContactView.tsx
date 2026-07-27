@@ -70,7 +70,7 @@ const ContactView = () => {
                 <h5 className='mb-4' style={{ fontWeight: 800 }}>
                   Get in touch
                 </h5>
-                <p style={{ color: '#6b6b6b', fontSize: 14 }}>
+                <p style={{ color: 'var(--organi-text-muted)', fontSize: 14 }}>
                   Have a question about an order, a product, or becoming a vendor? We would love to hear from you.
                 </p>
                 <ul className='list-unstyled mt-4'>
@@ -78,14 +78,14 @@ const ContactView = () => {
                     <li key={info.title} className='d-flex gap-3 mb-4'>
                       <div
                         className='d-flex align-items-center justify-content-center rounded-circle flex-shrink-0'
-                        style={{ width: 44, height: 44, background: '#7cc000' }}
+                        style={{ width: 44, height: 44, background: 'var(--organi-brand)' }}
                       >
                         <i className={info.icon} />
                       </div>
                       <div>
                         <strong>{info.title}</strong>
                         {info.lines.map(line => (
-                          <p key={line} className='mb-0' style={{ color: '#6b6b6b', fontSize: 14 }}>
+                          <p key={line} className='mb-0' style={{ color: 'var(--organi-text-muted)', fontSize: 14 }}>
                             {line}
                           </p>
                         ))}
@@ -101,13 +101,13 @@ const ContactView = () => {
               <div className='bg-white rounded-4 shadow-sm p-4 p-md-5'>
                 {sent ? (
                   <div className='text-center py-5'>
-                    <div style={{ fontSize: 48, color: '#4f7d00' }}>
+                    <div style={{ fontSize: 48, color: 'var(--organi-brand-ink)' }}>
                       <i className='fas fa-check-circle' />
                     </div>
                     <h3 className='mt-3' style={{ fontWeight: 800 }}>
                       Message sent!
                     </h3>
-                    <p style={{ color: '#6b6b6b' }}>Thanks for reaching out — our team will get back to you shortly.</p>
+                    <p style={{ color: 'var(--organi-text-muted)' }}>Thanks for reaching out — our team will get back to you shortly.</p>
                     <button
                       type='button'
                       className='btn rounded-pill px-4 border mt-2'

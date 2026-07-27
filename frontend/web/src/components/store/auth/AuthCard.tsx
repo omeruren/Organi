@@ -25,7 +25,7 @@ const AuthCard = ({
                   {title}
                 </h3>
                 {children}
-                <div className='text-center mt-4' style={{ color: '#6b6b6b' }}>
+                <div className='text-center mt-4' style={{ color: 'var(--organi-text-muted)' }}>
                   {footer}
                 </div>
               </div>

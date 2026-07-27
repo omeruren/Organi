@@ -19,9 +19,9 @@ interface StoreToastValue {
 const StoreToastContext = createContext<StoreToastValue | null>(null)
 
 const COLORS: Record<ToastType, string> = {
-  success: '#7cc000',
-  error: '#dc3545',
-  info: '#292929'
+  success: 'var(--organi-brand)',
+  error: 'var(--organi-danger)',
+  info: 'var(--organi-text)'
 }
 
 // Lightweight, MUI-free toast for the storefront (the admin's ToastProvider is MUI-based).

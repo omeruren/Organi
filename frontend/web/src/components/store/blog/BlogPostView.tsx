@@ -51,7 +51,7 @@ const BlogPostView = ({ slug }: { slug: string }) => {
         <Breadcrumb title='Article Not Found' items={[{ label: 'Blog', href: '/blog' }]} />
         <section className='sec_space_large'>
           <div className='container text-center py-5'>
-            <p style={{ color: '#6b6b6b' }}>{message}</p>
+            <p style={{ color: 'var(--organi-text-muted)' }}>{message}</p>
             <Link href='/blog' className='btn custom_btn rounded-pill px-4'>
               Back to Blog
             </Link>
@@ -76,21 +76,21 @@ const BlogPostView = ({ slug }: { slug: string }) => {
                   <img src={image} alt={post.title} className='w-100' style={{ objectFit: 'cover' }} />
                 </div>
                 <div className='p-4 p-md-5'>
-                  <div className='d-flex flex-wrap align-items-center gap-3 mb-3' style={{ color: '#6b6b6b', fontSize: 14 }}>
+                  <div className='d-flex flex-wrap align-items-center gap-3 mb-3' style={{ color: 'var(--organi-text-muted)', fontSize: 14 }}>
                     <span>
-                      <i className='far fa-calendar-alt me-1' style={{ color: '#4f7d00' }} />
+                      <i className='far fa-calendar-alt me-1' style={{ color: 'var(--organi-brand-ink)' }} />
                       {formatDate(post.publishedAt ?? post.createdAt)}
                     </span>
                     <span>
-                      <i className='far fa-user me-1' style={{ color: '#4f7d00' }} />
+                      <i className='far fa-user me-1' style={{ color: 'var(--organi-brand-ink)' }} />
                       {post.authorName}
                     </span>
                     <span>
-                      <i className='far fa-eye me-1' style={{ color: '#4f7d00' }} />
+                      <i className='far fa-eye me-1' style={{ color: 'var(--organi-brand-ink)' }} />
                       {post.viewCount} views
                     </span>
                     <span>
-                      <i className='far fa-comment me-1' style={{ color: '#4f7d00' }} />
+                      <i className='far fa-comment me-1' style={{ color: 'var(--organi-brand-ink)' }} />
                       {post.commentCount} comments
                     </span>
                   </div>
@@ -99,7 +99,7 @@ const BlogPostView = ({ slug }: { slug: string }) => {
                   <h2 className='mb-4' style={{ fontWeight: 800, fontSize: 30 }}>
                     {post.title}
                   </h2>
-                  <div style={{ color: '#4a4a4a', fontSize: 16, lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
+                  <div style={{ color: 'var(--organi-text-muted)', fontSize: 16, lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
                     {post.content}
                   </div>
                 </div>
@@ -162,25 +162,25 @@ const CommentsSection = ({ postId }: { postId: string }) => {
       </h3>
 
       {isLoading ? (
-        <p style={{ color: '#6b6b6b' }}>Loading comments…</p>
+        <p style={{ color: 'var(--organi-text-muted)' }}>Loading comments…</p>
       ) : list.length === 0 ? (
-        <p style={{ color: '#6b6b6b' }}>No comments yet. Be the first to share your thoughts!</p>
+        <p style={{ color: 'var(--organi-text-muted)' }}>No comments yet. Be the first to share your thoughts!</p>
       ) : (
         <ul className='list-unstyled mb-4'>
           {list.map(comment => (
             <li key={comment.id} className='d-flex gap-3 py-3 border-bottom'>
               <div
                 className='d-flex align-items-center justify-content-center rounded-circle flex-shrink-0'
-                style={{ width: 44, height: 44, background: '#7cc000', fontWeight: 700 }}
+                style={{ width: 44, height: 44, background: 'var(--organi-brand)', fontWeight: 700 }}
               >
                 {comment.userFullName.trim().charAt(0).toUpperCase() || '?'}
               </div>
               <div className='flex-grow-1'>
                 <div className='d-flex justify-content-between align-items-center'>
                   <strong>{comment.userFullName}</strong>
-                  <span style={{ color: '#6b6b6b', fontSize: 12 }}>{formatDate(comment.createdAt)}</span>
+                  <span style={{ color: 'var(--organi-text-muted)', fontSize: 12 }}>{formatDate(comment.createdAt)}</span>
                 </div>
-                <p className='mb-1 mt-1' style={{ color: '#4a4a4a', fontSize: 14 }}>
+                <p className='mb-1 mt-1' style={{ color: 'var(--organi-text-muted)', fontSize: 14 }}>
                   {comment.content}
                 </p>
                 {(comment.userId === user?.id || isAdmin) && (
@@ -226,7 +226,7 @@ const CommentsSection = ({ postId }: { postId: string }) => {
           </button>
         </form>
       ) : (
-        <div className='text-center py-3' style={{ color: '#6b6b6b' }}>
+        <div className='text-center py-3' style={{ color: 'var(--organi-text-muted)' }}>
           <p className='mb-2'>Please log in to join the conversation.</p>
           <Link href={`/login?redirectTo=/blog`} className='btn custom_btn rounded-pill px-4'>
             Login

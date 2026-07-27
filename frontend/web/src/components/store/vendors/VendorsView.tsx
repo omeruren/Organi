@@ -75,7 +75,7 @@ const VendorsView = () => {
                     type='submit'
                     className='btn position-absolute end-0 top-50 translate-middle-y me-2'
                     aria-label='Search'
-                    style={{ color: '#4f7d00' }}
+                    style={{ color: 'var(--organi-brand-ink)' }}
                   >
                     <i className='fas fa-search' />
                   </button>
@@ -94,7 +94,7 @@ const VendorsView = () => {
               onRetry={() => refetch()}
             />
           ) : vendors.length === 0 ? (
-            <p className='text-center py-5' style={{ color: '#6b6b6b' }}>
+            <p className='text-center py-5' style={{ color: 'var(--organi-text-muted)' }}>
               No vendors found.
             </p>
           ) : (

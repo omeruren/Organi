@@ -16,6 +16,7 @@ import { useAuth } from '@/contexts/AuthContext'
 
 // Component Imports
 import MiniCartDrawer from '@/components/store/layout/MiniCartDrawer'
+import ThemeToggle from '@/components/store/ui/ThemeToggle'
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
@@ -69,6 +70,9 @@ const StoreHeader = () => {
   const userIcons = (
     <div className='navbar_user_icon'>
       <ul className='list-unstyled d-flex mb-0 align-items-center'>
+        <li className='pe-2'>
+          <ThemeToggle />
+        </li>
         <li className='pe-3'>
           <button className='main_search_btn' type='button' onClick={() => setSearchOpen(o => !o)} aria-label='Search'>
             <i className={`search_icon fas ${searchOpen ? 'fa-times' : 'fa-search'}`} />

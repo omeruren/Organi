@@ -45,7 +45,7 @@ const NewsletterForm = () => {
         {status === 'loading' ? 'Subscribing…' : 'Subscribe Now'} <i className='fas fa-long-arrow-alt-right' />
       </button>
       {message && (
-        <p className='mt-2 mb-0' style={{ color: status === 'error' ? '#dc3545' : '#fff', fontSize: 14 }}>
+        <p className='mt-2 mb-0' style={{ color: status === 'error' ? 'var(--organi-danger)' : '#fff', fontSize: 14 }}>
           {message}
         </p>
       )}

@@ -23,17 +23,17 @@ const BlogCard = ({ post }: { post: BlogPostSummaryResponse }) => {
         <img src={image} alt={post.title} className='w-100 h-100' style={{ objectFit: 'cover' }} />
       </Link>
       <div className='p-4 flex-grow-1 d-flex flex-column'>
-        <div className='d-flex align-items-center gap-3 mb-2' style={{ color: '#6b6b6b', fontSize: 13 }}>
+        <div className='d-flex align-items-center gap-3 mb-2' style={{ color: 'var(--organi-text-muted)', fontSize: 13 }}>
           <span>
-            <i className='far fa-calendar-alt me-1' style={{ color: '#4f7d00' }} />
+            <i className='far fa-calendar-alt me-1' style={{ color: 'var(--organi-brand-ink)' }} />
             {formatDate(post.publishedAt ?? post.createdAt)}
           </span>
           <span>
-            <i className='far fa-user me-1' style={{ color: '#4f7d00' }} />
+            <i className='far fa-user me-1' style={{ color: 'var(--organi-brand-ink)' }} />
             {post.authorName}
           </span>
           <span>
-            <i className='far fa-comment me-1' style={{ color: '#4f7d00' }} />
+            <i className='far fa-comment me-1' style={{ color: 'var(--organi-brand-ink)' }} />
             {post.commentCount}
           </span>
         </div>
@@ -41,11 +41,11 @@ const BlogCard = ({ post }: { post: BlogPostSummaryResponse }) => {
           <Link href={href}>{post.title}</Link>
         </h3>
         {post.excerpt && (
-          <p className='mb-3' style={{ color: '#6b6b6b', fontSize: 14, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          <p className='mb-3' style={{ color: 'var(--organi-text-muted)', fontSize: 14, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {post.excerpt}
           </p>
         )}
-        <Link href={href} className='mt-auto fw-semibold text-decoration-none' style={{ color: '#4f7d00' }}>
+        <Link href={href} className='mt-auto fw-semibold text-decoration-none' style={{ color: 'var(--organi-brand-ink)' }}>
           Read More <i className='fas fa-long-arrow-alt-right ms-1' />
         </Link>
       </div>

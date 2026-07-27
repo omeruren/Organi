@@ -33,20 +33,23 @@ const DealCountdown = () => {
       <div className='container'>
         <div
           className='row align-items-center g-4 p-4 p-lg-5'
-          style={{ background: 'linear-gradient(90deg,#f3f9e8,#eef6dd)', borderRadius: 24 }}
+          style={{
+            background: 'linear-gradient(90deg, var(--organi-surface-2), var(--organi-surface-3))',
+            borderRadius: 24
+          }}
         >
           <div className='col-lg-7'>
-            <h6 className='text-uppercase' style={{ color: '#4f7d00', fontWeight: 700, letterSpacing: 1 }}>
+            <h6 className='text-uppercase' style={{ color: 'var(--organi-brand-ink)', fontWeight: 700, letterSpacing: 1 }}>
               Deal of the Week
             </h6>
-            <h2 style={{ fontWeight: 900, color: '#292929' }}>Save up to 30% on fresh organic bundles</h2>
+            <h2 style={{ fontWeight: 900, color: 'var(--organi-text)' }}>Save up to 30% on fresh organic bundles</h2>
             <div className='d-flex gap-3 my-4'>
               {units.map(([label, value]) => (
                 <div key={label} style={box}>
-                  <div style={{ fontSize: 26, fontWeight: 900, color: '#292929', lineHeight: 1 }}>
+                  <div style={{ fontSize: 26, fontWeight: 900, color: 'var(--organi-text)', lineHeight: 1 }}>
                     {String(value).padStart(2, '0')}
                   </div>
-                  <div style={{ fontSize: 12, color: '#6b6b6b', marginTop: 4 }}>{label}</div>
+                  <div style={{ fontSize: 12, color: 'var(--organi-text-muted)', marginTop: 4 }}>{label}</div>
                 </div>
               ))}
             </div>
