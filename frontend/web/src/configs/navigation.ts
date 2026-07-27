@@ -45,7 +45,8 @@ export const navigationConfig: NavSection[] = [
     label: 'Content',
     items: [
       { label: 'Blog', href: '/admin/blog', icon: 'ri-article-line', roles: ['Admin', 'Vendor'] },
-      { label: 'Newsletter', href: '/admin/newsletter', icon: 'ri-mail-line', roles: ['Admin'] }
+      { label: 'Newsletter', href: '/admin/newsletter', icon: 'ri-mail-line', roles: ['Admin'] },
+      { label: 'Contact Messages', href: '/admin/contact', icon: 'ri-customer-service-2-line', roles: ['Admin'] }
     ]
   },
   {
