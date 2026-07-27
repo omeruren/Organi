@@ -16,6 +16,11 @@ export interface ProblemDetails {
   status: number
   detail: string
   traceId?: string
+
+  // Machine-readable discriminator set by some endpoints (e.g. 'email_not_confirmed' from
+  // RequireConfirmedEmailFilter). 403 is also used for ownership violations, so callers that
+  // need to tell them apart must branch on this rather than on the human-readable detail.
+  code?: string
 }
 
 // Mirrors FluentValidation's ValidationProblemDetails shape (400 responses)

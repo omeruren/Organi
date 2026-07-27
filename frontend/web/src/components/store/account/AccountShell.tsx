@@ -9,6 +9,7 @@ import { useAuth } from '@/contexts/AuthContext'
 
 // Component Imports
 import Breadcrumb from '@/components/store/ui/Breadcrumb'
+import EmailConfirmationBanner from '@/components/store/ui/EmailConfirmationBanner'
 
 const NAV = [
   { label: 'Dashboard', href: '/account', icon: 'fa-th-large' },
@@ -39,45 +40,48 @@ const AccountShell = ({ children }: { children: React.ReactNode }) => {
               </Link>
             </div>
           ) : (
-            <div className='row g-4'>
-              <div className='col-lg-3'>
-                <div className='bg-white rounded-4 shadow-sm p-4 account_sidebar'>
-                  <div className='mb-3'>
-                    <strong>{user.name}</strong>
-                    <br />
-                    <small className='text-muted'>{user.email}</small>
-                  </div>
-                  <ul className='list-unstyled mb-0 d-flex flex-column gap-1'>
-                    {NAV.map(item => (
-                      <li key={item.href}>
-                        <Link
-                          href={item.href}
-                          className='d-flex align-items-center gap-2 p-2 rounded'
-                          style={{
-                            color: isActive(item.href) ? '#fff' : '#292929',
-                            background: isActive(item.href) ? '#7cc000' : 'transparent',
-                            fontWeight: 600
-                          }}
+            <>
+              <EmailConfirmationBanner className='mb-4' />
+              <div className='row g-4'>
+                <div className='col-lg-3'>
+                  <div className='bg-white rounded-4 shadow-sm p-4 account_sidebar'>
+                    <div className='mb-3'>
+                      <strong>{user.name}</strong>
+                      <br />
+                      <small className='text-muted'>{user.email}</small>
+                    </div>
+                    <ul className='list-unstyled mb-0 d-flex flex-column gap-1'>
+                      {NAV.map(item => (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            className='d-flex align-items-center gap-2 p-2 rounded'
+                            style={{
+                              color: isActive(item.href) ? '#fff' : '#292929',
+                              background: isActive(item.href) ? '#7cc000' : 'transparent',
+                              fontWeight: 600
+                            }}
+                          >
+                            <i className={`fas ${item.icon}`} /> {item.label}
+                          </Link>
+                        </li>
+                      ))}
+                      <li>
+                        <button
+                          type='button'
+                          onClick={() => logout()}
+                          className='btn btn-link text-start text-danger p-2 d-flex align-items-center gap-2'
+                          style={{ textDecoration: 'none', fontWeight: 600 }}
                         >
-                          <i className={`fas ${item.icon}`} /> {item.label}
-                        </Link>
+                          <i className='fas fa-sign-out-alt' /> Logout
+                        </button>
                       </li>
-                    ))}
-                    <li>
-                      <button
-                        type='button'
-                        onClick={() => logout()}
-                        className='btn btn-link text-start text-danger p-2 d-flex align-items-center gap-2'
-                        style={{ textDecoration: 'none', fontWeight: 600 }}
-                      >
-                        <i className='fas fa-sign-out-alt' /> Logout
-                      </button>
-                    </li>
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
+                <div className='col-lg-9'>{children}</div>
               </div>
-              <div className='col-lg-9'>{children}</div>
-            </div>
+            </>
           )}
         </div>
       </section>

@@ -7,10 +7,13 @@ import { apiFetch } from '@/libs/api-client'
 // Type Imports
 import type { ProfileResponse, UpdateProfileRequest } from '@/types/api/profile'
 
-export const useProfile = () =>
+// `enabled` lets callers on anonymous-reachable pages (e.g. checkout) hold the fetch until auth
+// resolves — GET /api/profile is authorized and would otherwise 401 for signed-out visitors.
+export const useProfile = (enabled = true) =>
   useQuery({
     queryKey: ['profile'],
-    queryFn: () => apiFetch<ProfileResponse>('/api/profile')
+    queryFn: () => apiFetch<ProfileResponse>('/api/profile'),
+    enabled
   })
 
 export const useUpdateProfile = () => {

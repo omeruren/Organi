@@ -17,10 +17,12 @@ import { useAuth } from '@/contexts/AuthContext'
 // Hook / Lib Imports
 import { useCart } from '@/hooks/api/useCart'
 import { useCreateOrder } from '@/hooks/api/useCheckout'
-import { ApiError } from '@/libs/api-client'
+import { useProfile } from '@/hooks/api/useProfile'
+import { ApiError, EMAIL_NOT_CONFIRMED } from '@/libs/api-client'
 
 // Component Imports
 import Breadcrumb from '@/components/store/ui/Breadcrumb'
+import EmailConfirmationBanner from '@/components/store/ui/EmailConfirmationBanner'
 
 // Type Imports
 import type { OrderResponse } from '@/types/api/order'
@@ -43,7 +45,12 @@ type CheckoutForm = z.infer<typeof schema>
 const CheckoutView = () => {
   const { user, isLoading: authLoading } = useAuth()
   const { data: cart, isLoading: cartLoading } = useCart(!!user)
+  const { data: profile } = useProfile(!!user)
   const createOrder = useCreateOrder()
+
+  // Checkout is gated on a confirmed email server-side (RequireConfirmedEmailFilter), so surface
+  // it before the user fills the whole form rather than failing them on submit.
+  const emailUnconfirmed = profile != null && !profile.emailConfirmed
 
   const [formError, setFormError] = useState<string | null>(null)
   const [placed, setPlaced] = useState<OrderResponse | null>(null)
@@ -102,6 +109,14 @@ const CheckoutView = () => {
 
       setPlaced(order)
     } catch (error) {
+      // The banner above already explains the unconfirmed case; keep the inline error generic so
+      // the two don't contradict each other.
+      if (error instanceof ApiError && error.code === EMAIL_NOT_CONFIRMED) {
+        setFormError('Please confirm your email address before placing an order — see the notice above.')
+
+        return
+      }
+
       setFormError(error instanceof ApiError ? error.message : 'Could not place your order. Please try again.')
     }
   }
@@ -196,6 +211,9 @@ const CheckoutView = () => {
       )
     }
 
+    // The cart is deliberately left intact — an unconfirmed user can still review it and confirm
+    // their email without losing what they added.
+
     const field = (name: keyof CheckoutForm, placeholder: string, type = 'text') => (
       <div className='col-12'>
         <input type={type} className='form-control rounded-pill py-3' placeholder={placeholder} {...register(name)} />
@@ -266,9 +284,18 @@ const CheckoutView = () => {
             <p className='mt-2' style={{ color: '#6b6b6b', fontSize: 13 }}>
               Shipping, tax and any discount are applied when the order is placed.
             </p>
-            <button type='submit' className='btn custom_btn rounded-pill py-3 text-white w-100 mt-2' disabled={isSubmitting}>
+            <button
+              type='submit'
+              className='btn custom_btn rounded-pill py-3 text-white w-100 mt-2'
+              disabled={isSubmitting || emailUnconfirmed}
+            >
               {isSubmitting ? 'Placing order…' : 'Place Order'}
             </button>
+            {emailUnconfirmed && (
+              <p className='mt-2 mb-0 text-center' style={{ color: '#6b6b6b', fontSize: 13 }}>
+                Confirm your email address to place this order.
+              </p>
+            )}
           </div>
         </div>
       </form>
@@ -279,7 +306,10 @@ const CheckoutView = () => {
     <>
       <Breadcrumb title='Checkout' items={[{ label: 'Cart', href: '/cart' }, { label: 'Checkout' }]} />
       <section className='sec_space_large'>
-        <div className='container'>{body()}</div>
+        <div className='container'>
+          <EmailConfirmationBanner className='mb-4' />
+          {body()}
+        </div>
       </section>
     </>
   )

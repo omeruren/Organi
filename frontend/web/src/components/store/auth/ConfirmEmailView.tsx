@@ -7,6 +7,9 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
+// Third-party Imports
+import { useQueryClient } from '@tanstack/react-query'
+
 // Hook / Lib Imports
 import { useConfirmEmail, useResendConfirmation } from '@/hooks/api/useAuthEmail'
 import { ApiError } from '@/libs/api-client'
@@ -22,6 +25,7 @@ const ConfirmEmailView = () => {
 
   const confirmEmail = useConfirmEmail()
   const resendConfirmation = useResendConfirmation()
+  const queryClient = useQueryClient()
 
   const [status, setStatus] = useState<Status>(token ? 'working' : 'missing-token')
   const [message, setMessage] = useState<string | null>(null)
@@ -38,12 +42,18 @@ const ConfirmEmailView = () => {
 
     confirmEmail
       .mutateAsync(token)
-      .then(() => setStatus('success'))
+      .then(() => {
+        setStatus('success')
+
+        // Drop the cached profile so an already-open session stops showing the
+        // "confirm your email" banner without needing a reload.
+        queryClient.invalidateQueries({ queryKey: ['profile'] })
+      })
       .catch(error => {
         setMessage(error instanceof ApiError ? error.message : 'We could not confirm your email address.')
         setStatus('failed')
       })
-  }, [token, confirmEmail])
+  }, [token, confirmEmail, queryClient])
 
   const onResend = async (e: React.FormEvent) => {
     e.preventDefault()

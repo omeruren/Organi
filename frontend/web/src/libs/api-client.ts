@@ -6,13 +6,20 @@ export class ApiError extends Error {
   title: string
   errors?: Record<string, string[]>
 
-  constructor(status: number, title: string, detail: string, errors?: Record<string, string[]>) {
+  // Machine-readable discriminator from the ProblemDetails `code` extension, when present.
+  code?: string
+
+  constructor(status: number, title: string, detail: string, errors?: Record<string, string[]>, code?: string) {
     super(detail)
     this.status = status
     this.title = title
     this.errors = errors
+    this.code = code
   }
 }
+
+// Set by WebAPI/Filters/RequireConfirmedEmailFilter on gated routes.
+export const EMAIL_NOT_CONFIRMED = 'email_not_confirmed'
 
 type RequestOptions = Omit<RequestInit, 'body'> & { body?: unknown }
 
@@ -93,7 +100,8 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}, is
       response.status,
       problem?.title ?? 'Request failed',
       problem?.detail ?? 'An unexpected error occurred.',
-      (problem as ValidationProblemDetails | null)?.errors
+      (problem as ValidationProblemDetails | null)?.errors,
+      problem?.code
     )
   }
 
