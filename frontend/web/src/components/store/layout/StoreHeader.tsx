@@ -34,7 +34,9 @@ const StoreHeader = () => {
   const { user, logout } = useAuth()
   const { data: cart } = useCart(!!user)
 
-  const cartCount = cart?.items.reduce((sum, item) => sum + item.quantity, 0) ?? 0
+  // Guarded on `user` as well as the cache: the count must read 0 the instant someone signs
+  // out, without depending on cache invalidation having already run.
+  const cartCount = user ? cart?.items.reduce((sum, item) => sum + item.quantity, 0) ?? 0 : 0
 
   const [searchOpen, setSearchOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)

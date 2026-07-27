@@ -7,6 +7,9 @@ import type { ReactNode } from 'react'
 // Next Imports
 import { useRouter } from 'next/navigation'
 
+// Third-party Imports
+import { useQueryClient } from '@tanstack/react-query'
+
 // Lib Imports
 import { getAccessToken, setSession, clearSession } from '@/libs/auth-session'
 import { toAuthUser } from '@/libs/jwt'
@@ -40,6 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   // Silent refresh on mount — recovers the session from the httpOnly refresh cookie after a
   // full page reload, since the access token itself lives only in memory (see §6 of the skills doc).
@@ -83,9 +87,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const data: LoginResponse = await response.json()
 
+    // Also clear on the way in: a session can end without logout() running (expiry, another
+    // tab, a hard reload), so signing in as someone else must not inherit their cache.
+    queryClient.clear()
     setSession(data.accessToken, data.expiresAt)
     setUser(toAuthUser(data.accessToken))
-  }, [])
+  }, [queryClient])
 
   const register = useCallback(async (payload: RegisterData) => {
     const response = await fetch('/api/auth/register', {
@@ -107,9 +114,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const data: LoginResponse = await response.json()
 
+    queryClient.clear()
     setSession(data.accessToken, data.expiresAt)
     setUser(toAuthUser(data.accessToken))
-  }, [])
+  }, [queryClient])
 
   const logout = useCallback(async () => {
     const accessToken = getAccessToken()
@@ -122,12 +130,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     clearSession()
     setUser(null)
 
+    // Drop every cached query. Hooks gate on auth with `enabled`, but `enabled: false` only
+    // stops refetching — the hook still serves whatever is already in the cache. Without this
+    // the cart badge keeps its count after signing out, and more seriously the next person on
+    // this browser can see the previous user's wishlist, orders and profile rendered from
+    // cache before any request 401s. Clearing everything (rather than listing user-scoped
+    // keys) means a newly added query can't be forgotten here later.
+    queryClient.clear()
+
     // Shared across the storefront and admin — send the user back to the login screen
     // for whichever surface they were on.
     const onAdmin = typeof window !== 'undefined' && window.location.pathname.startsWith('/admin')
 
     router.push(onAdmin ? '/admin/login' : '/login')
-  }, [router])
+  }, [router, queryClient])
 
   return <AuthContext.Provider value={{ user, isLoading, login, register, logout }}>{children}</AuthContext.Provider>
 }
