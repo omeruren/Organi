@@ -13,6 +13,7 @@ using Organi.Server.Application.Features.Vendors.Queries.GetVendorBySlug;
 using Organi.Server.Application.Features.Vendors.Queries.GetVendorDashboardOrders;
 using Organi.Server.Application.Features.Vendors.Queries.GetVendorDashboardProducts;
 using Organi.Server.Application.Features.Vendors.Queries.GetVendors;
+using Organi.Server.WebAPI.Filters;
 
 namespace Organi.Server.WebAPI.Endpoints;
 
@@ -64,10 +65,12 @@ public static class VendorEndpoints
 
         group.MapPost("/register", RegisterVendor)
             .WithName("RegisterVendor")
-            .WithDescription("Registers the current user as a pending vendor and grants the Vendor role. Call /api/auth/refresh afterward to obtain a token reflecting the new role.")
+            .WithDescription("Registers the current user as a pending vendor and grants the Vendor role. Requires a confirmed email address. Call /api/auth/refresh afterward to obtain a token reflecting the new role.")
             .RequireAuthorization()
+            .AddEndpointFilter<RequireConfirmedEmailFilter>()
             .Produces<VendorResponse>(StatusCodes.Status201Created)
             .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status409Conflict);
 
         group.MapPut("/{id:guid}", UpdateVendor)

@@ -9,6 +9,7 @@ using Organi.Server.Application.Features.Orders.DTOs;
 using Organi.Server.Application.Features.Orders.Queries.GetMyOrders;
 using Organi.Server.Application.Features.Orders.Queries.GetOrderById;
 using Organi.Server.Application.Features.Orders.Queries.GetOrders;
+using Organi.Server.WebAPI.Filters;
 
 namespace Organi.Server.WebAPI.Endpoints;
 
@@ -41,10 +42,12 @@ public static class OrderEndpoints
 
         group.MapPost("/", CreateOrder)
             .WithName("CreateOrder")
-            .WithDescription("Creates an order (checkout) from the current user's cart.")
+            .WithDescription("Creates an order (checkout) from the current user's cart. Requires a confirmed email address.")
             .RequireAuthorization()
+            .AddEndpointFilter<RequireConfirmedEmailFilter>()
             .Produces<OrderResponse>(StatusCodes.Status201Created)
             .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status409Conflict);
 
         group.MapPost("/{id:guid}/confirm", ConfirmOrder)

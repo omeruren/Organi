@@ -10,6 +10,7 @@ using Organi.Server.Application.Features.Blog.Queries.GetBlogComments;
 using Organi.Server.Application.Features.Blog.Queries.GetBlogPostById;
 using Organi.Server.Application.Features.Blog.Queries.GetBlogPostBySlug;
 using Organi.Server.Application.Features.Blog.Queries.GetBlogPosts;
+using Organi.Server.WebAPI.Filters;
 
 namespace Organi.Server.WebAPI.Endpoints;
 
@@ -69,10 +70,12 @@ public static class BlogEndpoints
 
         group.MapPost("/{id:guid}/comments", CreateBlogComment)
             .WithName("CreateBlogComment")
-            .WithDescription("Adds a comment to a published blog post.")
+            .WithDescription("Adds a comment to a published blog post. Requires a confirmed email address.")
             .RequireAuthorization()
+            .AddEndpointFilter<RequireConfirmedEmailFilter>()
             .Produces<BlogCommentResponse>(StatusCodes.Status201Created)
             .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status409Conflict);
 

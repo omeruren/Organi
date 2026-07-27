@@ -6,6 +6,7 @@ using Organi.Server.Application.Features.Reviews.Commands.UpdateReview;
 using Organi.Server.Application.Features.Reviews.DTOs;
 using Organi.Server.Application.Features.Reviews.Queries.GetReviews;
 using Organi.Server.Application.Features.Reviews.Queries.GetReviewsByProduct;
+using Organi.Server.WebAPI.Filters;
 
 namespace Organi.Server.WebAPI.Endpoints;
 
@@ -23,10 +24,12 @@ public static class ReviewEndpoints
 
         productReviews.MapPost("/", CreateReview)
             .WithName("CreateReview")
-            .WithDescription("Creates a review for a product. Only customers who purchased the product may review it.")
+            .WithDescription("Creates a review for a product. Only customers who purchased the product may review it. Requires a confirmed email address.")
             .RequireAuthorization()
+            .AddEndpointFilter<RequireConfirmedEmailFilter>()
             .Produces<ReviewResponse>(StatusCodes.Status201Created)
             .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status409Conflict);
 
@@ -41,8 +44,9 @@ public static class ReviewEndpoints
 
         reviews.MapPut("/{id:guid}", UpdateReview)
             .WithName("UpdateReview")
-            .WithDescription("Updates an existing review.")
+            .WithDescription("Updates an existing review. Requires a confirmed email address.")
             .RequireAuthorization()
+            .AddEndpointFilter<RequireConfirmedEmailFilter>()
             .Produces<ReviewResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .ProducesProblem(StatusCodes.Status403Forbidden)
@@ -50,8 +54,9 @@ public static class ReviewEndpoints
 
         reviews.MapDelete("/{id:guid}", DeleteReview)
             .WithName("DeleteReview")
-            .WithDescription("Deletes a review.")
+            .WithDescription("Deletes a review. Requires a confirmed email address.")
             .RequireAuthorization()
+            .AddEndpointFilter<RequireConfirmedEmailFilter>()
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound);
