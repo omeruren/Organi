@@ -83,7 +83,11 @@ const ShopSidebar = ({
       <div className='price-range-area mt-4'>
         <h3 className='price_range_title mb-3'>Filter By Price</h3>
         <div className='d-flex align-items-center gap-2'>
+          <label className='visually-hidden' htmlFor='filter-minPrice'>
+            Minimum price
+          </label>
           <input
+            id='filter-minPrice'
             type='number'
             className='form-control'
             placeholder='Min'
@@ -92,7 +96,11 @@ const ShopSidebar = ({
             onChange={e => setMinPrice(e.target.value)}
           />
           <span>–</span>
+          <label className='visually-hidden' htmlFor='filter-maxPrice'>
+            Maximum price
+          </label>
           <input
+            id='filter-maxPrice'
             type='number'
             className='form-control'
             placeholder='Max'

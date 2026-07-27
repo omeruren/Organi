@@ -73,44 +73,69 @@ const StoreRegisterView = () => {
       {formError && <div className='alert alert-danger'>{formError}</div>}
       <form onSubmit={handleSubmit(onSubmit)} className='row g-3' noValidate>
         <div className='col-md-6'>
+          <label className='form-label' htmlFor='register-firstName'>
+            First name
+          </label>
           <input
+            id='register-firstName'
             className='form-control rounded-pill py-3'
-            placeholder='First name'
+            autoComplete='given-name'
             {...register('firstName', { required: 'First name is required' })}
           />
           {errors.firstName && <small className='text-danger'>{errors.firstName.message}</small>}
         </div>
         <div className='col-md-6'>
+          <label className='form-label' htmlFor='register-lastName'>
+            Last name
+          </label>
           <input
+            id='register-lastName'
             className='form-control rounded-pill py-3'
-            placeholder='Last name'
+            autoComplete='family-name'
             {...register('lastName', { required: 'Last name is required' })}
           />
           {errors.lastName && <small className='text-danger'>{errors.lastName.message}</small>}
         </div>
         <div className='col-12'>
+          <label className='form-label' htmlFor='register-email'>
+            Email address
+          </label>
           <input
+            id='register-email'
             type='email'
             className='form-control rounded-pill py-3'
-            placeholder='Email address'
+            autoComplete='email'
             {...register('email', { required: 'Email is required' })}
           />
           {errors.email && <small className='text-danger'>{errors.email.message}</small>}
         </div>
         <div className='col-12'>
+          <label className='form-label' htmlFor='register-phoneNumber'>
+            Phone number<span style={{ color: '#6b6b6b', fontWeight: 400 }}> (optional)</span>
+          </label>
           <input
+            id='register-phoneNumber'
+            type='tel'
             className='form-control rounded-pill py-3'
-            placeholder='Phone number (optional)'
+            autoComplete='tel'
             {...register('phoneNumber')}
           />
         </div>
         <div className='col-12'>
+          <label className='form-label' htmlFor='register-password'>
+            Password
+          </label>
           <input
+            id='register-password'
             type='password'
             className='form-control rounded-pill py-3'
-            placeholder='Password'
+            autoComplete='new-password'
+            aria-describedby='register-password-hint'
             {...register('password', { required: 'Password is required' })}
           />
+          <small id='register-password-hint' className='d-block mt-1' style={{ color: '#6b6b6b' }}>
+            At least 8 characters, with an uppercase letter, a lowercase letter, a number and a special character.
+          </small>
           {errors.password && <small className='text-danger'>{errors.password.message}</small>}
         </div>
         <div className='col-12'>

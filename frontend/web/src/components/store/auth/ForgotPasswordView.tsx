@@ -90,11 +90,14 @@ const ForgotPasswordView = () => {
       {formError && <div className='alert alert-danger'>{formError}</div>}
       <form onSubmit={handleSubmit(onSubmit)} className='d-flex flex-column gap-3' noValidate>
         <div className='form_item'>
+          <label className='form-label' htmlFor='forgot-email'>
+            Email address
+          </label>
           <input
+            id='forgot-email'
             type='email'
             className='form-control rounded-pill py-3'
-            aria-label='Email address'
-            placeholder='Email address'
+            autoComplete='email'
             {...register('email', { required: 'Email is required' })}
           />
           {errors.email && <small className='text-danger'>{errors.email.message}</small>}

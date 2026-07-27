@@ -64,17 +64,23 @@ const ReviewForm = ({ productId }: { productId: string }) => {
             </button>
           ))}
         </div>
+        <label className='form-label mb-0' htmlFor='review-title'>
+          Review title<span style={{ color: '#6b6b6b', fontWeight: 400 }}> (optional)</span>
+        </label>
         <input
+          id='review-title'
           className='form-control rounded-pill py-2'
-          placeholder='Review title (optional)'
           value={title}
           onChange={e => setTitle(e.target.value)}
           maxLength={200}
         />
+        <label className='form-label mb-0' htmlFor='review-comment'>
+          Your review
+        </label>
         <textarea
+          id='review-comment'
           className='form-control rounded-4 p-3'
           rows={3}
-          placeholder='Your review*'
           value={comment}
           onChange={e => setComment(e.target.value)}
           maxLength={1000}

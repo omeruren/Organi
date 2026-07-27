@@ -126,30 +126,42 @@ const ContactView = () => {
                         <div className='alert alert-danger mb-0'>{formError}</div>
                       </div>
                     )}
+                    {/* Visible labels bound by id — with one present, aria-label is dropped so the
+                        accessible name matches the text a voice-control user would say. */}
                     <div className='col-md-6'>
-                      <input className='form-control rounded-pill py-3' aria-label='Your name' placeholder='Your name' {...register('name')} />
+                      <label className='form-label' htmlFor='contact-name'>
+                        Your name
+                      </label>
+                      <input id='contact-name' className='form-control rounded-pill py-3' {...register('name')} />
                       {errors.name && <small className='text-danger'>{errors.name.message}</small>}
                     </div>
                     <div className='col-md-6'>
+                      <label className='form-label' htmlFor='contact-email'>
+                        Your email
+                      </label>
                       <input
+                        id='contact-email'
                         type='email'
                         className='form-control rounded-pill py-3'
-                        aria-label='Your email'
-                        placeholder='Your email'
                         {...register('email')}
                       />
                       {errors.email && <small className='text-danger'>{errors.email.message}</small>}
                     </div>
                     <div className='col-12'>
-                      <input className='form-control rounded-pill py-3' aria-label='Subject' placeholder='Subject' {...register('subject')} />
+                      <label className='form-label' htmlFor='contact-subject'>
+                        Subject
+                      </label>
+                      <input id='contact-subject' className='form-control rounded-pill py-3' {...register('subject')} />
                       {errors.subject && <small className='text-danger'>{errors.subject.message}</small>}
                     </div>
                     <div className='col-12'>
+                      <label className='form-label' htmlFor='contact-message'>
+                        Your message
+                      </label>
                       <textarea
+                        id='contact-message'
                         className='form-control rounded-4 p-3'
                         rows={5}
-                        aria-label='Your message'
-                        placeholder='Your message'
                         {...register('message')}
                       />
                       {errors.message && <small className='text-danger'>{errors.message.message}</small>}

@@ -207,11 +207,13 @@ const CommentsSection = ({ postId }: { postId: string }) => {
             Leave a comment
           </h5>
           {formError && <div className='alert alert-danger'>{formError}</div>}
+          <label className='form-label' htmlFor='comment-content'>
+            Your comment
+          </label>
           <textarea
+            id='comment-content'
             className='form-control rounded-4 p-3 mb-3'
             rows={4}
-            aria-label='Write your comment'
-            placeholder='Write your comment…'
             value={content}
             onChange={e => setContent(e.target.value)}
           />

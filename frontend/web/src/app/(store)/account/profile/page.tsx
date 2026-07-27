@@ -69,36 +69,36 @@ const AccountProfilePage = () => {
       </h5>
       <form onSubmit={handleSubmit(onSubmit)} className='row g-3' noValidate>
         <div className='col-md-6'>
-          <label className='form-label'>First name</label>
-          <input
+          <label className='form-label' htmlFor='profile-firstName'>First name</label>
+          <input id='profile-firstName'
             className='form-control rounded-pill py-2'
             {...register('firstName', { required: 'First name is required' })}
           />
           {errors.firstName && <small className='text-danger'>{errors.firstName.message}</small>}
         </div>
         <div className='col-md-6'>
-          <label className='form-label'>Last name</label>
-          <input
+          <label className='form-label' htmlFor='profile-lastName'>Last name</label>
+          <input id='profile-lastName'
             className='form-control rounded-pill py-2'
             {...register('lastName', { required: 'Last name is required' })}
           />
           {errors.lastName && <small className='text-danger'>{errors.lastName.message}</small>}
         </div>
         <div className='col-md-6'>
-          <label className='form-label'>Email</label>
-          <input className='form-control rounded-pill py-2' value={profile?.email ?? ''} disabled />
+          <label className='form-label' htmlFor='profile-email'>Email</label>
+          <input id='profile-email' className='form-control rounded-pill py-2' value={profile?.email ?? ''} disabled />
         </div>
         <div className='col-md-6'>
-          <label className='form-label'>Phone number</label>
-          <input className='form-control rounded-pill py-2' {...register('phoneNumber')} />
+          <label className='form-label' htmlFor='profile-phoneNumber'>Phone number</label>
+          <input id='profile-phoneNumber' className='form-control rounded-pill py-2' {...register('phoneNumber')} />
         </div>
         <div className='col-md-6'>
-          <label className='form-label'>Date of birth</label>
-          <input type='date' className='form-control rounded-pill py-2' {...register('dateOfBirth')} />
+          <label className='form-label' htmlFor='profile-dateOfBirth'>Date of birth</label>
+          <input id='profile-dateOfBirth' type='date' className='form-control rounded-pill py-2' {...register('dateOfBirth')} />
         </div>
         <div className='col-md-6'>
-          <label className='form-label'>Avatar URL</label>
-          <input className='form-control rounded-pill py-2' {...register('avatarUrl')} />
+          <label className='form-label' htmlFor='profile-avatarUrl'>Avatar URL</label>
+          <input id='profile-avatarUrl' className='form-control rounded-pill py-2' {...register('avatarUrl')} />
         </div>
         <div className='col-12'>
           <button type='submit' className='btn custom_btn rounded-pill px-5 py-2' disabled={isSubmitting}>

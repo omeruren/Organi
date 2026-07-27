@@ -112,44 +112,56 @@ const ResetPasswordView = () => {
       {formError && <div className='alert alert-danger'>{formError}</div>}
       <form onSubmit={handleSubmit(onSubmit)} className='d-flex flex-column gap-3' noValidate>
         <div className='form_item'>
+          <label className='form-label' htmlFor='reset-email'>
+            Email address
+          </label>
           <input
+            id='reset-email'
             type='email'
             className='form-control rounded-pill py-3'
-            aria-label='Email address'
-            placeholder='Email address'
+            autoComplete='email'
             {...register('email')}
           />
           {errors.email && <small className='text-danger'>{errors.email.message}</small>}
         </div>
         <div className='form_item'>
+          <label className='form-label' htmlFor='reset-code'>
+            6-digit reset code
+          </label>
           <input
+            id='reset-code'
             type='text'
             inputMode='numeric'
             maxLength={6}
             className='form-control rounded-pill py-3 text-center'
-            aria-label='6-digit reset code'
-            placeholder='6-digit code'
+            autoComplete='one-time-code'
             style={{ letterSpacing: 8, fontWeight: 700 }}
             {...register('code')}
           />
           {errors.code && <small className='text-danger'>{errors.code.message}</small>}
         </div>
         <div className='form_item'>
+          <label className='form-label' htmlFor='reset-newPassword'>
+            New password
+          </label>
           <input
+            id='reset-newPassword'
             type='password'
             className='form-control rounded-pill py-3'
-            aria-label='New password'
-            placeholder='New password'
+            autoComplete='new-password'
             {...register('newPassword')}
           />
           {errors.newPassword && <small className='text-danger'>{errors.newPassword.message}</small>}
         </div>
         <div className='form_item'>
+          <label className='form-label' htmlFor='reset-confirmPassword'>
+            Confirm new password
+          </label>
           <input
+            id='reset-confirmPassword'
             type='password'
             className='form-control rounded-pill py-3'
-            aria-label='Confirm new password'
-            placeholder='Confirm new password'
+            autoComplete='new-password'
             {...register('confirmPassword')}
           />
           {errors.confirmPassword && <small className='text-danger'>{errors.confirmPassword.message}</small>}

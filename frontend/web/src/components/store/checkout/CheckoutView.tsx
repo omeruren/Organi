@@ -214,12 +214,26 @@ const CheckoutView = () => {
     // The cart is deliberately left intact — an unconfirmed user can still review it and confirm
     // their email without losing what they added.
 
-    const field = (name: keyof CheckoutForm, placeholder: string, type = 'text') => (
-      <div className='col-12'>
-        <input type={type} className='form-control rounded-pill py-3' placeholder={placeholder} {...register(name)} />
-        {errors[name] && <small className='text-danger'>{errors[name]?.message}</small>}
-      </div>
-    )
+    // Every field gets a visible <label> tied to its input by id. A placeholder alone disappears
+    // the moment you type, which is exactly when a checkout form is easiest to get lost in.
+    const field = (
+      name: keyof CheckoutForm,
+      label: string,
+      { type = 'text', col = 'col-12', optional = false }: { type?: string; col?: string; optional?: boolean } = {}
+    ) => {
+      const id = `checkout-${name}`
+
+      return (
+        <div className={col}>
+          <label className='form-label' htmlFor={id}>
+            {label}
+            {optional && <span style={{ color: '#6b6b6b', fontWeight: 400 }}> (optional)</span>}
+          </label>
+          <input id={id} type={type} className='form-control rounded-pill py-3' {...register(name)} />
+          {errors[name] && <small className='text-danger'>{errors[name]?.message}</small>}
+        </div>
+      )
+    }
 
     return (
       <form onSubmit={handleSubmit(onSubmit)} className='row g-4' noValidate>
@@ -230,32 +244,18 @@ const CheckoutView = () => {
             </h5>
             {formError && <div className='alert alert-danger'>{formError}</div>}
             <div className='row g-3'>
-              <div className='col-md-6'>
-                <input className='form-control rounded-pill py-3' placeholder='First name' {...register('shippingFirstName')} />
-                {errors.shippingFirstName && <small className='text-danger'>{errors.shippingFirstName.message}</small>}
-              </div>
-              <div className='col-md-6'>
-                <input className='form-control rounded-pill py-3' placeholder='Last name' {...register('shippingLastName')} />
-                {errors.shippingLastName && <small className='text-danger'>{errors.shippingLastName.message}</small>}
-              </div>
+              {field('shippingFirstName', 'First name', { col: 'col-md-6' })}
+              {field('shippingLastName', 'Last name', { col: 'col-md-6' })}
               {field('shippingAddress', 'Street address')}
-              <div className='col-md-6'>
-                <input className='form-control rounded-pill py-3' placeholder='City' {...register('shippingCity')} />
-                {errors.shippingCity && <small className='text-danger'>{errors.shippingCity.message}</small>}
-              </div>
-              <div className='col-md-6'>
-                <input className='form-control rounded-pill py-3' placeholder='Postal code (optional)' {...register('shippingPostalCode')} />
-              </div>
-              <div className='col-md-6'>
-                <input className='form-control rounded-pill py-3' placeholder='Phone' {...register('shippingPhone')} />
-                {errors.shippingPhone && <small className='text-danger'>{errors.shippingPhone.message}</small>}
-              </div>
-              <div className='col-md-6'>
-                <input type='email' className='form-control rounded-pill py-3' placeholder='Email' {...register('shippingEmail')} />
-                {errors.shippingEmail && <small className='text-danger'>{errors.shippingEmail.message}</small>}
-              </div>
+              {field('shippingCity', 'City', { col: 'col-md-6' })}
+              {field('shippingPostalCode', 'Postal code', { col: 'col-md-6', optional: true })}
+              {field('shippingPhone', 'Phone', { col: 'col-md-6', type: 'tel' })}
+              {field('shippingEmail', 'Email', { col: 'col-md-6', type: 'email' })}
               <div className='col-12'>
-                <textarea className='form-control rounded-4 p-3' rows={3} placeholder='Order notes (optional)' {...register('notes')} />
+                <label className='form-label' htmlFor='checkout-notes'>
+                  Order notes<span style={{ color: '#6b6b6b', fontWeight: 400 }}> (optional)</span>
+                </label>
+                <textarea id='checkout-notes' className='form-control rounded-4 p-3' rows={3} {...register('notes')} />
               </div>
             </div>
           </div>
@@ -279,7 +279,10 @@ const CheckoutView = () => {
               <span>${cart!.subTotal.toFixed(2)}</span>
             </div>
             <div className='mt-3'>
-              <input className='form-control rounded-pill py-2' placeholder='Coupon code (optional)' {...register('couponCode')} />
+              <label className='form-label' htmlFor='checkout-couponCode'>
+                Coupon code<span style={{ color: '#6b6b6b', fontWeight: 400 }}> (optional)</span>
+              </label>
+              <input id='checkout-couponCode' className='form-control rounded-pill py-2' {...register('couponCode')} />
             </div>
             <p className='mt-2' style={{ color: '#6b6b6b', fontSize: 13 }}>
               Shipping, tax and any discount are applied when the order is placed.
