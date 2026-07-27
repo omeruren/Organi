@@ -10615,3 +10615,93 @@ input[type=text]:focus {
     padding: 50px 0px;
   }
 }
+/* ==========================================================================
+   Accessibility overrides (Organi)
+   Appended after the vendored template so it is obvious which rules are ours.
+
+   Touch-target sizing. WCAG 2.5.8 (AA) asks for 24x24 CSS px and exempts links
+   sitting inline in a block of text, so body links and footer nav are already
+   compliant and are deliberately left alone — enlarging them would distort the
+   layout for no accessibility gain. What genuinely hurts on a phone is the
+   standalone icon-only controls, which measured 14-38px. Those are brought to
+   the 44x44 recommended by WCAG 2.5.5 (AAA) and the iOS/Android guidelines.
+   ========================================================================== */
+
+/* Header icon controls: search, account, wishlist, cart, mobile menu toggle. */
+.navbar_user_icon .main_search_btn,
+.navbar_user_icon > ul > li > a {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-toggler {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Offcanvas close button on the mobile menu (was 32x32). */
+.mobile_menu_close,
+.offcanvas-header .btn-close {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Submit arrow inside any search field — the collapsing header search and the shop
+   sidebar search both render one, and both were 16x26. */
+.submit_btn {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Grid/list view toggle above the shop results (was 40x40). */
+.layout_tab_nav button {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Product card hover actions. The template sizes the <a> to 50px but leaves the
+   <button> variant unstyled, so "Add to cart" was a 14x26 target. */
+.product_action_btns button {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 100%;
+  font-size: 16px;
+  color: #292929;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.07);
+}
+
+.product_action_btns button:hover {
+  color: #292929;
+  background-color: #7cc000;
+  transform: translateY(-5px);
+}
+
+/* Shop sidebar category filters (were 26px tall). */
+.shop_cat_link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Pagination controls (were 40x40). */
+.pagination_nav li a {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
